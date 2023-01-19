@@ -1,9 +1,13 @@
-
+import '../../assets/css/home.css'
+import Services from '../../components/buyer/Services'
 const Home = () => {
   return (
-    <div>
-
-<div class="home">
+<div className='h-full w-screen absolute '>
+<div className='mt-12 container h-screen w-screen'>
+Home
+</div>
+<Services/>
+{/* <div className="home ">
      <section class="center">
         <form action="search.php" method="post">
           <h3>find your perfect home</h3>
@@ -35,9 +39,9 @@ const Home = () => {
            <input type="submit" value="search property" name="h_search" class="btn"/>
         </form>
       </section>
-   </div>
+   </div> */}
 
-    </div>
+   </div>
   )
 }
 
