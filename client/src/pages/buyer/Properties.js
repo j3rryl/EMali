@@ -7,14 +7,22 @@ import Pagination from "./Pagination";
 const Properties = () => {
     const [coinsData, setCoinsData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostsPerPage] = useState(8);
+    const [postsPerPage, setPostsPerPage] = useState(16);
 
     useEffect(() => {
-        const  response =  await axios.get(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-        );
+        async function fetchData(){
+            const  response =  await axios.get(
+                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+            );
+            console.log(response.data)
+            setCoinsData(response.data)
+        }
+        fetchData()
+        // const response = fetchData()
+        // console.log(response.data)
+        
 
-        setCoinsData(response.data);
+        // setCoinsData(response.data);
     }, []);
 
     const lastPostIndex = currentPage * postsPerPage;
@@ -23,7 +31,6 @@ const Properties = () => {
 
     return (
         <div className='app'>
-            <h1>Crypto Gallery</h1>
             <Listings coinsData={currentPosts} />
             <Pagination
                 totalPosts={coinsData.length}

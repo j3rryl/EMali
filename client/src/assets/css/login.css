@@ -1,15 +1,11 @@
-.login-page{
-    height: 100%;
-    width: 96%;
-    margin:0 10px;
-}
+
 .login-form-container{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .login-form{
-    border: 1px solid white;
+    border: none;
     border-radius: 14px;
     padding: 30px 30px 30px 30px;
     font-size: 1em;
@@ -28,9 +24,9 @@ label{
 }
 input{
     border-radius: 8px;
-    border: 1px solid wheat;
+    border: 1px solid red;
     padding: 10px 10px;
-    color:white;
+    color:black;
     background: transparent;
     margin-bottom: 30px;
     text-align: center;
@@ -40,12 +36,13 @@ input{
     width: 80px;
     height: 40px;
     font-weight: 600;
-    background-color: wheat;
+    border: none;
+    background-color: #4cbb17;
     color: black;
 }
 .login-btn:hover{
-    background-color: transparent;
-    color:white;
+    background-color: black;
+    color:#4cbb17;
     cursor: pointer;
 }
 .register-link{
@@ -53,8 +50,8 @@ input{
     text-decoration: none;
     text-decoration: underline;
     text-underline-offset: 3px;
-    color:wheat;
+    color:#4cbb17;
 }
 .register-link:hover{
-    color:white;
+    color:black;
 }
