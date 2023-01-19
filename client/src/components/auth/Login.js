@@ -1,5 +1,6 @@
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/login.css'
@@ -16,12 +17,21 @@ const Login = () => {
     const abortCont=new AbortController();
     loginUser(email,password,{signal:abortCont.signal})
     return()=>{
-      console.log('Login page aborted.')
+      // console.log('Login page aborted.')
       abortCont.abort()
     }
   },[email,password])
+  const login =()=>{
+    axios.post("http://localhost:3001/login",{
+      email:email,
+      password:password
+    }).then((response)=>{
+      console.log(response.data)
+    })
+  }
   function onSubmit(e){
     e.preventDefault()
+    login()
     toast.success("Login Successful.")
   }
   return (

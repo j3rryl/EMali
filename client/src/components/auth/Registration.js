@@ -1,26 +1,43 @@
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from "axios";
+
 import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/register.css'
 const Register = () => {
   const [isReadonly, setIsReadonly] = useState(true);
+  const [first,setFirst]=useState('')
+  const [last,setLast]=useState('')
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
   function loginUser(email,password){
     setEmail(email)
     setPassword(password)
+    setLast(last)
+    setFirst(first)
 }
 useEffect(()=>{
   const abortCont=new AbortController();
   loginUser(email,password,{signal:abortCont.signal})
   return()=>{
-    console.log('Login page aborted.')
+    // console.log('Login page aborted.')
     abortCont.abort()
   }
-},[email,password])
+},[email,password,first,last])
+const register =()=>{
+  axios.post("http://localhost:3001/register",{
+    first:first,
+    last:last,
+    email:email,
+    password:password
+  }).then((response)=>{
+    console.log(response)
+  })
+}
 function onSubmit(e){
   e.preventDefault()
+  register()
   toast.success("Registration Successful.")
 }
   return (
@@ -32,18 +49,18 @@ function onSubmit(e){
         <div className='register-form-control-container'>
         <label htmlFor='first_name'>First Name</label>
         <br/><br/>
-        <input value={email} 
+        <input value={first} 
         placeholder="First Name"
-        onChange={(e)=>setEmail(e.target.value)}
+        onChange={(e)=>setFirst(e.target.value)}
         type="text" name='first_name'/>
         </div>
 
         <div className='register-form-control-container'>
         <label htmlFor='last_name'>Last Name</label>
         <br/><br/>
-        <input value={email} 
+        <input value={last} 
         placeholder="Last Name"
-        onChange={(e)=>setEmail(e.target.value)}
+        onChange={(e)=>setLast(e.target.value)}
         type="text" name='last_name'/>
         </div>
 
@@ -54,15 +71,6 @@ function onSubmit(e){
         placeholder="Email"
         onChange={(e)=>setEmail(e.target.value)}
         type="email" name='email'/>
-        </div>
-
-        <div className='register-form-control-container'>
-        <label htmlFor='phone_no'>Phone Number</label>
-        <br/><br/>
-        <input value={email} 
-        placeholder="Phone Number"
-        onChange={(e)=>setEmail(e.target.value)}
-        type="tel" name='phone_no'/>
         </div>
         
         <div className='login-form-control-container'>
