@@ -5,12 +5,14 @@ import express from "express";
 import mysql from "mysql";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
+import propertyRoutes from "./routes/property.js";
+import cookieParser from "cookie-parser";
 
 
 const app = express()
 
-
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors())
 const db = mysql.createConnection({
     user:"root",
@@ -40,6 +42,8 @@ const db = mysql.createConnection({
 //   )
 // })
 app.use("/api/auth", authRoutes);
+app.use("/api/property", propertyRoutes);
+
 
 app.post("/login", (req,res)=>{
   const email=req.body.email

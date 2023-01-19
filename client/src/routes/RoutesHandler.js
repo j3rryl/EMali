@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from '../components/buyer/Navbar'
 import Home from '../pages/buyer/Home'
+import Property from '../pages/buyer/Property'
 import Listings from '../pages/buyer/Listings'
 import Listing from '../pages/buyer/Listing'
 import Payment from '../pages/buyer/Payment'
@@ -23,6 +24,7 @@ const RoutesHandler = () => {
       <Route path='/listings' element={<Listings />}/>
       <Route path='/listing' element={<Listing />}/>
       <Route path='/properties' element={<Properties />}/>
+      <Route path='/property' element={<Property />}/>
       <Route path='/payment' element={<Payment />}/>
       <Route path='/receipt' element={<Receipt />}/>
       <Route path='/saved' element={<Saved />}/>

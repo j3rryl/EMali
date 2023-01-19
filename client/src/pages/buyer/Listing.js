@@ -3,13 +3,17 @@ import '../../assets/css/listing.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
-const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address }) => {
+const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id }) => {
+  const openProperty=(property_id)=>{
+
+    window.location.assign(`/property/${property_id}`)
+  }
   return (
     <div className='card'>
       <div className='card_image'>
           <img src={require(`../../assets/uploads/${image}`)} alt='' />
       </div>
-      <div className='card_info'>
+      <div className='card_info' onClick={()=>openProperty(property_id)}>
           <h2>{name}</h2>
           <h3><FontAwesomeIcon className='faicons' icon={faUsd} />{price.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</h3>
           <h3 className='!text-gray-700'><FontAwesomeIcon className='faicons' icon={faMapMarkerAlt} />{address}</h3>

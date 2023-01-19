@@ -26,13 +26,15 @@ const Login = () => {
       email:email,
       password:password
     }).then((response)=>{
+      window.localStorage.setItem("token", response.data.user_id)
+      window.localStorage.setItem("isLoggedIn", true)
+      window.location.replace("/home")
       console.log(response.data)
     })
   }
   function onSubmit(e){
     e.preventDefault()
     login()
-    toast.success("Login Successful.")
   }
   return (
     <div className='login-page'>

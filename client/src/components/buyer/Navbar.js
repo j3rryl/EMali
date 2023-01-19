@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHotel } from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import '../../assets/css/navbar.css'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("isLoggedIn"))
+  const [inIndex, setInIndex] = useState(false);
+    const location=useLocation()
+    useEffect(() => {
+      //Checks if location.pathname is not "/".
+	  location.pathname==="/login"||location.pathname==="/register"?setInIndex(true):setInIndex(false)
+    }, [location.pathname, inIndex]);
+  // const loggedIn = window.localStorage.getItem("isLoggedIn")
+  const logout = ()=>{
+    window.localStorage.removeItem("token")
+    window.localStorage.removeItem("isLoggedIn")
+    window.location.reload()
+  }
+  useEffect(()=>{
+    setLoggedIn(loggedIn)
+  },[loggedIn])
   return (
     <>
-    <header className={`header`}>
+    <header className={`header ${inIndex?'!hidden':'visible'}`}>
     <nav className="logo-title">
       <h3>E-Mali</h3>
       <FontAwesomeIcon className='theme-button' icon={faHotel} size='2x'/>
@@ -32,7 +49,10 @@ const Navbar = () => {
           <NavLink to='about'>About</NavLink>
         </li>
         <li>
-          <NavLink to='login'>Login</NavLink>
+          {loggedIn?<NavLink><button onClick={logout}>
+            Logout</button></NavLink>:
+          <NavLink to='login'>Login</NavLink>}
+          {/* <NavLink to='login'>Login</NavLink> */}
         </li>
       </ul>
     </nav>
