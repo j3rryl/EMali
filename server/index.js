@@ -52,6 +52,23 @@ app.post("/login", (req,res)=>{
   )
 })
 
+
+app.get("/properties", (req,res)=>{
+  db.query(
+    "SELECT * FROM property",
+    (err, result)=>{
+      if(err){
+        res.send({err:err})
+      }
+      if(result){
+        res.send(result)
+      } else {
+        res.send({message: "Some SQL error"})
+      }
+    }
+  )
+})
+
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
