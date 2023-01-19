@@ -14,8 +14,8 @@
 }
 
 .card_image {
-    width: 200px;
-    height: 200px;
+    width: 25rem;
+    height: 20rem;
 }
 
 .card_image img {
@@ -26,13 +26,19 @@
 
 .card_info {
     margin-top: 1rem;
+    text-transform: capitalize;
 }
 
 .card_info h2 {
     margin-bottom: 10px;
-    color: black;
+    color: rgb(58, 58, 58);
 }
 
 .card_info h3 {
-    color: #272727;
+    color: #4cbb17;
+}
+.faicons{
+    color: #4cbb17;
+    margin: 0 5px;
+
 }

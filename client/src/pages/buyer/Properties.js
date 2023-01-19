@@ -5,35 +5,35 @@ import Listings from "./Listings";
 import Pagination from "./Pagination";
 
 const Properties = () => {
-    const [coinsData, setCoinsData] = useState([]);
+    const [properties, setProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostsPerPage] = useState(16);
+    const [postsPerPage, setPostsPerPage] = useState(12);
 
     useEffect(() => {
         async function fetchData(){
             const  response =  await axios.get(
-                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+                "http://localhost:3001/properties"
             );
             console.log(response.data)
-            setCoinsData(response.data)
+            setProperties(response.data)
         }
         fetchData()
         // const response = fetchData()
         // console.log(response.data)
         
 
-        // setCoinsData(response.data);
+        // setproperties(response.data);
     }, []);
 
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
-    const currentPosts = coinsData.slice(firstPostIndex, lastPostIndex);
+    const currentPosts = properties.slice(firstPostIndex, lastPostIndex);
 
     return (
         <div className='app'>
-            <Listings coinsData={currentPosts} />
+            <Listings properties={currentPosts} />
             <Pagination
-                totalPosts={coinsData.length}
+                totalPosts={properties.length}
                 postsPerPage={postsPerPage}
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}

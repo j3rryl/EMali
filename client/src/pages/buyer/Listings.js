@@ -2,16 +2,21 @@ import React from 'react'
 import '../../assets/css/listings.css'
 import Listing from './Listing'
 
-const Listings = ({coinsData}) => {
+const Listings = ({properties}) => {
   return (
     <div className='crypto_list'>
-      {coinsData.map((coin, index) => {
+      {properties.map((property, index) => {
           return (
               <Listing
                   key={index}
-                  image={coin.image}
-                  name={coin.name}
-                  price={coin.current_price}
+                  image={property.image_01}
+                  name={property.property_name}
+                  price={property.price}
+                  address={property.address}
+                  type={property.type}
+                  offer={property.offer}
+                  propertystatus={property.status}
+                  furnished={property.furnished}
               />
           );
       })}

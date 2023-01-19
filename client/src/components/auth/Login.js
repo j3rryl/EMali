@@ -22,7 +22,7 @@ const Login = () => {
     }
   },[email,password])
   const login =()=>{
-    axios.post("http://localhost:3001/login",{
+    axios.post("http://localhost:3001/api/auth/login",{
       email:email,
       password:password
     }).then((response)=>{

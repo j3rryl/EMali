@@ -26,7 +26,7 @@ useEffect(()=>{
   }
 },[email,password,first,last])
 const register =()=>{
-  axios.post("http://localhost:3001/register",{
+  axios.post("http://localhost:3001/api/auth/register",{
     first:first,
     last:last,
     email:email,
@@ -37,8 +37,19 @@ const register =()=>{
 }
 function onSubmit(e){
   e.preventDefault()
-  register()
-  toast.success("Registration Successful.")
+  try{
+    axios.post("http://localhost:3001/api/auth/register",{
+    first:first,
+    last:last,
+    email:email,
+    password:password
+  })
+    toast.success("Registration Successful.")
+  } catch (err){
+    toast.error("Registration Unsuccessful.")
+  }
+  
+  
 }
   return (
     <div className='register-page'>

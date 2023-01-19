@@ -1,7 +1,14 @@
-const express = require('express')
-const mysql = require("mysql")
-const cors=require("cors")
+// const express = require('express')
+// const mysql = require("mysql")
+// const cors=require("cors")
+import express from "express";
+import mysql from "mysql";
+import cors from "cors";
+import authRoutes from "./routes/auth.js";
+
+
 const app = express()
+
 
 app.use(express.json())
 app.use(cors())
@@ -12,26 +19,27 @@ const db = mysql.createConnection({
     database:"e-mali",
 })
 
-app.post("/register", (req,res)=>{
-  const first=req.body.first
-  const last=req.body.last
-  const email=req.body.email
-  const password=req.body.password
-  db.query(
-    "INSERT INTO users (first_name, last_name, email, password) VALUES (?,?,?,?)",
-    [first,last,email,password],
-    (err, result)=>{
-      if(err){
-        res.send({err:err})
-      }
-      if(result.length>0){
-        res.send(result)
-      } else {
-        res.send({message: "Some error"})
-      }
-    }
-  )
-})
+// app.post("/register", (req,res)=>{
+//   const first=req.body.first
+//   const last=req.body.last
+//   const email=req.body.email
+//   const password=req.body.password
+//   db.query(
+//     "INSERT INTO users (first_name, last_name, email, password) VALUES (?,?,?,?)",
+//     [first,last,email,password],
+//     (err, result)=>{
+//       if(err){
+//         res.send({err:err})
+//       }
+//       if(result.length>0){
+//         res.send(result)
+//       } else {
+//         res.send({message: "Some error"})
+//       }
+//     }
+//   )
+// })
+app.use("/api/auth", authRoutes);
 
 app.post("/login", (req,res)=>{
   const email=req.body.email
@@ -54,19 +62,11 @@ app.post("/login", (req,res)=>{
 
 
 app.get("/properties", (req,res)=>{
-  db.query(
-    "SELECT * FROM property",
-    (err, result)=>{
-      if(err){
-        res.send({err:err})
-      }
-      if(result){
-        res.send(result)
-      } else {
-        res.send({message: "Some SQL error"})
-      }
-    }
-  )
+  const q = "SELECT * FROM property"
+  db.query(q,(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
 })
 
 app.get('/', function (req, res) {
