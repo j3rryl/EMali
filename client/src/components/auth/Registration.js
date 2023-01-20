@@ -8,6 +8,7 @@ import '../../assets/css/register.css'
 const Register = () => {
   const [isReadonly, setIsReadonly] = useState(true);
   const [first,setFirst]=useState('')
+  const [role,setRole]=useState()
   const [last,setLast]=useState('')
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
@@ -16,6 +17,7 @@ const Register = () => {
     setPassword(password)
     setLast(last)
     setFirst(first)
+    setRole(role)
 }
 useEffect(()=>{
   const abortCont=new AbortController();
@@ -24,13 +26,14 @@ useEffect(()=>{
     // console.log('Login page aborted.')
     abortCont.abort()
   }
-},[email,password,first,last])
+},[email,password,first,last,role])
 const register =()=>{
   axios.post("http://localhost:3001/api/auth/register",{
     first:first,
     last:last,
     email:email,
-    password:password
+    password:password,
+    role:role
   }).then((response)=>{
     console.log(response)
   })
@@ -42,7 +45,8 @@ function onSubmit(e){
     first:first,
     last:last,
     email:email,
-    password:password
+    password:password,
+    role:role
   })
     toast.success("Registration Successful.")
   } catch (err){
@@ -93,6 +97,17 @@ function onSubmit(e){
         placeholder="Password"
         onChange={(e)=>setPassword(e.target.value)}
         type="password" name='password' autoComplete='new-password'/>
+        </div>
+
+        <div className='login-form-control-container'>
+        <label htmlFor='role'>Role</label>
+        <br/><br />
+        <input type="radio" name="role" value="2"
+        onChange={(e)=>setRole(e.target.value)}
+        /> Buyer
+        <input type="radio" name="role" value="3"
+        onChange={(e)=>setRole(e.target.value)}
+        />Seller
         </div>
 
         <input type="submit" value="Register" name='register-btn' className='register-btn'/>

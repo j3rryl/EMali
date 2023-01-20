@@ -7,6 +7,7 @@ export const register = (req, res) => {
   const first=req.body.first
   const last=req.body.last
   const email=req.body.email
+  const role=req.body.role
   const password=req.body.password
     const q = "SELECT * FROM users WHERE email = ?";
   
@@ -19,8 +20,8 @@ export const register = (req, res) => {
       const hash = bcrypt.hashSync(req.body.password, salt);
 
       db.query(
-        "INSERT INTO users (first_name, last_name, email, password) VALUES (?,?,?,?)",
-        [first,last,email,hash],
+        "INSERT INTO users (first_name, last_name, email, password,user_role) VALUES (?,?,?,?,?)",
+        [first,last,email,hash,role],
         (err, result)=>{
           if(err){
             return res.status(500).json(err);

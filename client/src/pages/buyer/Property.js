@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react'
 import '../../assets/css/property.css'
 import { useLocation } from "react-router-dom";
 import axios from 'axios'
+import { ToastContainer,toast } from 'react-toastify'
+
 
 
 const Property = () => {
+   const sendInquiry=()=>{
+      toast.success("Inquiry Sent Successfuly.")
+
+   }
    const [property, setProperty] = useState([])
    const location = useLocation()
    const thePath = location.pathname
@@ -105,9 +111,17 @@ const Property = () => {
       </div>
       <h3 className="title">description</h3>
       <p className="description">{property.description}</p>
-      <form action="" method="post">
-         <input type="submit" value="save property" name="save" className="inline-btn"/>
-      </form>
+      {/* <form action="" method="post" className='flex justify-between'>
+         <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
+         <button className='inline-btn'>Buy Property</button>
+
+      </form> */}
+      <div className='flex justify-between'>
+         <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
+         <button className='inline-btn'>Buy Property</button>
+
+      </div>
+      <ToastContainer />
    </div>
 
 </section>
