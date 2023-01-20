@@ -6,6 +6,7 @@ import { ToastContainer,toast } from 'react-toastify'
 
 
 
+
 const Property = () => {
    const navigate = useNavigate()
    const sendInquiry=()=>{
@@ -16,6 +17,8 @@ const Property = () => {
       navigate("/payment")
    }
    const [property, setProperty] = useState([])
+   const [inquiry, setInquiry] = useState()
+
    const location = useLocation()
    const thePath = location.pathname
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
@@ -70,7 +73,6 @@ const Property = () => {
       <div className="info">
          <p><i className="fas fa-tag"></i><span>15 lac</span></p>
          <p><i className="fas fa-user"></i><span>john deo (owner)</span></p>
-         <p><i className="fas fa-phone"></i><a href="tel:1234567890">1234567890</a></p>
          <p><i className="fas fa-building"></i><span>{property.type}</span></p>
          <p><i className="fas fa-house"></i><span>{property.offer}</span></p>
          <p><i className="fas fa-calendar"></i><span>{property.creation_time}</span></p>
@@ -120,9 +122,22 @@ const Property = () => {
          <button className='inline-btn'>Buy Property</button>
 
       </form> */}
+      <div className='register-form-control-container w-full'>
+        <br/><br/>
+        <textarea placeholder="Make Inquiry" className="tarea w-full" rows="4" cols="50">
+         </textarea>
+        {/* <input value={inquiry} 
+        placeholder="Make Inquiry"
+        onChange={(e)=>setInquiry(e.target.value)}
+        type="textarea" name='inquiry'/> */}
+        </div>
       <div className='flex justify-between'>
          <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
-         <button onClick={makepayment} className='inline-btn'>Buy Property</button>
+
+      </div>
+      <div className='flex justify-between'>
+         <button onClick={sendInquiry} className='inline-btn'>Proceed To Purchase</button>
+         <button onClick={makepayment} className='inline-btn'>Terminate Process</button>
 
       </div>
       <ToastContainer />

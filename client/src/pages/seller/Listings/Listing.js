@@ -1,16 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../../assets/css/listing.css'
 import '../../../assets/css/button.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from 'react-router-dom'
 
-const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id }) => {
+const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated }) => {
+  const [inIndex, setInIndex] = useState(false);
+
+  const location=useLocation()
+    useEffect(() => {
+      //Checks if location.pathname is not "/".
+	  location.pathname==="/seller/home"?setInIndex(true):setInIndex(false)
+    }, [location.pathname, inIndex]);
   const openProperty=(property_id)=>{
     window.location.assign(`/property/${property_id}`)
   }
   const updateProperty=()=>{
     window.location.assign(`/seller/updateproperty`)
+  }
+  const payEvaluation=(property_id)=>{
+    window.location.assign(`/seller/payment/${property_id}`)
   }
   return (
     <div className='card'>
@@ -33,7 +44,14 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
             <button className='vbutton '  onClick={updateProperty}>Update</button>
             <button className='vbutton ' >Delete</button>
           </div>
-          <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
+          <div className='flex align-middle justify-between'>
+            {inIndex?<button className='vbutton text-center' onClick={()=>payEvaluation(property_id)}>Pay Evaluation</button>:
+            <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>}
+       
+          <h2 className={valuated=='Approved'?'!text-green-500':'!text-yellow-400'}>
+            {valuated}</h2>
+
+          </div>
       </div>
       </div>
   )

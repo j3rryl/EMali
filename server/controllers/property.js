@@ -13,7 +13,7 @@ export const getProperties = (req, res) => {
 
 export const getProperty = (req, res) => {
   const q =
-    "SELECT * FROM property WHERE id = ? ";
+    "SELECT * FROM property WHERE property_id = ? ";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);

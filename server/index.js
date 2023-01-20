@@ -66,17 +66,36 @@ app.post("/login", (req,res)=>{
 
 
 app.get("/properties", (req,res)=>{
-  const q = "SELECT * FROM property"
+  const q = "SELECT * FROM property WHERE valuated = 'Approved' "
   db.query(q,(err,data)=>{
     if(err) res.json(err)
     return res.json(data)
   })
 })
+
 app.post("/propertiesby", (req,res)=>{
   const user_id=req.body.user_id
 
   db.query("SELECT * FROM property WHERE user_id = ?",
   [user_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+})
+app.post("/propertiespending", (req,res)=>{
+  const user_id=req.body.user_id
+
+  db.query("SELECT * FROM property WHERE user_id = ? AND valuated = 'Pending Payment'",
+  [user_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+})
+
+app.put("/updateValuated/:id", (req,res)=>{
+
+  db.query("UPDATE property SET valuated='Pending Approval' WHERE property_id = ?",
+  [req.params.id],(err,data)=>{
     if(err) res.json(err)
     return res.json(data)
   })

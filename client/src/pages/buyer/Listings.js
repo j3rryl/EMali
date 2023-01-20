@@ -9,7 +9,7 @@ const Listings = ({properties}) => {
           return (
               <Listing
                   key={index}
-                  property_id={property.id}
+                  property_id={property.property_id}
                   image={property.image_01}
                   name={property.property_name}
                   price={property.price}

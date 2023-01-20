@@ -64,7 +64,7 @@ const RoutesHandler = () => {
       <Route path='/contact' element={<Contact />}/> */}
       <Route path='/seller/home' element={<SellerHome />}/>
       <Route path='/seller/mylistings' element={<MyListings />}/>
-      <Route path='/seller/payment' element={<SellerPayment />}/>
+      <Route path={`/seller/payment/${lastItem}`} element={<SellerPayment />}/>
       <Route path='/seller/postproperty' element={<PostProperty />}/>
       <Route path='/seller/profile' element={<SellerProfile />}/>
       <Route path='/seller/updateproperty' element={<UpdateProperty />}/>
