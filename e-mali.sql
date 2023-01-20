@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2023 at 03:13 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.8
+-- Generation Time: Jan 20, 2023 at 12:48 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `property` (
-  `id` varchar(20) NOT NULL,
+  `property_id` int(10) NOT NULL,
+  `id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `user_id` varchar(20) NOT NULL,
   `property_name` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `price` varchar(10) NOT NULL,
+  `price` int(10) NOT NULL,
   `type` varchar(10) NOT NULL,
   `offer` varchar(10) NOT NULL,
   `status` varchar(50) NOT NULL,
@@ -55,33 +56,34 @@ CREATE TABLE `property` (
   `market_area` varchar(3) NOT NULL DEFAULT 'no',
   `image_01` varchar(50) NOT NULL,
   `image_02` varchar(50) NOT NULL,
-  `image_03` varchar(50) NOT NULL,
+  `image_03` varchar(50) NOT NULL DEFAULT 'wRmKHuL3mxhsYQqi9ILe.jpg',
   `description` varchar(1000) NOT NULL,
   `creation_time` datetime DEFAULT current_timestamp(),
-  `modification_time` datetime DEFAULT NULL ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `modification_time` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `valuated` enum('yes','no') NOT NULL DEFAULT 'no'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `property`
 --
 
-INSERT INTO `property` (`id`, `user_id`, `property_name`, `address`, `price`, `type`, `offer`, `status`, `furnished`, `deposite`, `bedroom`, `bathroom`, `balcony`, `lift`, `security_guard`, `play_ground`, `garden`, `water_supply`, `power_backup`, `parking_area`, `gym`, `shopping_mall`, `hospital`, `school`, `market_area`, `image_01`, `image_02`, `image_03`, `description`, `creation_time`, `modification_time`) VALUES
-('J2jlA5KLjlzPfkjcsTpl', 'hCxVGhs1wanPpoatNhVP', 'house for sale in karen', 'karen, karen blixen ,kenya', '20000000', 'house', 'sale', 'ready to move', 'furnished', '850000', '4', '4', '4', 'no', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'CU096uVpX5jB7Lwip9vn.jpg', '99Xzs3ziOBJsTMZ4cUWb.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house.', '2022-12-08 00:00:00', NULL),
-('58jfdhkubAj7RLQG2ek9', 'hCxVGhs1wanPpoatNhVP', 'Kileleshwa', 'kileshwa , nairobi', '6000000', 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', '8UomVRRQ2NVnijZiMgOD.jpg', 'fpQAIinV3npCXnqOOkBL.jpg', 'XlVijyVL12eZnLncqSiN.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('YJdKhKylLSULbW4oe9TI', 'hCxVGhs1wanPpoatNhVP', 'Kileleshwa', 'kileshwa , nairobi', '6000000', 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'rirJz63SwvMGKStC8Q0P.jpg', 'pgyotleRBVX4SEjQBZud.jpg', 'wRmKHuL3mxhsYQqi9ILe.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('6krCRvf2IuXPIAw57VsF', 'hCxVGhs1wanPpoatNhVP', 'house for sale in langÃ¡ta', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'EuGVsQ5q4ZePEPSOi0Oo.jpg', 'FHTTEkr1qfCGCo485qXA.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('7yv2sclTLXJZwXMW7uTQ', 'hCxVGhs1wanPpoatNhVP', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'UDvGDVR8S9imMhYF5hK0.jpg', '9AbG8uCfFvUDeoSTBHBV.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('hnd4wrAm3e4E6aTiCoT6', 'hCxVGhs1wanPpoatNhVP', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'WJVQAVO7U0rdWK7Ts8x8.jpg', 'vF3HC0o7x91mAaWD0Tmd.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2022-12-14 12:56:59'),
-('J2jlA5KLjlzPfkjcsTpl', 'hCxVGhs1wanPpoatNhVP', 'house for sale in karen', 'karen, karen blixen ,kenya', '20000000', 'house', 'sale', 'ready to move', 'furnished', '850000', '4', '4', '4', 'no', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'CU096uVpX5jB7Lwip9vn.jpg', '99Xzs3ziOBJsTMZ4cUWb.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house.', '2022-12-08 00:00:00', NULL),
-('58jfdhkubAj7RLQG2ek9', 'hCxVGhs1wanPpoatNhVP', 'Kileleshwa', 'kileshwa , nairobi', '6000000', 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', '8UomVRRQ2NVnijZiMgOD.jpg', 'fpQAIinV3npCXnqOOkBL.jpg', 'XlVijyVL12eZnLncqSiN.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('YJdKhKylLSULbW4oe9TI', 'hCxVGhs1wanPpoatNhVP', 'Kileleshwa', 'kileshwa , nairobi', '6000000', 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'rirJz63SwvMGKStC8Q0P.jpg', 'pgyotleRBVX4SEjQBZud.jpg', 'wRmKHuL3mxhsYQqi9ILe.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('6krCRvf2IuXPIAw57VsF', 'hCxVGhs1wanPpoatNhVP', 'house for sale in langÃ¡ta', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'EuGVsQ5q4ZePEPSOi0Oo.jpg', 'FHTTEkr1qfCGCo485qXA.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('7yv2sclTLXJZwXMW7uTQ', 'hCxVGhs1wanPpoatNhVP', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'UDvGDVR8S9imMhYF5hK0.jpg', '9AbG8uCfFvUDeoSTBHBV.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', NULL),
-('hnd4wrAm3e4E6aTiCoT6', 'hCxVGhs1wanPpoatNhVP', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', '15000000', 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'WJVQAVO7U0rdWK7Ts8x8.jpg', 'vF3HC0o7x91mAaWD0Tmd.jpg', '', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2022-12-14 12:56:59'),
-('8ZdUIf0hANJ1kdNHShoU', 'J4vMbogOrQNQJTPm25u2', 'Karen, ', 'Nairobi Karen', '500000', 'flat', 'sale', 'under construction', 'unfurnished', '30000', '3', '2', '2', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'no', 'no', 'no', 'no', '8CrmIht9I5SvRzpmUbOX.jpg', 'L8FFsUQxTix9eDMPwnTX.jpg', '', 'This property will have you feeling as if you were...', NULL, NULL),
-('EzYh2XIHk4Q3DortOYmn', 'J4vMbogOrQNQJTPm25u2', 'Karen, ', 'Nairobi Karen', '6000000', 'flat', 'sale', 'ready to move', 'furnished', '400000', '1', '1', '0', 'no', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'xCKrTngsERWb8M5pRYJV.jpg', 'WmTV0HW0iuZ2ByIV1GR0.jpg', '', 'This property will have you feeling as if you were...', NULL, NULL),
-('Cy41o91ivU2briG7joQq', 'IcD7PZnzEo5bErH0NLDS', 'house for sale in Karen', 'Nairobi Karen', '400000', 'house', 'sale', 'ready to move', 'furnished', '20000', '4', '4', '0', 'yes', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'no', 'nHKAWb3HmWvbA3GUgxcn.jpg', 'ec2sj3IxTCewdZyKAXC5.jpg', 'CoOH5gS6eFVzU7yof3ui.jpg', 'This property will have you feeling as if you were...', '2022-12-21 17:48:36', NULL),
-('bZs0K0oFgebN7v7dYoEM', 'YavUNoKdTkhOEgKNYCWd', 'house for sale in kilimani', 'Nairobi Kilimani', '50000000', 'house', 'sale', 'ready to move', 'semi-furnished', '200000', '3', '2', '1', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', '2PeOTNjgU8YySzF8HAJg.jpg', 'bRuEhqZAcON44FsbyEg7.jpg', '', 'Enter your house details above and click the Generate description button to see a custom social copy display here', '2022-12-21 23:53:23', NULL);
+INSERT INTO `property` (`property_id`, `id`, `user_id`, `property_name`, `address`, `price`, `type`, `offer`, `status`, `furnished`, `deposite`, `bedroom`, `bathroom`, `balcony`, `lift`, `security_guard`, `play_ground`, `garden`, `water_supply`, `power_backup`, `parking_area`, `gym`, `shopping_mall`, `hospital`, `school`, `market_area`, `image_01`, `image_02`, `image_03`, `description`, `creation_time`, `modification_time`, `valuated`) VALUES
+(1, 'J2jlA5KLjlzPfkjcsTpl', '2', 'house for sale in karen', 'karen, karen blixen ,kenya', 20000000, 'house', 'sale', 'ready to move', 'furnished', '850000', '4', '4', '4', 'no', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'CU096uVpX5jB7Lwip9vn.jpg', '99Xzs3ziOBJsTMZ4cUWb.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house.', '2022-12-08 00:00:00', '2023-01-20 10:12:12', 'no'),
+(2, '58jfdhkubAj7RLQG2ek9', '2', 'Kileleshwa', 'kileshwa , nairobi', 6000000, 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', '8UomVRRQ2NVnijZiMgOD.jpg', 'fpQAIinV3npCXnqOOkBL.jpg', 'XlVijyVL12eZnLncqSiN.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 11:06:07', 'yes'),
+(3, 'YJdKhKylLSULbW4oe9TI', '2', 'Kileleshwa', 'kileshwa , nairobi', 6000000, 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'rirJz63SwvMGKStC8Q0P.jpg', 'pgyotleRBVX4SEjQBZud.jpg', 'wRmKHuL3mxhsYQqi9ILe.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 11:06:17', 'yes'),
+(4, '6krCRvf2IuXPIAw57VsF', '2', 'house for sale in langÃ¡ta', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'EuGVsQ5q4ZePEPSOi0Oo.jpg', 'FHTTEkr1qfCGCo485qXA.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 11:06:24', 'yes'),
+(5, '7yv2sclTLXJZwXMW7uTQ', '2', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'UDvGDVR8S9imMhYF5hK0.jpg', '9AbG8uCfFvUDeoSTBHBV.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:28', 'no'),
+(6, 'hnd4wrAm3e4E6aTiCoT6', '2', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'WJVQAVO7U0rdWK7Ts8x8.jpg', 'vF3HC0o7x91mAaWD0Tmd.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:32', 'no'),
+(7, 'J2jlA5KLjlzPfkjcsTpl', '1', 'house for sale in karen', 'karen, karen blixen ,kenya', 20000000, 'house', 'sale', 'ready to move', 'furnished', '850000', '4', '4', '4', 'no', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'CU096uVpX5jB7Lwip9vn.jpg', '99Xzs3ziOBJsTMZ4cUWb.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house.', '2022-12-08 00:00:00', '2023-01-20 10:12:38', 'no'),
+(8, '58jfdhkubAj7RLQG2ek9', '1', 'Kileleshwa', 'kileshwa , nairobi', 6000000, 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', '8UomVRRQ2NVnijZiMgOD.jpg', 'fpQAIinV3npCXnqOOkBL.jpg', 'XlVijyVL12eZnLncqSiN.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:44', 'no'),
+(9, 'YJdKhKylLSULbW4oe9TI', '1', 'Kileleshwa', 'kileshwa , nairobi', 6000000, 'house', 'sale', 'ready to move', 'furnished', '450000', '3', '3', '3', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'rirJz63SwvMGKStC8Q0P.jpg', 'pgyotleRBVX4SEjQBZud.jpg', 'wRmKHuL3mxhsYQqi9ILe.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:47', 'no'),
+(10, '6krCRvf2IuXPIAw57VsF', '1', 'house for sale in langÃ¡ta', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'EuGVsQ5q4ZePEPSOi0Oo.jpg', 'FHTTEkr1qfCGCo485qXA.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:55', 'no'),
+(11, '7yv2sclTLXJZwXMW7uTQ', '1', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'UDvGDVR8S9imMhYF5hK0.jpg', '9AbG8uCfFvUDeoSTBHBV.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:12:58', 'no'),
+(12, 'hnd4wrAm3e4E6aTiCoT6', '1', 'house for sale in kilimani', 'lang&#39;ata&#39;, nairobi', 15000000, 'house', 'sale', 'ready to move', 'unfurnished', '1500000', '4', '3', '1', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'WJVQAVO7U0rdWK7Ts8x8.jpg', 'vF3HC0o7x91mAaWD0Tmd.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were in the mountains! Your monthly rent already covers power, water, sewer and trash so all you need to do is move in! Washer and dryer are already in house', '2022-12-09 00:00:00', '2023-01-20 10:13:02', 'no'),
+(13, '8ZdUIf0hANJ1kdNHShoU', '1', 'Karen, ', 'Nairobi Karen', 500000, 'flat', 'sale', 'under construction', 'unfurnished', '30000', '3', '2', '2', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'no', 'no', 'no', 'no', '8CrmIht9I5SvRzpmUbOX.jpg', 'L8FFsUQxTix9eDMPwnTX.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were...', NULL, '2023-01-20 10:13:06', 'no'),
+(14, 'EzYh2XIHk4Q3DortOYmn', '1', 'Karen, ', 'Nairobi Karen', 6000000, 'flat', 'sale', 'ready to move', 'furnished', '400000', '1', '1', '0', 'no', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'xCKrTngsERWb8M5pRYJV.jpg', 'WmTV0HW0iuZ2ByIV1GR0.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'This property will have you feeling as if you were...', NULL, '2023-01-20 10:13:10', 'no'),
+(15, 'Cy41o91ivU2briG7joQq', '1', 'house for sale in Karen', 'Nairobi Karen', 400000, 'house', 'sale', 'ready to move', 'furnished', '20000', '4', '4', '0', 'yes', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'no', 'nHKAWb3HmWvbA3GUgxcn.jpg', 'ec2sj3IxTCewdZyKAXC5.jpg', 'CoOH5gS6eFVzU7yof3ui.jpg', 'This property will have you feeling as if you were...', '2022-12-21 17:48:36', '2023-01-20 10:13:13', 'no'),
+(16, 'bZs0K0oFgebN7v7dYoEM', '1', 'house for sale in kilimani', 'Nairobi Kilimani', 50000000, 'house', 'sale', 'ready to move', 'semi-furnished', '200000', '3', '2', '1', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', '2PeOTNjgU8YySzF8HAJg.jpg', 'bRuEhqZAcON44FsbyEg7.jpg', '0d3XGz9ARzIgnT82mVp2.jpg', 'Enter your house details above and click the Generate description button to see a custom social copy display here', '2022-12-21 23:53:23', '2023-01-20 10:13:17', 'no');
 
 -- --------------------------------------------------------
 
@@ -94,17 +96,19 @@ CREATE TABLE `users` (
   `first_name` varchar(40) NOT NULL,
   `last_name` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` longtext NOT NULL,
   `user_role` int(8) NOT NULL DEFAULT 2
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `user_role`) VALUES
-(1, 'jerrey', 'munroe', 'jerrey@jerrey', 'jerrey', 1),
-(2, 'a', 'b', 'a@a', 'a', 2);
+(1, 'a', 'a', 'a@a', '$2a$10$1AUjWaSBXmKEQQkwqey9EuB0mA1wIY41.CsVApdabD8ukG12QqAYC', 2),
+(2, 'z', 'z', 'z@z', '$2a$10$LSi52Sv61DOgJzmwOQo.jOELctTSCHT1snus7z/Ejx4h.VeBRTw3y', 3),
+(3, 'w', 'w', 'w@w', '$2a$10$WRGtfX4v2SASnic2ieN5eOmdHmBa0mYzVVekrcuhs/nkVpCY50Fzq', 3),
+(4, 'h', 'h', 'h@h', '$2a$10$GU5G1nnyqsHKekouQ19uhunZ0qLW7y8d6fUyGNO9KymJgHoaxGkKi', 2);
 
 -- --------------------------------------------------------
 
@@ -115,7 +119,7 @@ INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, 
 CREATE TABLE `user_roles` (
   `id` int(8) NOT NULL,
   `role` enum('buyer','seller','valuer','agent','admin') NOT NULL DEFAULT 'buyer'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_roles`
@@ -131,6 +135,12 @@ INSERT INTO `user_roles` (`id`, `role`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `property`
+--
+ALTER TABLE `property`
+  ADD PRIMARY KEY (`property_id`);
 
 --
 -- Indexes for table `users`
@@ -150,10 +160,16 @@ ALTER TABLE `user_roles`
 --
 
 --
+-- AUTO_INCREMENT for table `property`
+--
+ALTER TABLE `property`
+  MODIFY `property_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
