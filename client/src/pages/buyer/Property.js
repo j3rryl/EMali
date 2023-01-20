@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/property.css'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios'
 import { ToastContainer,toast } from 'react-toastify'
 
 
 
 const Property = () => {
+   const navigate = useNavigate()
    const sendInquiry=()=>{
       toast.success("Inquiry Sent Successfuly.")
 
+   }
+   const makepayment=()=>{
+      navigate("/payment")
    }
    const [property, setProperty] = useState([])
    const location = useLocation()
@@ -118,7 +122,7 @@ const Property = () => {
       </form> */}
       <div className='flex justify-between'>
          <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
-         <button className='inline-btn'>Buy Property</button>
+         <button onClick={makepayment} className='inline-btn'>Buy Property</button>
 
       </div>
       <ToastContainer />
