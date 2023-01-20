@@ -10,11 +10,24 @@ export const getProperties = (req, res) => {
   });
 };
 
+
 export const getProperty = (req, res) => {
   const q =
     "SELECT * FROM property WHERE id = ? ";
 
   db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
+export const getPropertiesByUser = (req, res) => {
+  const user_id=req.body.user_id
+  const q =
+    "SELECT * FROM property WHERE user_id = ? ";
+
+  db.query(q, [user_id], (err, data) => {
     if (err) return res.status(500).json(err);
 
     return res.status(200).json(data[0]);

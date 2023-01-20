@@ -4,7 +4,7 @@ import { faHotel } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, useLocation } from 'react-router-dom'
 import '../../assets/css/navbar.css'
 
-const Navbar = () => {
+const SellerNavbar = () => {
   const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("isLoggedIn"))
   const [inIndex, setInIndex] = useState(false);
     const location=useLocation()
@@ -17,7 +17,7 @@ const Navbar = () => {
     window.localStorage.removeItem("token")
     window.localStorage.removeItem("role")
     window.localStorage.removeItem("isLoggedIn")
-    window.location.reload()
+    window.location.replace("/home")
   }
   useEffect(()=>{
     setLoggedIn(loggedIn)
@@ -33,20 +33,20 @@ const Navbar = () => {
     <nav className="navbar-links">
         <ul className="list-links">
             <li>
-                <NavLink to='/'>Home</NavLink>
+                <NavLink to='/seller/home'>Home</NavLink>
             </li>
             <li>
-                <NavLink to='properties'>Properties</NavLink>
+                <NavLink to='seller/mylistings'>My Listings</NavLink>
             </li>
             <li>
-                <NavLink to='saved'>Saved</NavLink>
+                <NavLink to='/seller/postproperty'>Post Property</NavLink>
             </li>
         </ul>
     </nav>
     <nav className="navbar-links">
       <ul className="list-links">
         <li>
-          <NavLink to='about'>About</NavLink>
+          <NavLink to='/seller/profile'>Profile</NavLink>
         </li>
         <li>
           {loggedIn?<NavLink><button onClick={logout}>
@@ -61,4 +61,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default SellerNavbar

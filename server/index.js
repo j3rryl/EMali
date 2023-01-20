@@ -72,6 +72,15 @@ app.get("/properties", (req,res)=>{
     return res.json(data)
   })
 })
+app.post("/propertiesby", (req,res)=>{
+  const user_id=req.body.user_id
+
+  db.query("SELECT * FROM property WHERE user_id = ?",
+  [user_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+})
 
 app.get('/', function (req, res) {
   res.send('Hello World')

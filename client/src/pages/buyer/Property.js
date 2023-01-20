@@ -1,31 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../assets/css/property.css'
+import { useLocation } from "react-router-dom";
+import axios from 'axios'
+
 
 const Property = () => {
+   const [property, setProperty] = useState([])
+   const location = useLocation()
+   const thePath = location.pathname
+   const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
     useEffect(() => {
         async function fetchData(){
             const  response =  await axios.get(
-                "http://localhost:3001/api/property/"
+                `http://localhost:3001/api/property/${lastItem}`
             );
             console.log(response.data)
-            setProperties(response.data)
+            setProperty(response.data);
+
         }
         fetchData()
         // const response = fetchData()
         // console.log(response.data)
         
 
-        // setproperties(response.data);
     }, []);
   return (
     <>
     
-    <section className="view-property">
+    <section className="view-property !capitalize">
 
    <div className="details">
       <div className="thumb">
-         
-        <div className="big-image">
+      {/* <div className="big-image">
             <img src="images/house-img-1.webp" alt=""/>
          </div>
          <div className="small-images">
@@ -33,28 +39,41 @@ const Property = () => {
             <img src="images/hall-img-1.webp" alt=""/>
             <img src="images/kitchen-img-1.webp" alt=""/>
             <img src="images/bathroom-img-1.webp" alt=""/>
+         </div> */}
+         
+        <div className="big-image">
+        {/* <img src={ process.env.PUBLIC_URL`/uploads/${property.image_01}`} /> */}
+        <img src={`/uploads/${property.image_01}`} alt='' />
+
+         </div>
+         <div className="small-images">
+         <img src={`/uploads/${property.image_01}`} alt='' />
+         <img src={`/uploads/${property.image_02}`} alt='' />
+         <img src={`/uploads/${property.image_03}`} alt='' />
+
+            
          </div>
          
       </div>
-      <h3 className="name">modern flats and appartments</h3>
-      <p className="location"><i className="fas fa-map-marker-alt"></i><span>andheri, mumbai, india - 400104</span></p>
+      <h3 className="name">{property.property_name}</h3>
+      <p className="location"><i className="fas fa-map-marker-alt"></i><span>{property.address}</span></p>
       <div className="info">
          <p><i className="fas fa-tag"></i><span>15 lac</span></p>
          <p><i className="fas fa-user"></i><span>john deo (owner)</span></p>
          <p><i className="fas fa-phone"></i><a href="tel:1234567890">1234567890</a></p>
-         <p><i className="fas fa-building"></i><span>flat</span></p>
-         <p><i className="fas fa-house"></i><span>sale</span></p>
-         <p><i className="fas fa-calendar"></i><span>10-11-2022</span></p>
+         <p><i className="fas fa-building"></i><span>{property.type}</span></p>
+         <p><i className="fas fa-house"></i><span>{property.offer}</span></p>
+         <p><i className="fas fa-calendar"></i><span>{property.creation_time}</span></p>
       </div>
       <h3 className="title">details</h3>
       <div className="flex">
          <div className="box">
             <p><i>rooms :</i><span>2 BHK</span></p>
-            <p><i>deposit amount :</i><span>0</span></p>
-            <p><i>status :</i><span>ready to move</span></p>
-            <p><i>bedroom :</i><span>3</span></p>
-            <p><i>bathroom :</i><span>2</span></p>
-            <p><i>balcony :</i><span>1</span></p>
+            <p><i>deposit amount :</i><span>{property.deposite}</span></p>
+            <p><i>status :</i><span>{property.status}</span></p>
+            <p><i>bedroom :</i><span>{property.bedroom}</span></p>
+            <p><i>bathroom :</i><span>{property.bathroom}</span></p>
+            <p><i>balcony :</i><span>{property.balcony}</span></p>
          </div>
          <div className="box">
             <p><i>carpet area :</i><span>750sqft</span></p>
@@ -85,7 +104,7 @@ const Property = () => {
          </div>
       </div>
       <h3 className="title">description</h3>
-      <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum cupiditate aliquid ipsum recusandae maxime nisi, velit eaque, libero, exercitationem culpa accusamus. Neque dolor quaerat modi saepe facere dignissimos temporibus molestias.</p>
+      <p className="description">{property.description}</p>
       <form action="" method="post">
          <input type="submit" value="save property" name="save" className="inline-btn"/>
       </form>

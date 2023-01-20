@@ -1,7 +1,7 @@
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { ToastContainer,toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/login.css'
 
@@ -28,7 +28,13 @@ const Login = () => {
     }).then((response)=>{
       window.localStorage.setItem("token", response.data.user_id)
       window.localStorage.setItem("isLoggedIn", true)
-      window.location.replace("/home")
+      window.localStorage.setItem("role", response.data.user_role)
+      if(response.data.user_role==2){
+        window.location.replace("/home")
+      } else if(response.data.user_role==3) {
+        window.location.replace("/seller/home")
+      }
+      
       console.log(response.data)
     })
   }

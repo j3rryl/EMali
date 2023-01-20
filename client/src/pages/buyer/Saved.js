@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Saved = () => {
+  
+  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("isLoggedIn"))
+  useEffect(()=>{
+    setLoggedIn(loggedIn)
+  },[loggedIn])
+  
   return (
-    <div>Saved</div>
+    <>
+    {loggedIn? (
+    <div>Saved Items</div>
+  ):(<div>Please Log In to View / Save Items</div>)}
+    </>
+    // <div>Saved</div>
   )
 }
 

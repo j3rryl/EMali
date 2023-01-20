@@ -5,11 +5,13 @@ import {
   getProperty,
   getProperties,
   updateProperty,
+  getPropertiesByUser,
 } from "../controllers/property.js";
 
 const router = express.Router();
 
 router.get("/", getProperties);
+router.get("/all", getPropertiesByUser);
 router.get("/:id", getProperty);
 router.post("/", addProperty);
 router.delete("/:id", deleteProperty);

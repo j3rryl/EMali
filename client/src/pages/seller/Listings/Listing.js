@@ -1,5 +1,7 @@
 import React from 'react'
-import '../../assets/css/listing.css'
+import '../../../assets/css/listing.css'
+import '../../../assets/css/button.css'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
@@ -7,10 +9,13 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
   const openProperty=(property_id)=>{
     window.location.assign(`/property/${property_id}`)
   }
+  const updateProperty=()=>{
+    window.location.assign(`/seller/updateproperty`)
+  }
   return (
-    <div className='card' onClick={()=>openProperty(property_id)}>
+    <div className='card'>
       <div className='card_image'>
-          <img src={require(`../../assets/uploads/${image}`)} alt='' />
+          <img src={require(`../../../assets/uploads/${image}`)} alt='' />
       </div>
       <div className='card_info'>
           <h2>{name}</h2>
@@ -24,6 +29,11 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
           <h2><FontAwesomeIcon className='faicons' icon={faTrowel} />{propertystatus}</h2>
           <h2><FontAwesomeIcon className='faicons' icon={faCouch} />{furnished}</h2>
           </div>
+          <div className='flex align-middle justify-between'>
+            <button className='vbutton '  onClick={updateProperty}>Update</button>
+            <button className='vbutton ' >Delete</button>
+          </div>
+          <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
       </div>
       </div>
   )
