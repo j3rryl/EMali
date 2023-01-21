@@ -3,79 +3,154 @@ import '../../assets/css/property.css'
 import { useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios'
 import { ToastContainer,toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBuilding, faCalendar, faHouse, faTag, faUser, faCheck, faTimes, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 
 
 const Property = () => {
    const navigate = useNavigate()
-   const sendInquiry=()=>{
-      toast.success("Inquiry Sent Successfuly.")
-
-   }
+   
    const makepayment=()=>{
       navigate("/payment")
    }
    const [property, setProperty] = useState([])
+   const [saved, setSaved] = useState([])
+   const [user, setUserData] = useState([])
    const [inquiry, setInquiry] = useState()
+   const [feedback, setFeedback] = useState([])
 
+   const user_id = window.localStorage.getItem("token")
    const location = useLocation()
    const thePath = location.pathname
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+
     useEffect(() => {
+      async function fetchUserData(){
+         const  response =  await axios.get(
+             `http://localhost:3001/api/user/${user_id}`
+         );
+         // console.log(response.data)
+         setUserData(response.data);
+     }
+     async function fetchSaved(){
+      const  response =  await axios.get(
+          `http://localhost:3001/api/property/findsaved/${lastItem}`
+      );
+      console.log(response.data)
+      setSaved(response.data);
+  }
+
+
+     async function fetchFeedback(){
+      const  response =  await axios.get(
+          `http://localhost:3001/api/feedback/${user_id}`,{
+               property_id:property.property_id,
+          }
+      )
+      setFeedback(response.data)
+  }
         async function fetchData(){
             const  response =  await axios.get(
                 `http://localhost:3001/api/property/${lastItem}`
             );
-            console.log(response.data)
+            // console.log(response.data)
             setProperty(response.data);
-
         }
         fetchData()
-        // const response = fetchData()
-        // console.log(response.data)
-        
-
+        fetchUserData()
+        fetchFeedback()
+        fetchSaved()
     }, []);
+    function makeEnquiry(inquiry){
+      setInquiry(inquiry)
+  }
+  useEffect(()=>{
+    const abortCont=new AbortController();
+    makeEnquiry(inquiry,{signal:abortCont.signal})
+    return()=>{
+      abortCont.abort()
+    }
+  },[inquiry])
+
+    const sendInquiry=(property_id)=>{
+      if(!user_id){
+         toast.warning("Sign In to send inquiries.")
+      } else {
+         try{
+            axios.post("http://localhost:3001/api/enquiry/makeenquiry",{
+            message:inquiry,
+            user_id:user_id,
+            property_id:property_id
+          })
+          toast.success("Enquiry Sent Successfuly.")
+          } catch (err){
+            toast.error("Enquiry Unsuccessful.")
+          }
+      }
+   }
+
+   const saveProperty=(property_id)=>{
+      if(!user_id){
+         toast.warning("Sign In to send inquiries.")
+      } else {
+         if(saved=="nothing"){
+            try{
+               axios.post("http://localhost:3001/api/property/saveproperty",{
+               user_id:user_id,
+               property_id:property_id
+             })
+             setTimeout(()=>{
+               window.location.reload()
+             },2000)
+             toast.success("Property Saved.")
+             } catch (err){
+               toast.error("Error.")
+             }
+         } else {
+            try{
+               axios.delete(`http://localhost:3001/api/property/deletesaved/${lastItem}`,{
+             })
+             setTimeout(()=>{
+               window.location.reload()
+             },2000)
+             
+             toast.success("Property Removed from Saved.")
+             } catch (err){
+               toast.error("Error.")
+             }
+         }
+         
+      }
+
+   }
+
+
   return (
     <>
-    
     <section className="view-property !capitalize">
 
    <div className="details">
       <div className="thumb">
-      {/* <div className="big-image">
-            <img src="images/house-img-1.webp" alt=""/>
-         </div>
-         <div className="small-images">
-            <img src="images/house-img-1.webp" alt=""/>
-            <img src="images/hall-img-1.webp" alt=""/>
-            <img src="images/kitchen-img-1.webp" alt=""/>
-            <img src="images/bathroom-img-1.webp" alt=""/>
-         </div> */}
-         
         <div className="big-image">
-        {/* <img src={ process.env.PUBLIC_URL`/uploads/${property.image_01}`} /> */}
         <img src={`/uploads/${property.image_01}`} alt='' />
-
          </div>
          <div className="small-images">
          <img src={`/uploads/${property.image_01}`} alt='' />
          <img src={`/uploads/${property.image_02}`} alt='' />
          <img src={`/uploads/${property.image_03}`} alt='' />
-
-            
          </div>
          
       </div>
       <h3 className="name">{property.property_name}</h3>
-      <p className="location"><i className="fas fa-map-marker-alt"></i><span>{property.address}</span></p>
+      <p className="location"><FontAwesomeIcon icon={faMapMarkerAlt}/><span>{property.address}</span></p>
       <div className="info">
-         <p><i className="fas fa-tag"></i><span>15 lac</span></p>
-         <p><i className="fas fa-user"></i><span>john deo (owner)</span></p>
-         <p><i className="fas fa-building"></i><span>{property.type}</span></p>
-         <p><i className="fas fa-house"></i><span>{property.offer}</span></p>
-         <p><i className="fas fa-calendar"></i><span>{property.creation_time}</span></p>
+         <p><FontAwesomeIcon icon={faTag}/><span>15 lac</span></p>
+         <p><FontAwesomeIcon icon={faUser}/><span>{property.first_name} (owner)</span></p>
+         <p><FontAwesomeIcon icon={faBuilding}/><span>{property.type}</span></p>
+         <p><FontAwesomeIcon icon={faHouse}/><span>{property.offer}</span></p>
+         <p><FontAwesomeIcon icon={faCalendar}/><span>{property.creation_time}</span></p>
       </div>
       <h3 className="title">details</h3>
       <div className="flex">
@@ -88,55 +163,64 @@ const Property = () => {
             <p><i>balcony :</i><span>{property.balcony}</span></p>
          </div>
          <div className="box">
-            <p><i>carpet area :</i><span>750sqft</span></p>
-            <p><i>age :</i><span>3 years</span></p>
-            <p><i>room floor :</i><span>3</span></p>
-            <p><i>total floors :</i><span>22</span></p>
-            <p><i>furnished :</i><span>semi-furnished</span></p>
-            <p><i>loan :</i><span>available</span></p>
+            <p><i>carpet area :</i><span>{property.carpet_area} sqft</span></p>
+            <p><i>age :</i><span>{property.age} years</span></p>
+            <p><i>total floors :</i><span>{property.total_floors}</span></p>
+            <p><i>furnished :</i><span>{property.furnished}</span></p>
          </div>
       </div>
       <h3 className="title">amenities</h3>
       <div className="flex">
          <div className="box">
-            <p><i className="fas fa-check"></i><span>lifts</span></p>
-            <p><i className="fas fa-check"></i><span>security guards</span></p>
-            <p><i className="fas fa-times"></i><span>play ground</span></p>
-            <p><i className="fas fa-check"></i><span>gardens</span></p>
-            <p><i className="fas fa-check"></i><span>water supply</span></p>
-            <p><i className="fas fa-check"></i><span>power backup</span></p>
+            <p>{property.lift=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>lifts</span></p>
+            <p>{property.security_guard=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>security guards</span></p>
+            <p>{property.play_ground=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>play ground</span></p>
+            <p>{property.garden=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>gardens</span></p>
+            <p>{property.water_supply=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>water supply</span></p>
+            <p>{property.power_backup=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>power backup</span></p>
          </div>
          <div className="box">
-            <p><i className="fas fa-check"></i><span>parking area</span></p>
-            <p><i className="fas fa-times"></i><span>gym</span></p>
-            <p><i className="fas fa-check"></i><span>shopping mall</span></p>
-            <p><i className="fas fa-check"></i><span>hospital</span></p>
-            <p><i className="fas fa-check"></i><span>schools</span></p>
-            <p><i className="fas fa-check"></i><span>market area</span></p>
+            <p>{property.parking_area=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>parking area</span></p>
+            <p>{property.gym=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>gym</span></p>
+            <p>{property.shopping_mall=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>shopping mall</span></p>
+            <p>{property.hospital=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>hospital</span></p>
+            <p>{property.school=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>schools</span></p>
+            <p>{property.market_area=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+               <span>market area</span></p>
          </div>
       </div>
       <h3 className="title">description</h3>
       <p className="description">{property.description}</p>
-      {/* <form action="" method="post" className='flex justify-between'>
-         <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
-         <button className='inline-btn'>Buy Property</button>
-
-      </form> */}
+      
       <div className='register-form-control-container w-full'>
         <br/><br/>
-        <textarea placeholder="Make Inquiry" className="tarea w-full" rows="4" cols="50">
+        <textarea onChange={(e)=>setInquiry(e.target.value)} placeholder="Make Inquiry" className="tarea w-full" rows="4" cols="50">
          </textarea>
-        {/* <input value={inquiry} 
-        placeholder="Make Inquiry"
-        onChange={(e)=>setInquiry(e.target.value)}
-        type="textarea" name='inquiry'/> */}
+        
         </div>
       <div className='flex justify-between'>
-         <button onClick={sendInquiry} className='inline-btn'>Send Inquiry</button>
+         <button onClick={()=>sendInquiry(property.property_id)} className='inline-btn'>Send Inquiry</button>
+         <button onClick={()=>saveProperty(property.property_id)} className='inline-btn'>
+            {saved=='nothing'?<p>Save Property</p>:<p>Remove Saved</p>}
+         </button>
 
       </div>
       <div className='flex justify-between'>
-         <button onClick={sendInquiry} className='inline-btn'>Proceed To Purchase</button>
+         {feedback?<h2>{feedback.f_message}</h2>:<h2>No feedback yet.</h2>}
+      </div>
+      <div className='flex justify-between'>
+         <button className='inline-btn'>Proceed To Purchase</button>
          <button onClick={makepayment} className='inline-btn'>Terminate Process</button>
 
       </div>

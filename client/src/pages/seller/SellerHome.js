@@ -11,7 +11,7 @@ const SellerHome = () => {
     useEffect(() => {
         async function fetchData(){
             const  response =  await axios.post(
-                "http://localhost:3001/propertiespending",{
+                "http://localhost:3001/api/property/pendingpayment",{
                     user_id:window.localStorage.getItem("token"),
                 }
             );

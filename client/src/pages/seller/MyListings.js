@@ -11,7 +11,7 @@ const MyListings = () => {
     useEffect(() => {
         async function fetchData(){
             const  response =  await axios.post(
-                "http://localhost:3001/propertiesby",{
+                "http://localhost:3001/api/property/by",{
                     user_id:window.localStorage.getItem("token"),
                 }
             );

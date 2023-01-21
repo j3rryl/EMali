@@ -12,7 +12,7 @@ const Properties = () => {
     useEffect(() => {
         async function fetchData(){
             const  response =  await axios.get(
-                "http://localhost:3001/properties"
+                "http://localhost:3001/api/property/approved"
             );
             console.log(response.data)
             setProperties(response.data)

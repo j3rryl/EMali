@@ -45,7 +45,7 @@ function onSubmit(e){
   e.preventDefault()
   console.log(lastItem)
   try{
-    axios.put(`http://localhost:3001/updateValuated/${lastItem}`,{
+    axios.put(`http://localhost:3001/api/property/updateValuated/${lastItem}`,{
     
   })
   toast.success("Payment Successful.")

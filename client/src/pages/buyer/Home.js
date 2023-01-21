@@ -1,6 +1,7 @@
 import '../../assets/css/home.css'
 import Services from '../../components/buyer/Services'
 const Home = () => {
+   
   return (
 <div className='h-full w-screen absolute '>
 <div className='mt-12 container h-screen w-screen'>

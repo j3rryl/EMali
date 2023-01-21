@@ -13,3 +13,7 @@ npm start
 cd client 
 npm i 
 npm run start
+
+
+
+INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
