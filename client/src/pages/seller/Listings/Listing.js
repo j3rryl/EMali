@@ -18,7 +18,7 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
     window.location.assign(`/property/${property_id}`)
   }
   const updateProperty=()=>{
-    window.location.assign(`/seller/updateproperty`)
+    window.location.assign(`/seller/updateproperty/${property_id}`)
   }
   const payEvaluation=(property_id)=>{
     window.location.assign(`/seller/payment/${property_id}`)

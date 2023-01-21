@@ -13,7 +13,7 @@ export const register = (req, res) => {
   
     db.query(q, [email], (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.length) return res.status(409).json("User already exists!");
+      if (data.length) return res.json("exists");
   
       //Hash the password and create a user
       const salt = bcrypt.genSaltSync(10);
@@ -47,7 +47,7 @@ export const register = (req, res) => {
   
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.length === 0) return res.status(404).json("User not found!");
+      if (data.length === 0) return res.json("not found!");
   
       //Check password
       const isPasswordCorrect = bcrypt.compareSync(
@@ -56,7 +56,7 @@ export const register = (req, res) => {
       );
   
       if (!isPasswordCorrect)
-        return res.status(400).json("Wrong email or password!");
+        return res.json("wrong");
   
       const token = jwt.sign({ user_id: data[0].user_id }, "jwtkey");
       const { password, ...other } = data[0];

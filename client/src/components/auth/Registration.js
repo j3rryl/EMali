@@ -47,8 +47,15 @@ function onSubmit(e){
     email:email,
     password:password,
     role:role
+  }).then((response)=>{
+    if(response.data=="exists"){
+      toast.error("User with email already exists.")
+    } else {
+      toast.success("Registration Successful. Sign In To Continue.")
+      
+    }
   })
-    toast.success("Registration Successful.")
+    
   } catch (err){
     toast.error("Registration Unsuccessful.")
   }

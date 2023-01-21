@@ -1,7 +1,7 @@
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/login.css'
 
@@ -26,16 +26,28 @@ const Login = () => {
       email:email,
       password:password
     }).then((response)=>{
+      if(response.data=="wrong"){
+        toast.warn("Wrong email and/ password.")
+      } else if(response.data=="not found!"){
+        toast.error("User with the email does not exist.")
+      } else {      
+        toast.success("Login Successful.")
+
       window.localStorage.setItem("token", response.data.user_id)
       window.localStorage.setItem("isLoggedIn", true)
       window.localStorage.setItem("role", response.data.user_role)
       if(response.data.user_role==2){
-        window.location.replace("/home")
+        setTimeout(()=>{
+          window.location.replace("/home")
+        },2000)
+        
       } else if(response.data.user_role==3) {
-        window.location.replace("/seller/home")
+        setTimeout(()=>{
+          window.location.replace("/seller/home")
+        },2000)
       }
-      
       console.log(response.data)
+    }
     })
   }
   function onSubmit(e){

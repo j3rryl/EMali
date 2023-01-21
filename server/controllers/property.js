@@ -95,26 +95,66 @@ export const updateValuated = (req, res) => {
 };
 
 export const addProperty = (req, res) => {
-  
-
     const q =
-      "INSERT INTO posts(`title`, `desc`, `img`, `cat`, `date`,`uid`) VALUES (?)";
-
+      "INSERT INTO property (user_id, property_name, address,price, type,offer,status,furnished,carpet_area,age,total_floors,deposite,bedroom,bathroom,balcony,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     const values = [
-      req.body.title,
-      req.body.desc,
-      req.body.img,
-      req.body.cat,
-      req.body.date,
-      userInfo.id,
+      req.body.user_id,
+      req.body.property_name,
+      req.body.address,
+      req.body.price,
+      req.body.type,
+      req.body.offer,
+      req.body.prop_status,
+      req.body.furnished,
+      req.body.carpet_area,
+      req.body.age,
+      req.body.total_floors,
+      req.body.deposite,
+      req.body.bedroom,
+      req.body.bathroom,
+      req.body.balcony,
+      req.body.description,
     ];
 
-    db.query(q, [values], (err, data) => {
+    db.query("INSERT INTO property (user_id, property_name, address,price, type,offer,status,furnished,carpet_area,age,total_floors,deposite,bedroom,bathroom,balcony, lift, security_guard,play_ground,garden,water_supply,power_backup,parking_area,gym,shopping_mall,hospital,school,market_area,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+    [
+      req.body.user_id,
+      req.body.property_name,
+      req.body.address,
+      req.body.price,
+      req.body.type,
+      req.body.offer,
+      req.body.prop_status,
+      req.body.furnished,
+      req.body.carpet_area,
+      req.body.age,
+      req.body.total_floors,
+      req.body.deposite,
+      req.body.bedroom,
+      req.body.bathroom,
+      req.body.balcony,
+      req.body.lift,
+      
+      req.body.guard,
+      req.body.play,
+      req.body.garden,
+      req.body.water,
+      req.body.backup,
+      req.body.park,
+      req.body.gym,
+      req.body.mall,
+      req.body.hospital,
+      req.body.school,
+      req.body.market,
+
+      req.body.description,
+    ], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.json("Post has been created.");
+      return res.json("success");
     });
  
 };
+
 
 export const deleteProperty = (req, res) => {
 
@@ -143,15 +183,58 @@ export const deleteSaved = (req, res) => {
 
 };
 
+// export const updateProperty = (req, res) => {
+//     const postId = req.params.id;
+//     const q =
+//       "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+
+//     const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
+
+//     db.query(q, [...values, postId, userInfo.id], (err, data) => {
+//       if (err) return res.status(500).json(err);
+//       return res.json("Post has been updated.");
+//     });
+// };
+
 export const updateProperty = (req, res) => {
-    const postId = req.params.id;
-    const q =
-      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+  const property_id = req.params.id;
 
-    const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
+  db.query("UPDATE property SET user_id = ?, property_name= ?, address= ?,price= ?, type= ?,offer= ?,status= ?,furnished= ?,carpet_area= ?,age= ?,total_floors= ?,deposite= ?,bedroom= ?,bathroom= ?,balcony= ?, lift= ?, security_guard= ?,play_ground= ?,garden= ?,water_supply= ?,power_backup= ?,parking_area= ?,gym= ?,shopping_mall= ?,hospital= ?,school= ?,market_area= ?,description= ? WHERE property_id=?", 
+  [
+    req.body.user_id,
+    req.body.property_name,
+    req.body.address,
+    req.body.price,
+    req.body.type,
+    req.body.offer,
+    req.body.prop_status,
+    req.body.furnished,
+    req.body.carpet_area,
+    req.body.age,
+    req.body.total_floors,
+    req.body.deposite,
+    req.body.bedroom,
+    req.body.bathroom,
+    req.body.balcony,
+    req.body.lift,
+    
+    req.body.guard,
+    req.body.play,
+    req.body.garden,
+    req.body.water,
+    req.body.backup,
+    req.body.park,
+    req.body.gym,
+    req.body.mall,
+    req.body.hospital,
+    req.body.school,
+    req.body.market,
 
-    db.query(q, [...values, postId, userInfo.id], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.json("Post has been updated.");
-    });
+    req.body.description,
+    property_id
+  ], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json("success");
+  });
+
 };

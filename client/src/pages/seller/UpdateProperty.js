@@ -1,90 +1,178 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import '../../assets/css/style.css'
 
 const UpdateProperty = () => {
-  return (
-    <section class="property-form">
+   const user_id=window.localStorage.getItem("token")
+   const [property_name, setPropertyName]=useState('')
+   const [property_price, setPrice]=useState('')
+   const [property_deposit, setDeposit]=useState('')
+   const [property_address, setAddress]=useState('')
+   const [property_offer, setOffer]=useState('sale')
+   const [property_type, setType]=useState('house')
 
-   <form action="" method="POST" encType="multipart/form-data">
-      <input type="hidden" name="property_id" value="<?= $property_id; ?>"/>
-      <input type="hidden" name="old_image_01" value="<?= $fetch_property['image_01']; ?>"/>
-      <input type="hidden" name="old_image_02" value="<?= $fetch_property['image_02']; ?>"/>
-      <input type="hidden" name="old_image_03" value="<?= $fetch_property['image_03']; ?>"/>
-      <input type="hidden" name="old_image_04" value="<?= $fetch_property['image_04']; ?>"/>
-      <input type="hidden" name="old_image_05" value="<?= $fetch_property['image_05']; ?>"/>
+   const [property_status, setStatus]=useState('ready to move')
+   const [property_furnished, setFurnished]=useState('furnished')
+   const [property_bedrooms, setBedrooms]=useState(1)
+   const [property_bathrooms, setBathrooms]=useState(1)
+   const [property_balconys, setBalconys]=useState(1)
+   const [property_carpet, setCarpet]=useState('')
+
+   const [property_totalfloors, setTotalFloors]=useState('')
+   const [property_age, setAge]=useState('')
+   const [property_description, setDescription]=useState('')
+
+   const [lift,setLift]=useState('no')
+   const [guard,setGuard]=useState('no')
+   const [play,setPlay]=useState('no')
+   const [garden,setGarden]=useState('no')
+   const [water,setWater]=useState('no')
+   const [backup,setBackup]=useState('no')
+
+   const [park,setPark]=useState('no')
+   const [gym,setGym]=useState('no')
+   const [mall,setMall]=useState('no')
+   const [hospital,setHospital]=useState('no')
+   const [school,setSchool]=useState('no')
+   const [market,setMarket]=useState('no')
+
+   const [property, setProperty] = useState([])
+   const location = useLocation()
+   const thePath = location.pathname
+   const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+
+
+
+   function onSubmit(e){
+      e.preventDefault()
+      try{
+         axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
+            user_id: user_id,
+            property_name: property_name,
+            address:property_address,
+            price:property_price,
+            type:property_type,
+            offer:property_offer,
+            prop_status:property_status ,
+            furnished:property_furnished,
+            carpet_area:property_carpet,
+            age:property_age,
+            total_floors:property_totalfloors,
+            deposite:property_deposit,
+            bedroom:property_bedrooms ,
+            bathroom:property_bathrooms,
+            balcony:property_balconys,
+            lift:lift,
+            guard:guard,
+            play:play,
+            garden:garden,
+            water:water,
+            backup:backup,
+            park:park,
+            gym:gym,
+            mall:mall,
+            hospital:hospital,
+            school:school,
+            market:market,
+            description: property_description,
+            
+         
+       }).then((response)=>{
+         if(response.data=="success"){
+           toast.success("Property Updated Seccessfully.")
+           setTimeout(()=>{
+            window.location.assign("/seller/mylistings")
+           },1500)
+         } else {
+            toast.error("Propert Update Unsuccessful.")
+
+         }
+       })
+         
+       } catch (err){
+       }
+   }
+
+   useEffect(() => {
+        async function fetchData(){
+            const  response =  await axios.get(
+                `http://localhost:3001/api/property/${lastItem}`
+            );
+            // console.log(response.data)
+            setProperty(response.data);
+        }
+        fetchData()
+    }, []);
+
+
+  return (
+    <section className="property-form">
+<form action="" method="POST" encType="multipart/form-data" onSubmit={onSubmit}>
       <h3>property details</h3>
-      <div class="box">
+      <div className="box">
          <p>property name <span>*</span></p>
-         <input type="text" name="property_name" required maxlength="50" placeholder="enter property name" value="" class="input"/>
+         <input defaultValue={property.property_name} onChange={(e)=>setPropertyName(e.target.value)}
+          type="text" name="property_name" required maxLength="50" placeholder={property.property_name} className="input"/>
       </div>
-      <div class="flex">
-         <div class="box">
+      <div className="flex">
+         <div className="box">
             <p>property price <span>*</span></p>
-            <input type="number" name="price" required min="0" max="9999999999" maxlength="10" value="" placeholder="enter property price" class="input"/>
+            <input defaultValue={property.price} onChange={(e)=>setPrice(e.target.value)}
+             type="number" name="price" required min="0" max="9999999999" maxLength="10" placeholder={property.price} className="input"/>
          </div>
-         <div class="box">
-            <p>deposite amount <span>*</span></p>
-            <input type="number" name="deposite" required min="0" max="9999999999" value="" maxlength="10" placeholder="enter deposite amount" class="input"/>
+         <div className="box">
+            <p>deposit amount <span>*</span></p>
+            <input defaultValue={property.deposite} onChange={(e)=>setDeposit(e.target.value)}
+             type="number" name="deposit" required min="0" max="9999999999" maxLength="10" placeholder={property.deposite} className="input"/>
          </div>
-         <div class="box">
+         <div className="box">
             <p>property address <span>*</span></p>
-            <input type="text" name="address" required maxlength="100" placeholder="enter property full address" class="input" value=""/>
+            <input defaultValue={property.address} onChange={(e)=>setAddress(e.target.value)} 
+            type="text" name="address" required maxLength="100" placeholder={property.address} className="input"/>
          </div>
-         <div class="box">
+         <div className="box">
             <p>offer type <span>*</span></p>
-            <select name="offer" required class="input">
-               <option value="" selected></option>
-               <option value="sale">sale</option>
+            <select value={property_offer} onChange={(e)=>setOffer(e.target.value)}
+             name="offer" required className="input">
+               <option value="sale" defaultValue>sale</option>
                <option value="resale">resale</option>
                <option value="rent">rent</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>property type <span>*</span></p>
-            <select name="type" required class="input">
-               <option value="<?= $fetch_property['type']; ?>" selected></option>
+            <select value={property_type} onChange={(e)=>setType(e.target.value)}
+             name="type" required className="input">
                <option value="flat">flat</option>
-               <option value="house">house</option>
+               <option value="house" defaultValue>house</option>
                <option value="shop">shop</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>property status <span>*</span></p>
-            <select name="status" required class="input">
-               <option value="<?= $fetch_property['status']; ?>" selected></option>
-               <option value="ready to move">ready to move</option>
+            <select value={property_status} onChange={(e)=>setStatus(e.target.value)}
+             name="status" required className="input">
+               <option value="ready to move" defaultValue>ready to move</option>
                <option value="under construction">under construction</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>furnished status <span>*</span></p>
-            <select name="furnished" required class="input">
-               <option value="<?= $fetch_property['furnished']; ?>" selected></option>
-               <option value="furnished">furnished</option>
+            <select value={property_furnished} onChange={(e)=>setFurnished(e.target.value)}
+             name="furnished" required className="input">
+               <option value="furnished" defaultValue>furnished</option>
                <option value="semi-furnished">semi-furnished</option>
                <option value="unfurnished">unfurnished</option>
             </select>
          </div>
-         <div class="box">
-            <p>how many BHK <span>*</span></p>
-            <select name="bhk" required class="input">
-               <option value="<?= $fetch_property['bhk']; ?>" selected> BHK</option>
-               <option value="1">1 BHK</option>
-               <option value="2">2 BHK</option>
-               <option value="3">3 BHK</option>
-               <option value="4">4 BHK</option>
-               <option value="5">5 BHK</option>
-               <option value="6">6 BHK</option>
-               <option value="7">7 BHK</option>
-               <option value="8">8 BHK</option>
-               <option value="9">9 BHK</option>
-            </select>
-         </div>
-         <div class="box">
+         
+         <div className="box">
             <p>how many bedrooms <span>*</span></p>
-            <select name="bedroom" required class="input">
-               <option value="<?= $fetch_property['bedroom']; ?>" selected> bedroom</option>
-               <option value="0">0 bedroom</option>
-               <option value="1">1 bedroom</option>
+            <select value={property_bedrooms} onChange={(e)=>setBedrooms(e.target.value)}
+             name="bedroom" required className="input">
+               <option value="1" defaultValue>1 bedroom</option>
                <option value="2">2 bedroom</option>
                <option value="3">3 bedroom</option>
                <option value="4">4 bedroom</option>
@@ -95,11 +183,11 @@ const UpdateProperty = () => {
                <option value="9">9 bedroom</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>how many bathrooms <span>*</span></p>
-            <select name="bathroom" required class="input">
-               <option value="<?= $fetch_property['bathroom']; ?>" selected>bathroom</option>
-               <option value="1">1 bathroom</option>
+            <select value={property_bathrooms} onChange={(e)=>setBathrooms(e.target.value)}
+             name="bathroom" required className="input">
+               <option value="1" defaultValue>1 bathroom</option>
                <option value="2">2 bathroom</option>
                <option value="3">3 bathroom</option>
                <option value="4">4 bathroom</option>
@@ -110,12 +198,11 @@ const UpdateProperty = () => {
                <option value="9">9 bathroom</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>how many balconys <span>*</span></p>
-            <select name="balcony" required class="input">
-               <option value="<?= $fetch_property['balcony']; ?>" selected>balcony</option>
-               <option value="0">0 balcony</option>
-               <option value="1">1 balcony</option>
+            <select value={property_balconys} onChange={(e)=>setBalconys(e.target.value)} 
+            name="balcony" required className="input">
+               <option value="1" defaultValue>1 balcony</option>
                <option value="2">2 balcony</option>
                <option value="3">3 balcony</option>
                <option value="4">4 balcony</option>
@@ -126,92 +213,214 @@ const UpdateProperty = () => {
                <option value="9">9 balcony</option>
             </select>
          </div>
-         <div class="box">
+         <div className="box">
             <p>carpet area <span>*</span></p>
-            <input type="number" name="carpet" required min="1" max="9999999999" maxlength="10" placeholder="how many squarefits?" class="input" value="<?= $fetch_property['carpet']; ?>"/>
+            <input defaultValue={property.carpet_area} onChange={(e)=>setCarpet(e.target.value)}
+             type="number" name="carpet" required min="1" max="9999999999" maxLength="10" placeholder={`${property.carpet_area} square feet`} className="input"/>
          </div>
-         <div class="box">
+         <div className="box">
             <p>property age <span>*</span></p>
-            <input type="number" name="age" required min="0" max="99" maxlength="2" placeholder="how old is property?" class="input" value="<?= $fetch_property['age']; ?>"/>
+            <input defaultValue={property.age} onChange={(e)=>setAge(e.target.value)}
+             type="number" name="age" required min="0" max="99" maxLength="2" placeholder={`${property.age} years old`} className="input"/>
          </div>
-         <div class="box">
+         <div className="box">
             <p>total floors <span>*</span></p>
-            <input type="number" name="total_floors" required min="0" max="99" maxlength="2" placeholder="how floors available?" class="input" value="<?= $fetch_property['total_floors']; ?>"/>
+            <input defaultValue={property.total_floors} onChange={(e)=>setTotalFloors(e.target.value)}
+             type="number" name="total_floors" required min="0" max="99" maxLength="2" placeholder={`${property.total_floors} floors`} className="input"/>
          </div>
-         <div class="box">
-            <p>floor room <span>*</span></p>
-            <input type="number" name="room_floor" required min="0" max="99" maxlength="2" placeholder="property floor number" class="input" value="<?= $fetch_property['room_floor']; ?>"/>
-         </div>
-         <div class="box">
-            <p>loan <span>*</span></p>
-            <select name="loan" required class="input">
-               <option value="<?= $fetch_property['loan']; ?>" selected></option>
-               <option value="available">available</option>
-               <option value="not available" >not available</option>
-            </select>
-         </div>
+         
       </div>
-      <div class="box">
+      <div className="box">
          <p>property description <span>*</span></p>
-         <textarea name="description" maxlength="1000" class="input" required cols="30" rows="10" placeholder="write about property..." ></textarea>
+         <textarea defaultValue={property.description} onChange={(e)=>setDescription(e.target.value)}
+          name="description" maxLength="1000" className="input" required cols="30" rows="10" placeholder={`${property.description}`}></textarea>
       </div>
-      <div class="checkbox">
-         <div class="box">
-            <p><input type="checkbox" name="lift" value="yes" />lifts</p>
-            <p><input type="checkbox" name="security_guard" value="yes"  />security guard</p>
-            <p><input type="checkbox" name="play_ground" value="yes"/>play ground</p>
-            <p><input type="checkbox" name="garden" value="yes" />garden</p>
-            <p><input type="checkbox" name="water_supply" value="yes"  />water supply</p>
-            <p><input type="checkbox" name="power_backup" value="yes"  />power backup</p>
+      <div className="checkbox">
+         <div className="box">
+            <p><input onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setLift("yes")
+                } else {
+                  
+                  setLift("no")
+            
+                }
+            }}
+            type="checkbox" name="lift" value={lift} />lifts</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setGuard("yes")
+                } else {
+                  
+                  setGuard("no")
+            
+                }
+            }}
+             type="checkbox" name="security_guard" value={guard} />security guard</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setPlay("yes")
+                } else {
+                  
+                  setPlay("no")
+            
+                }
+            }}
+             type="checkbox" name="play_ground" value={play} />play ground</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setGarden("yes")
+                } else {
+                  
+                  setGarden("no")
+            
+                }
+            }}
+             type="checkbox" name="garden" value={garden} />garden</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setWater("yes")
+                } else {
+                  
+                  setWater("no")
+            
+                }
+            }}
+             type="checkbox" name="water_supply" value={water} />water supply</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setBackup("yes")
+                } else {
+                  
+                  setBackup("no")
+            
+                }
+            }}
+             type="checkbox" name="power_backup" value={backup} />power backup</p>
          </div>
-         <div class="box">
-            <p><input type="checkbox" name="parking_area" value="yes"  />parking area</p>
-            <p><input type="checkbox" name="gym" value="yes"  />gym</p>
-            <p><input type="checkbox" name="shopping_mall" value="yes"  />shopping_mall</p>
-            <p><input type="checkbox" name="hospital" value="yes"  />hospital</p>
-            <p><input type="checkbox" name="school" value="yes"  />school</p>
-            <p><input type="checkbox" name="market_area" value="yes"  />market area</p>
+         <div className="box">
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setPark("yes")
+                } else {
+                  
+                  setPark("no")
+            
+                }
+            }}
+             type="checkbox" name="parking_area" value={park} />parking area</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setGym("yes")
+                } else {
+                  
+                  setGym("no")
+            
+                }
+            }}
+             type="checkbox" name="gym" value={gym} />gym</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setMall("yes")
+                } else {
+                  
+                  setMall("no")
+            
+                }
+            }}
+             type="checkbox" name="shopping_mall" value={mall} />shopping_mall</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setHospital("yes")
+                } else {
+                  
+                  setHospital("no")
+            
+                }
+            }}
+             type="checkbox" name="hospital" value={hospital} />hospital</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setSchool("yes")
+                } else {
+                  
+                  setSchool("no")
+            
+                }
+            }}
+             type="checkbox" name="school" value={school} />school</p>
+            <p><input 
+            onChange={(event)=>{
+               if (event.target.checked) {
+      
+            
+                  setMarket("yes")
+                } else {
+                  
+                  setMarket("no")
+            
+                }
+            }}
+             type="checkbox" name="market_area" value={market} />market area</p>
          </div>
       </div>
-      <div class="box">
-         <img src="uploaded_files/<?= $fetch_property['image_01']; ?>" class="image" alt=""/>
-         <p>update image 01</p>
-         <input type="file" name="image_01" class="input" accept="image/*"/>
+      {/* <div className="box">
+         <p>image 01 <span>*</span></p>
+         <input type="file" name="image_01" className="input" accept="image/*" required/>
       </div>
-      <div class="flex"> 
-         <div class="box">
-            <img src="uploaded_files/<?= $fetch_property['image_02']; ?>" class="image" alt=""/>
-            <input type="submit" value="delete image 02" name="delete_image_02" class="inline-btn" onclick="return confirm('delete image 02');"/>
-            <p>update image 02</p>
-            <input type="file" name="image_02" class="input" accept="image/*"/>
+      <div className="flex"> 
+         <div className="box">
+            <p>image 02</p>
+            <input type="file" name="image_02" className="input" accept="image/*"/>
          </div>
-         <div class="box">
-            {/* <?php if(!empty($fetch_property['image_03'])){ ?> */}
-            <img src="uploaded_files/<?= $fetch_property['image_03']; ?>" class="image" alt=""/>
-            <input type="submit" value="delete image 03" name="delete_image_03" class="inline-btn" onclick="return confirm('delete image 03');"/>
-            {/* <?php } ?> */}
-            <p>update image 03</p>
-            <input type="file" name="image_03" class="input" accept="image/*"/>
+         <div className="box">
+            <p>image 03</p>
+            <input type="file" name="image_03" className="input" accept="image/*"/>
          </div>
-         <div class="box">
-            {/* <?php if(!empty($fetch_property['image_04'])){ ?> */}
-            <img src="uploaded_files/<?= $fetch_property['image_04']; ?>" class="image" alt=""/>
-            <input type="submit" value="delete image 04" name="delete_image_04" class="inline-btn" onclick="return confirm('delete image 04');"/>
-            {/* <?php } ?> */}
-            <p>update image 04</p>
-            <input type="file" name="image_04" class="input" accept="image/*"/>
+         <div className="box">
+            <p>image 04</p>
+            <input type="file" name="image_04" className="input" accept="image/*"/>
          </div>
-         <div class="box">
-            {/* <?php if(!empty($fetch_property['image_05'])){ ?> */}
-            <img src="uploaded_files/<?= $fetch_property['image_05']; ?>" class="image" alt=""/>
-            <input type="submit" value="delete image 05" name="delete_image_05" class="inline-btn" onclick="return confirm('delete image 05');"/>
-            {/* <?php } ?> */}
-            <p>update image 05</p>
-            <input type="file" name="image_05" class="input" accept="image/*"/>
+         <div className="box">
+            <p>image 05</p>
+            <input type="file" name="image_05" className="input" accept="image/*"/>
          </div>   
-      </div>
-      <input type="submit" value="update property" class="btn" name="update"/>
+      </div> */}
+      <input type="submit" value="post property" className="btn" name="post"/>
    </form>
+   <ToastContainer/>
 
 </section>
   )

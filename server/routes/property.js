@@ -25,10 +25,10 @@ router.post("/pendingpayment", pendingPayment);
 router.get("/:id", getProperty);
 router.get("/getsaved/:id", getPropertiesSaved);
 router.get("/findsaved/:id", findifSaved);
-router.post("/", addProperty);
+router.post("/addproperty", addProperty);
 router.delete("/:id", deleteProperty);
 router.delete("/deletesaved/:id", deleteSaved);
-router.put("/:id", updateProperty);
+router.put("/updateproperty/:id", updateProperty);
 router.put("/updateValuated/:id", updateValuated);
 
 export default router;

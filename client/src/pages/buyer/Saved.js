@@ -29,6 +29,11 @@ const Saved = () => {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = properties.slice(firstPostIndex, lastPostIndex);
+  if(loggedIn && properties.length==0){
+    return(
+      <h2 className="text-center">No Properties Saved</h2>
+    )
+  }
   
   return (
     <>
@@ -44,7 +49,6 @@ const Saved = () => {
     </div>
   ):(<div>Please Log In to View / Save Items</div>)}
     </>
-    // <div>Saved</div>
   )
 }
 
