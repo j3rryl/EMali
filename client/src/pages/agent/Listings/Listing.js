@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from 'react-router-dom'
 
-const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, beginSearch,endSearch }) => {
+const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, transfer,terminateTransfer,completeTransfer }) => {
   const [inIndex, setInIndex] = useState(false);
 
   const location=useLocation()
@@ -35,12 +35,12 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
           <h2><FontAwesomeIcon className='faicons' icon={faTrowel} />{propertystatus}</h2>
           <h2><FontAwesomeIcon className='faicons' icon={faCouch} />{furnished}</h2>
           </div>
+          {transfer?transfer=="no"?<button onClick={completeTransfer} className=' vbutton'>Complete Transfer</button>
+          :<button onClick={terminateTransfer} className=' vbutton '>Terminate Transfer</button>
+          :null}
+
           <div className='flex align-middle justify-between'>
-            <button className='vbutton '  onClick={beginSearch}>Begin Search</button>
-            <button className='vbutton ' onClick={endSearch} >End Search</button>
-          </div>
-          <div className='flex align-middle justify-between'>
-            <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
+            <button className=' vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
             <h2 className={valuated=='Approved'?'!text-green-500':valuated=='Declined'?'!text-red-600':'!text-yellow-400'}>
             {valuated}</h2>
 

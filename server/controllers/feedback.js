@@ -27,3 +27,21 @@ export const getFeedback = (req, res) => {
       return res.status(200).json(data);
     });
   };
+
+  export const returnFeedback = (req, res) => {
+    const enquiry_id=req.body.enquiry_id
+    const message=req.body.f_message
+
+    db.query(
+        "INSERT INTO feedback (enquiry_id,f_message) VALUES (?,?)",
+        [enquiry_id, message],
+        (err, result)=>{
+          if(err){
+            return res.status(500).send(err);
+          }
+          else {
+            return res.status(200).json("success");
+          }
+        }
+      )
+  };

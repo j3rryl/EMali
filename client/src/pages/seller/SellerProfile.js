@@ -39,7 +39,7 @@ const SellerProfile = () => {
             }).then((response)=>{
               if(response.data=="success"){
                   setTimeout(()=>{
-                      window.location.assign("/authuser/valuer")
+                      window.location.assign("/seller/home")
                   },1700)
                 toast.success("Updated Successfully.")
               } else {

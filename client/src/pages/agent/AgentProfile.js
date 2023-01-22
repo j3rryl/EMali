@@ -38,7 +38,7 @@ const AgentProfile = () => {
               }).then((response)=>{
                 if(response.data=="success"){
                     setTimeout(()=>{
-                        window.location.assign("/authuser/valuer")
+                        window.location.assign("/authuser/agent")
                     },1700)
                   toast.success("Updated Successfully.")
                 } else {

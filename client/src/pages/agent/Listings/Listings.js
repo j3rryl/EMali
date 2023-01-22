@@ -7,28 +7,32 @@ import Listing from './Listing'
 
 const Listings = ({properties}) => {
   
-  function beginSearch(property_id){
+  function completeTransfer(process_id){
     try{
-      axios.put(`http://localhost:3001/api/property/updatedeclined/${property_id}`,{
+      axios.put(`http://localhost:3001/api/property/updatetransfer/${process_id}`,{
+        transfer:'yes',
     })
     setTimeout(()=>{
       window.location.reload()
     },1800)
     
-    toast.success("Property Declined.")
+    toast.success("Transfer Complete.")
     } catch (err){
       toast.error("Error.")
     }
   }
-  function endSearch(property_id){
+  function terminateTransfer(process_id){
     try{
-      axios.put(`http://localhost:3001/api/property/updateapproved/${property_id}`,{
+      axios.put(`http://localhost:3001/api/property/updatetransfer/${process_id}`,{
+        transfer:'no',
+    }).then((response)=>{
+      console.log(response.data)
     })
     setTimeout(()=>{
       window.location.reload()
     },1800)
     
-    toast.success("Property Approved.")
+    toast.success("Transfer Cancelled.")
     } catch (err){
       toast.error("Error.")
     }
@@ -38,6 +42,7 @@ const Listings = ({properties}) => {
       {properties.map((property, index) => {
           return (
               <Listing
+                  transfer={property.transfer}
                   key={index}
                   property_id={property.property_id}
                   image={property.image_01}
@@ -49,8 +54,8 @@ const Listings = ({properties}) => {
                   offer={property.offer}
                   propertystatus={property.status}
                   furnished={property.furnished}
-                  beginSearch={()=>beginSearch(property.property_id)}
-                  endSearch={()=>endSearch(property.property_id)}
+                  completeTransfer={()=>completeTransfer(property.process_id)}
+                  terminateTransfer={()=>terminateTransfer(property.process_id)}
 
               />
           );

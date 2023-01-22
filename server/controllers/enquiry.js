@@ -16,8 +16,6 @@ export const getEnquiry = (req, res) => {
     const property_id=req.body.property_id
     const message=req.body.message
 
-
-
     db.query(
         "INSERT INTO enquiry (user_id,property_id,e_message) VALUES (?,?,?)",
         [user_id, property_id, message],

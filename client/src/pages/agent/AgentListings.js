@@ -17,6 +17,7 @@ const AgentListings = () => {
             console.log(response.data)
             setProperties(response.data)
         }
+        
         fetchData()
     }, []);
 

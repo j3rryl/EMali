@@ -1,10 +1,86 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import '../../../assets/css/listings.css'
 import Chat from './Chat'
 
 const Chats = ({enquiries}) => {
+    const location = useLocation()
+   const thePath = location.pathname
+   const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+   const enquiry_id  = window.localStorage.getItem("enquiry_id")
+   const property_id  = window.localStorage.getItem("propertyID")
+
+    const [inquiry, sendInquiry] = useState('')
+
+    function loginUser(inquiry){
+        sendInquiry(inquiry)
+    }
+    useEffect(()=>{
+      const abortCont=new AbortController();
+      loginUser(inquiry,{signal:abortCont.signal})
+      return()=>{
+        abortCont.abort()
+      }
+    },[inquiry])
+    function beginSearch(){
+        try{
+            axios.post("http://localhost:3001/api/property/startprocess",{
+            user_id:lastItem,
+            property_id:property_id
+          }).then((response)=>{
+            if(response.data=="exists"){
+                  toast.warn("Search has already been initiated.")
+              } else if(response.data=="success"){
+                  toast.success("Search process has began.")
+              }
+          })
+          
+          } catch (err){
+            toast.error("Error.")
+          }
+    }
+    function endSearch(){
+        try{
+            axios.delete(`http://localhost:3001/api/property/deleteprocess/${lastItem}`,{
+                params:{
+                    property_id:property_id
+                }
+          }).then((response)=>{
+            if(response.data=="success"){
+                toast.success("Search process terminated.")
+            }
+
+          })
+          } catch (err){
+            toast.error("Error.")
+          }
+
+    }
+    function onSubmit(e){
+        e.preventDefault()
+        try{
+          axios.post("http://localhost:3001/api/feedback/returnfeedback",{
+          f_message:inquiry,
+          enquiry_id:enquiry_id
+        }).then((response)=>{
+          if(response.data=="success"){
+            setTimeout(()=>{
+                window.location.reload()
+            },1400)
+            toast.success("Feedback Successful.")
+          } else {
+            toast.error("Feedback Unsuccessful.")
+          }
+        })
+          
+        } catch (err){
+          toast.error("Feedback Unsuccessful.")
+        }
+        
+        
+      }
       return (
         <>
         <h2 className=' text-center text-2xl mb-8'>Send Feedback</h2>
@@ -30,13 +106,20 @@ const Chats = ({enquiries}) => {
           })}
           <ToastContainer />
             </div>
+            <form onSubmit={onSubmit}>
             <div className=' !m-auto flex justify-evenly !mt-12 login-form-control-container'>
-            <input className='!w-96'
+            <input value={inquiry}
+              onChange={(e)=>sendInquiry(e.target.value)}
+             className='!w-96'
             placeholder="Send feedback"
             type="text" name='text'/>
-            
             <input type="submit" value="Send" name='login-btn' className='login-btn'/>
             </div>
+            </form>
+            <div className='flex align-middle justify-between'>
+            <button className='inline-btn vbutton '  onClick={beginSearch}>Begin Search</button>
+            <button className='inline-btn vbutton ' onClick={endSearch} >End Search</button>
+          </div>
 
             </>
       )

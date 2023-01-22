@@ -16,6 +16,7 @@ const MessageCard = ({ image, e_message, first_name, last_name, property_id,name
     const openMessage=(property_id)=>{
         window.location.assign(`/authuser/agent/userenquiries/${user_id}`)
         window.localStorage.setItem("propertyID",property_id)
+        window.localStorage.setItem("enquiry_id",enquiry_id)
     }
     return (
     

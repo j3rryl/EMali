@@ -84,6 +84,32 @@ export const saveProperty = (req, res) => {
 
 };
 
+export const saveProcess = (req, res) => {
+  const user_id=req.body.user_id
+  const property_id=req.body.property_id
+
+    const q = "SELECT * FROM process WHERE user_id = ? AND property_id=?";
+  
+    db.query(q, [user_id,property_id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.length) return res.json("exists");
+      db.query(
+        "INSERT INTO process (property_id,user_id) VALUES (?,?)",
+        [property_id, user_id],
+        (err, result)=>{
+          if(err){
+            return res.status(500).json(err);
+          }
+          else {
+            return res.status(200).json("success");
+          }
+        }
+      )
+    })
+
+  
+};
+
 export const getPropertiesSaved = (req, res) => {
   db.query("SELECT * FROM property LEFT JOIN saved ON property.property_id = saved.property_id WHERE saved.user_id = ?",
   [req.params.id],(err,data)=>{
@@ -104,9 +130,28 @@ export const findifSaved = (req, res) => {
   })
 };
 
+export const getProcess = (req, res) => {
+
+  db.query("SELECT * FROM process LEFT JOIN property ON process.property_id = property.property_id",
+  (err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
 export const updateValuated = (req, res) => {
   db.query("UPDATE property SET valuated='Pending Approval' WHERE property_id = ?",
   [req.params.id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
+export const updateTransfer = (req, res) => {
+  const transfer = req.body.transfer
+  const process_id=req.params.id
+  db.query("UPDATE process SET transfer=? WHERE process_id = ?",
+  [transfer,process_id],(err,data)=>{
     if(err) res.json(err)
     return res.json(data)
   })
@@ -201,6 +246,20 @@ export const deleteProperty = (req, res) => {
       return res.json("success");
     });
   
+};
+
+export const deleteProcess = (req, res) => {
+
+  const user_id = req.params.id;
+  const property_id=req.query.property_id
+  const q = "DELETE FROM process WHERE `property_id` = ? AND user_id=?";
+
+  db.query(q, [property_id,user_id], (err, data) => {
+    if (err) return res.status(403).json("Error Deleting Post!");
+
+    return res.json("success");
+  });
+
 };
 
 
