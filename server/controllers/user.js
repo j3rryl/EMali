@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import bcrypt from "bcryptjs";
 
 export const getUsers = (req, res) => {
 
@@ -71,14 +72,17 @@ export const deleteUser= (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-    const postId = req.params.id;
+    const userId = req.params.id;
+
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(req.body.password, salt);
     const q =
-      "UPDATE users SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `user_id` = ? ";
+      "UPDATE users SET `first_name`=?,`last_name`=?,`email`=?,`password`=? WHERE `user_id` = ? ";
 
-    const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
+    const values = [req.body.first, req.body.last, req.body.email, hash];
 
-    db.query(q, [...values, postId, userInfo.id], (err, data) => {
+    db.query(q, [...values, userId], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.json("User has been updated.");
+      return res.json("success");
     });
 };

@@ -4,15 +4,14 @@ import axios from "axios";
 import Listings from "./Listings/Listings";
 import Pagination from "./Listings/Pagination";
 
-const SellerHome = () => {
+const Home = () => {
   const [properties, setProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(12);
     useEffect(() => {
         async function fetchData(){
-            const  response =  await axios.post(
-                "http://localhost:3001/api/property/pendingpayment",{
-                    user_id:window.localStorage.getItem("seller"),
+            const  response =  await axios.get(
+                "http://localhost:3001/api/property/pendingapproval",{
                 }
             );
             console.log(response.data)
@@ -38,4 +37,4 @@ const SellerHome = () => {
     );
 }
 
-export default SellerHome
+export default Home

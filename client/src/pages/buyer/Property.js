@@ -21,7 +21,7 @@ const Property = () => {
    const [inquiry, setInquiry] = useState()
    const [feedback, setFeedback] = useState([])
 
-   const user_id = window.localStorage.getItem("token")
+   const user_id = window.localStorage.getItem("buyer")
    const location = useLocation()
    const thePath = location.pathname
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
@@ -29,7 +29,7 @@ const Property = () => {
     useEffect(() => {
       async function fetchUserData(){
          const  response =  await axios.get(
-             `http://localhost:3001/api/user/${user_id}`
+             `http://localhost:3001/api/user/getuser/${user_id}`
          );
          // console.log(response.data)
          setUserData(response.data);
@@ -45,10 +45,11 @@ const Property = () => {
 
      async function fetchFeedback(){
       const  response =  await axios.get(
-          `http://localhost:3001/api/feedback/${user_id}`,{
+          `http://localhost:3001/api/feedback/getfeedback/${user_id}`,{
                property_id:property.property_id,
           }
       )
+      console.log(response.data)
       setFeedback(response.data)
   }
         async function fetchData(){
@@ -93,7 +94,7 @@ const Property = () => {
 
    const saveProperty=(property_id)=>{
       if(!user_id){
-         toast.warning("Sign In to send inquiries.")
+         toast.warning("Sign In to Save Properties.")
       } else {
          if(saved=="nothing"){
             try{
@@ -217,6 +218,7 @@ const Property = () => {
 
       </div>
       <div className='flex justify-between'>
+         
          {feedback?<h2>{feedback.f_message}</h2>:<h2>No feedback yet.</h2>}
       </div>
       <div className='flex justify-between'>

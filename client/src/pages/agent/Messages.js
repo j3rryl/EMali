@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import Listings from "./Listings/Listings";
-import Pagination from "./Listings/Pagination";
+import MessageCards from "./Message/MessageCards";
+import Pagination from "./Message/Pagination";
 
-const SellerHome = () => {
-  const [properties, setProperties] = useState([]);
+const Messages = () => {
+    const [properties, setProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(12);
     useEffect(() => {
         async function fetchData(){
-            const  response =  await axios.post(
-                "http://localhost:3001/api/property/pendingpayment",{
-                    user_id:window.localStorage.getItem("seller"),
+            const  response =  await axios.get(
+                "http://localhost:3001/api/enquiry/groupbyproperties",{
                 }
             );
             console.log(response.data)
@@ -27,7 +26,7 @@ const SellerHome = () => {
 
     return (
         <div className='app'>
-            <Listings properties={currentPosts} />
+            <MessageCards properties={currentPosts} />
             <Pagination
                 totalPosts={properties.length}
                 postsPerPage={postsPerPage}
@@ -38,4 +37,4 @@ const SellerHome = () => {
     );
 }
 
-export default SellerHome
+export default Messages

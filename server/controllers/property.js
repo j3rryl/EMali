@@ -47,6 +47,24 @@ export const pendingPayment = (req, res) => {
   })
 };
 
+export const pendingApproval = (req, res) => {
+  const user_id=req.body.user_id
+  db.query("SELECT * FROM property WHERE valuated = 'Pending Approval'",
+  [user_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
+export const pendingApprovalOrApproved = (req, res) => {
+  const user_id=req.body.user_id
+  db.query("SELECT * FROM property ",
+  [user_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
 export const saveProperty = (req, res) => {
   const user_id=req.body.user_id
   const property_id=req.body.property_id
@@ -88,6 +106,22 @@ export const findifSaved = (req, res) => {
 
 export const updateValuated = (req, res) => {
   db.query("UPDATE property SET valuated='Pending Approval' WHERE property_id = ?",
+  [req.params.id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
+export const updateApproved = (req, res) => {
+  db.query("UPDATE property SET valuated='Approved' WHERE property_id = ?",
+  [req.params.id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
+export const updateDeclined = (req, res) => {
+  db.query("UPDATE property SET valuated='Declined' WHERE property_id = ?",
   [req.params.id],(err,data)=>{
     if(err) res.json(err)
     return res.json(data)
@@ -159,12 +193,12 @@ export const addProperty = (req, res) => {
 export const deleteProperty = (req, res) => {
 
     const postId = req.params.id;
-    const q = "DELETE FROM property WHERE `id` = ?";
+    const q = "DELETE FROM property WHERE `property_id` = ?";
 
-    db.query(q, [postId, userInfo.id], (err, data) => {
-      if (err) return res.status(403).json("You can delete only your post!");
+    db.query(q, [postId], (err, data) => {
+      if (err) return res.status(403).json("Error Deleting Post!");
 
-      return res.json("Post has been deleted!");
+      return res.json("success");
     });
   
 };
@@ -199,7 +233,7 @@ export const deleteSaved = (req, res) => {
 export const updateProperty = (req, res) => {
   const property_id = req.params.id;
 
-  db.query("UPDATE property SET user_id = ?, property_name= ?, address= ?,price= ?, type= ?,offer= ?,status= ?,furnished= ?,carpet_area= ?,age= ?,total_floors= ?,deposite= ?,bedroom= ?,bathroom= ?,balcony= ?, lift= ?, security_guard= ?,play_ground= ?,garden= ?,water_supply= ?,power_backup= ?,parking_area= ?,gym= ?,shopping_mall= ?,hospital= ?,school= ?,market_area= ?,description= ? WHERE property_id=?", 
+  db.query("UPDATE property SET `user_id`=?, `property_name`=?, `address`=?,`price`=?, `type`=?,`offer`=?,`status`=?,`furnished`=?,`carpet_area`=?,`age`=?,`total_floors`=?,`deposite`=?,`bedroom`=?,`bathroom`=?,`balcony`=?, `lift`=?, `security_guard`=?,`play_ground`=?,`garden`=?,`water_supply`=?,`power_backup`=?,`parking_area`=?,`gym`=?,`shopping_mall`=?,`hospital`=?,`school`=?,`market_area`=?,`description`=? WHERE `property_id`=?", 
   [
     req.body.user_id,
     req.body.property_name,
@@ -217,7 +251,6 @@ export const updateProperty = (req, res) => {
     req.body.bathroom,
     req.body.balcony,
     req.body.lift,
-    
     req.body.guard,
     req.body.play,
     req.body.garden,
@@ -229,7 +262,6 @@ export const updateProperty = (req, res) => {
     req.body.hospital,
     req.body.school,
     req.body.market,
-
     req.body.description,
     property_id
   ], (err, data) => {

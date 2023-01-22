@@ -39,3 +39,30 @@ export const getEnquiry = (req, res) => {
       return res.status(200).json(data);
     });
   };
+
+  export const getGroupByUsers = (req, res) => {
+    db.query("SELECT * FROM enquiry GROUP BY user_id", [req.query.cat], (err, data) => {
+        if (err) return res.status(500).send(err);
+    
+        return res.status(200).json(data);
+      });
+  };
+
+  export const getEnquiriesBy = (req, res) => {
+    const user_id=req.query.user_id
+    const property_id=req.query.property_id
+    db.query("SELECT * FROM enquiry LEFT JOIN feedback ON enquiry.enquiry_id=feedback.feedback_id WHERE enquiry.user_id=? AND enquiry.property_id=?", 
+    [user_id,property_id], (err, data) => {
+      if (err) return res.status(500).send(err);
+  
+      return res.status(200).json(data);
+    });
+  };
+
+  export const getGroupByProperties = (req, res) => {
+    db.query("SELECT * FROM enquiry LEFT JOIN property ON enquiry.property_id=property.property_id LEFT JOIN users ON enquiry.user_id=users.user_id GROUP BY enquiry.property_id", [req.query.cat], (err, data) => {
+      if (err) return res.status(500).send(err);
+  
+      return res.status(200).json(data);
+    });
+  };

@@ -7,15 +7,28 @@ import Listing from './Listing'
 
 const Listings = ({properties}) => {
   
-  function deleteProperty(property_id){
+  function declineProperty(property_id){
     try{
-      axios.delete(`http://localhost:3001/api/property/deleteproperty/${property_id}`,{
+      axios.put(`http://localhost:3001/api/property/updatedeclined/${property_id}`,{
     })
     setTimeout(()=>{
       window.location.reload()
     },1800)
     
-    toast.success("Property Deleted.")
+    toast.success("Property Declined.")
+    } catch (err){
+      toast.error("Error.")
+    }
+  }
+  function approveProperty(property_id){
+    try{
+      axios.put(`http://localhost:3001/api/property/updateapproved/${property_id}`,{
+    })
+    setTimeout(()=>{
+      window.location.reload()
+    },1800)
+    
+    toast.success("Property Approved.")
     } catch (err){
       toast.error("Error.")
     }
@@ -36,7 +49,9 @@ const Listings = ({properties}) => {
                   offer={property.offer}
                   propertystatus={property.status}
                   furnished={property.furnished}
-                  deleteProperty={()=>deleteProperty(property.property_id)}
+                  declineProperty={()=>declineProperty(property.property_id)}
+                  approveProperty={()=>approveProperty(property.property_id)}
+
               />
           );
       })}

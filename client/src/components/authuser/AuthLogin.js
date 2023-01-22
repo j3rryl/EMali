@@ -5,7 +5,7 @@ import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/login.css'
 
-const Login = () => {
+const AuthLogin = () => {
   const [isReadonly, setIsReadonly] = useState(true);
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
@@ -34,18 +34,29 @@ const Login = () => {
         toast.success("Login Successful.")
 
       window.localStorage.setItem("role", response.data.user_role)
-      if(response.data.user_role==2){
-        window.localStorage.setItem("buyerLoggedIn", true)
-        window.localStorage.setItem("buyer", response.data.user_id)
+      if(response.data.user_role==1){
+        window.localStorage.setItem("admin", response.data.user_id)
+        window.localStorage.setItem("adminLoggedIn", true)
+
         setTimeout(()=>{
-          window.location.replace("/home")
+          window.location.replace("/authuser/admin")
         },2000)
         
-      } else if(response.data.user_role==3) {
-        window.localStorage.setItem("sellerLoggedIn", true)
-        window.localStorage.setItem("seller", response.data.user_id)
+      } else if(response.data.user_role==4) {
+        window.localStorage.setItem("agentLoggedIn", true)
+
+        window.localStorage.setItem("agent", response.data.user_id)
+
         setTimeout(()=>{
-          window.location.replace("/seller/home")
+          window.location.replace("/authuser/agent")
+        },2000)
+      } else if(response.data.user_role==5) {
+        window.localStorage.setItem("valuerLoggedIn", true)
+
+        window.localStorage.setItem("valuer", response.data.user_id)
+
+        setTimeout(()=>{
+          window.location.replace("/authuser/valuer")
         },2000)
       }
       console.log(response.data)
@@ -91,4 +102,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default AuthLogin

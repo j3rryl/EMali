@@ -6,14 +6,14 @@ import Pagination from "./Pagination";
 
 const Saved = () => {
   
-  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("isLoggedIn"))
+  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("buyerLoggedIn"))
   useEffect(()=>{
     setLoggedIn(loggedIn)
   },[loggedIn])
   const [properties, setProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
-  const user_id = window.localStorage.getItem("token")
+  const user_id = window.localStorage.getItem("buyer")
 
   useEffect(() => {
       async function fetchData(){

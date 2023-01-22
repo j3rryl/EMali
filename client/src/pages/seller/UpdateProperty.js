@@ -5,11 +5,11 @@ import { toast, ToastContainer } from 'react-toastify'
 import '../../assets/css/style.css'
 
 const UpdateProperty = () => {
-   const user_id=window.localStorage.getItem("token")
+   const user_id=window.localStorage.getItem("seller")
    const [property_name, setPropertyName]=useState('')
-   const [property_price, setPrice]=useState('')
-   const [property_deposit, setDeposit]=useState('')
-   const [property_address, setAddress]=useState('')
+   const [property_price, setPrice]=useState()
+   const [property_deposit, setDeposit]=useState()
+   const [property_address, setAddress]=useState()
    const [property_offer, setOffer]=useState('sale')
    const [property_type, setType]=useState('house')
 
@@ -18,10 +18,10 @@ const UpdateProperty = () => {
    const [property_bedrooms, setBedrooms]=useState(1)
    const [property_bathrooms, setBathrooms]=useState(1)
    const [property_balconys, setBalconys]=useState(1)
-   const [property_carpet, setCarpet]=useState('')
+   const [property_carpet, setCarpet]=useState()
 
-   const [property_totalfloors, setTotalFloors]=useState('')
-   const [property_age, setAge]=useState('')
+   const [property_totalfloors, setTotalFloors]=useState()
+   const [property_age, setAge]=useState()
    const [property_description, setDescription]=useState('')
 
    const [lift,setLift]=useState('no')
@@ -43,68 +43,112 @@ const UpdateProperty = () => {
    const thePath = location.pathname
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
 
+const updateProperties = async()=>{
+   try{
+      axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
+         user_id: user_id,
+         property_name: property_name,
+         address:property_address,
+         price:property_price,
+         type:property_type,
+         offer:property_offer,
+         prop_status:property_status ,
+         furnished:property_furnished,
+         carpet_area:property_carpet,
+         age:property_age,
+         total_floors:property_totalfloors,
+         deposite:property_deposit,
+         bedroom:property_bedrooms ,
+         bathroom:property_bathrooms,
+         balcony:property_balconys,
+         lift:lift,
+         guard:guard,
+         play:play,
+         garden:garden,
+         water:water,
+         backup:backup,
+         park:park,
+         gym:gym,
+         mall:mall,
+         hospital:hospital,
+         school:school,
+         market:market,
+         description: property_description,
+         
+      
+    }).then((response)=>{
+      if(response.data=="success"){
+        toast.success("Property Updated Seccessfully.")
+        setTimeout(()=>{
+         window.location.assign("/seller/mylistings")
+        },1500)
+      } else {
+         toast.error("Property Update Unsuccessful.")
 
+      }
+    })
+      
+    } catch (err){
+    }
+}
 
    function onSubmit(e){
       e.preventDefault()
-      try{
-         axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
-            user_id: user_id,
-            property_name: property_name,
-            address:property_address,
-            price:property_price,
-            type:property_type,
-            offer:property_offer,
-            prop_status:property_status ,
-            furnished:property_furnished,
-            carpet_area:property_carpet,
-            age:property_age,
-            total_floors:property_totalfloors,
-            deposite:property_deposit,
-            bedroom:property_bedrooms ,
-            bathroom:property_bathrooms,
-            balcony:property_balconys,
-            lift:lift,
-            guard:guard,
-            play:play,
-            garden:garden,
-            water:water,
-            backup:backup,
-            park:park,
-            gym:gym,
-            mall:mall,
-            hospital:hospital,
-            school:school,
-            market:market,
-            description: property_description,
-            
-         
-       }).then((response)=>{
-         if(response.data=="success"){
-           toast.success("Property Updated Seccessfully.")
-           setTimeout(()=>{
-            window.location.assign("/seller/mylistings")
-           },1500)
-         } else {
-            toast.error("Propert Update Unsuccessful.")
-
-         }
-       })
-         
-       } catch (err){
-       }
+      updateProperties()
    }
 
+   function fetchProperty(){
+      fetch( `http://localhost:3001/api/property/${lastItem}`).then((result)=>{
+         result.json().then((resp)=>{
+            console.log(resp)
+         setProperty(resp);
+         setPropertyName(resp.property_name)
+        setPrice(resp.price)
+        setDeposit(resp.deposite)
+        setAddress(resp.address)
+        setOffer(resp.offer)
+        setType(resp.type)
+     
+        setStatus(resp.status)
+        setFurnished(resp.furnished)
+        setBedrooms(resp.bedroom)
+        setBathrooms(resp.bathroom)
+        setBalconys(resp.balcony)
+        setCarpet(resp.carpet_area)
+     
+        setTotalFloors(resp.total_floors)
+        setAge(resp.age)
+        setDescription(resp.description)
+
+      // setLift(resp.lift)
+      // setGuard(resp.security_guard)
+      // setPlay(resp.play_ground)
+      // setGarden(resp.garden)
+      // setWater(resp.water_supply)
+      // setBackup(resp.power_backup)
+     
+      // setPark(resp.parking_area)
+      // setGym(resp.gym)
+      // setMall(resp.shopping_mall)
+      // setHospital(resp.hospital)
+      // setSchool(resp.school)
+      // setMarket(resp.market_area)
+         })
+      })
+   }
+   useEffect(()=>{
+      fetchProperty()
+   },[])
    useEffect(() => {
         async function fetchData(){
             const  response =  await axios.get(
                 `http://localhost:3001/api/property/${lastItem}`
             );
-            // console.log(response.data)
-            setProperty(response.data);
+
         }
         fetchData()
     }, []);
+    
 
 
   return (
@@ -120,12 +164,12 @@ const UpdateProperty = () => {
          <div className="box">
             <p>property price <span>*</span></p>
             <input defaultValue={property.price} onChange={(e)=>setPrice(e.target.value)}
-             type="number" name="price" required min="0" max="9999999999" maxLength="10" placeholder={property.price} className="input"/>
+             type="number" name="price" required min="1" max="9999999999" maxLength="10" placeholder={property.price} className="input"/>
          </div>
          <div className="box">
             <p>deposit amount <span>*</span></p>
             <input defaultValue={property.deposite} onChange={(e)=>setDeposit(e.target.value)}
-             type="number" name="deposit" required min="0" max="9999999999" maxLength="10" placeholder={property.deposite} className="input"/>
+             type="number" name="deposit" required min="1" max="9999999999" maxLength="10" placeholder={property.deposite} className="input"/>
          </div>
          <div className="box">
             <p>property address <span>*</span></p>
@@ -226,7 +270,7 @@ const UpdateProperty = () => {
          <div className="box">
             <p>total floors <span>*</span></p>
             <input defaultValue={property.total_floors} onChange={(e)=>setTotalFloors(e.target.value)}
-             type="number" name="total_floors" required min="0" max="99" maxLength="2" placeholder={`${property.total_floors} floors`} className="input"/>
+             type="number" name="total_floors" required min="1" max="99" maxLength="2" placeholder={`${property.total_floors} floors`} className="input"/>
          </div>
          
       </div>
@@ -418,7 +462,7 @@ const UpdateProperty = () => {
             <input type="file" name="image_05" className="input" accept="image/*"/>
          </div>   
       </div> */}
-      <input type="submit" value="post property" className="btn" name="post"/>
+      <input type="submit" value="Update Property" className="btn" name="post"/>
    </form>
    <ToastContainer/>
 

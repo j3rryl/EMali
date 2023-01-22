@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import '../../assets/css/navbar.css'
 
 const Navbar = () => {
-  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("isLoggedIn"))
+  const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("buyerLoggedIn"))
   const [inIndex, setInIndex] = useState(false);
     const location=useLocation()
     useEffect(() => {
@@ -14,9 +14,9 @@ const Navbar = () => {
     }, [location.pathname, inIndex]);
   // const loggedIn = window.localStorage.getItem("isLoggedIn")
   const logout = ()=>{
-    window.localStorage.removeItem("token")
+    window.localStorage.removeItem("buyer")
     window.localStorage.removeItem("role")
-    window.localStorage.removeItem("isLoggedIn")
+    window.localStorage.removeItem("buyerLoggedIn")
     window.location.reload()
   }
   useEffect(()=>{

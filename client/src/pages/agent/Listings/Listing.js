@@ -5,9 +5,8 @@ import '../../../assets/css/button.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios'
 
-const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, deleteProperty }) => {
+const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, beginSearch,endSearch }) => {
   const [inIndex, setInIndex] = useState(false);
 
   const location=useLocation()
@@ -17,14 +16,6 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
     }, [location.pathname, inIndex]);
   const openProperty=(property_id)=>{
     window.location.assign(`/property/${property_id}`)
-  }
-  const updateProperty=()=>{
-    window.location.assign(`/seller/updateproperty/${property_id}`)
-  }
-  
-  
-  const payEvaluation=(property_id)=>{
-    window.location.assign(`/seller/payment/${property_id}`)
   }
   return (
   
@@ -45,12 +36,11 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
           <h2><FontAwesomeIcon className='faicons' icon={faCouch} />{furnished}</h2>
           </div>
           <div className='flex align-middle justify-between'>
-            <button className='vbutton '  onClick={updateProperty}>Update</button>
-            <button className='vbutton ' onClick={deleteProperty} >Delete</button>
+            <button className='vbutton '  onClick={beginSearch}>Begin Search</button>
+            <button className='vbutton ' onClick={endSearch} >End Search</button>
           </div>
           <div className='flex align-middle justify-between'>
-            {inIndex?<button className='vbutton text-center' onClick={()=>payEvaluation(property_id)}>Pay Evaluation</button>:
-            <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>}
+            <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
             <h2 className={valuated=='Approved'?'!text-green-500':valuated=='Declined'?'!text-red-600':'!text-yellow-400'}>
             {valuated}</h2>
 

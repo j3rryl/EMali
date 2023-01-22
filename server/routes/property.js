@@ -13,6 +13,10 @@ import {
   getPropertiesSaved,
   findifSaved,
   deleteSaved,
+  pendingApproval,
+  pendingApprovalOrApproved,
+  updateApproved,
+  updateDeclined,
 } from "../controllers/property.js";
 
 const router = express.Router();
@@ -22,13 +26,17 @@ router.get("/approved", getApprovedProperties);
 router.post("/by", getPropertiesByUser);
 router.post("/saveproperty", saveProperty);
 router.post("/pendingpayment", pendingPayment);
+router.get("/pendingapproval", pendingApproval);
+router.get("/pendingapprovalapproved", pendingApprovalOrApproved);
 router.get("/:id", getProperty);
 router.get("/getsaved/:id", getPropertiesSaved);
 router.get("/findsaved/:id", findifSaved);
 router.post("/addproperty", addProperty);
-router.delete("/:id", deleteProperty);
+router.delete("/deleteproperty/:id", deleteProperty);
 router.delete("/deletesaved/:id", deleteSaved);
 router.put("/updateproperty/:id", updateProperty);
 router.put("/updateValuated/:id", updateValuated);
+router.put("/updateapproved/:id", updateApproved);
+router.put("/updatedeclined/:id", updateDeclined);
 
 export default router;

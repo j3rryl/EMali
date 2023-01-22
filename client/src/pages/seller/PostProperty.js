@@ -4,7 +4,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import '../../assets/css/style.css'
 
 const PostProperty = () => {
-   const user_id=window.localStorage.getItem("token")
+   const user_id=window.localStorage.getItem("seller")
    const [property_name, setPropertyName]=useState('')
    const [property_price, setPrice]=useState('')
    const [property_deposit, setDeposit]=useState('')
