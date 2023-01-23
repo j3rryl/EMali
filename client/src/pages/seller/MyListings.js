@@ -12,7 +12,7 @@ const MyListings = () => {
         async function fetchData(){
             const  response =  await axios.post(
                 "http://localhost:3001/api/property/by",{
-                    user_id:window.localStorage.getItem("token"),
+                    user_id:window.localStorage.getItem("seller"),
                 }
             );
             console.log(response.data)

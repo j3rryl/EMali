@@ -5,6 +5,7 @@ import axios from 'axios'
 import { ToastContainer,toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCalendar, faHouse, faTag, faUser, faCheck, faTimes, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import UserEnquiries from './UserEnquiries';
 
 
 
@@ -206,10 +207,12 @@ const Property = () => {
       
       <div className='register-form-control-container w-full'>
         <br/><br/>
-        <textarea onChange={(e)=>setInquiry(e.target.value)} placeholder="Make Inquiry" className="tarea w-full" rows="4" cols="50">
+        <UserEnquiries/>
+        <textarea onChange={(e)=>setInquiry(e.target.value)} placeholder="Make Inquiry" className="mt-12 tarea w-full" rows="4" cols="50">
          </textarea>
         
         </div>
+        
       <div className='flex justify-between'>
          <button onClick={()=>sendInquiry(property.property_id)} className='inline-btn'>Send Inquiry</button>
          <button onClick={()=>saveProperty(property.property_id)} className='inline-btn'>
@@ -217,10 +220,7 @@ const Property = () => {
          </button>
 
       </div>
-      <div className='flex justify-between'>
-         
-         {feedback?<h2>{feedback.f_message}</h2>:<h2>No feedback yet.</h2>}
-      </div>
+      
       <div className='flex justify-between'>
          <button className='inline-btn'>Proceed To Purchase</button>
          <button onClick={makepayment} className='inline-btn'>Terminate Process</button>
