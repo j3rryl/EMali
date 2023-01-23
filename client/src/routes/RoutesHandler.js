@@ -35,10 +35,24 @@ import AgentProfile from '../pages/agent/AgentProfile'
 import MessageCard from '../pages/agent/Message/MessageCard'
 import Messages from '../pages/agent/Messages'
 
+import Contact from '../pages/admin/scenes/contacts'
+
+import Topbar from "../pages/admin/scenes/global/Topbar";
+import Sidebar from "../pages/admin/scenes/global/Sidebar";
+import Dashboard from "../pages/admin/scenes/dashboard";
+import Team from "../pages/admin/scenes/team";
+import Invoices from "../pages/admin/scenes/invoices";
+import Bar from "../pages/admin/scenes/bar";
+import Form from "../pages/admin/scenes/form";
+import Line from "../pages/admin/scenes/line";
+import Pie from "../pages/admin/scenes/pie";
+
+
 
 
 
 const RoutesHandler = () => {
+  const [isSidebar, setIsSidebar] = useState(false);
   const [role,setRole]  = useState(window.localStorage.getItem("role"))
   useEffect(()=>{
     setRole(role)
@@ -51,8 +65,12 @@ const RoutesHandler = () => {
     <>
     {(() => {
       if (role==1) {
+        setIsSidebar(true)
         return (
-          <Navbar/>
+          <>
+          <Topbar/>
+          <Sidebar/>
+          </>
         )
       } else if (role==2) {
           return (
@@ -115,6 +133,16 @@ const RoutesHandler = () => {
       <Route path={`/authuser/agent/profile`} element={<AgentProfile />}/>
       <Route path={`/authuser/agent/userenquiries/${lastItem}`} element={<UserEnquiries />}/>
       {/* <Route path={`/authuser/agent/messages`} element={<Messages />}/> */}
+
+
+      <Route path="/authuser/admin" element={<Dashboard />} />
+      <Route path="/authuser/admin/team" element={<Team />} />
+      <Route path="/authuser/admin/contacts" element={<Contact />} />
+      <Route path="/authuser/admin/invoices" element={<Invoices />} />
+      <Route path="/authuser/admin/form" element={<Form />} />
+      <Route path="/authuser/admin/bar" element={<Bar />} />
+      <Route path="/authuser/admin/pie" element={<Pie />} />
+      <Route path="/authuser/admin/line" element={<Line />} />
 
       <Route path={`/test`} element={<Messages />}/>
     </Routes>

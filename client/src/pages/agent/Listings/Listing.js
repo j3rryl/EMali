@@ -35,9 +35,13 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
           <h2><FontAwesomeIcon className='faicons' icon={faTrowel} />{propertystatus}</h2>
           <h2><FontAwesomeIcon className='faicons' icon={faCouch} />{furnished}</h2>
           </div>
+          <div className='flex justify-between'>
           {transfer?transfer=="no"?<button onClick={completeTransfer} className=' vbutton'>Complete Transfer</button>
           :<button onClick={terminateTransfer} className=' vbutton '>Terminate Transfer</button>
           :null}
+          <h2 className={transfer=='yes'?'!text-green-500':transfer=='no'?'!text-red-600':'!text-yellow-400'}>
+            {transfer}</h2>
+          </div>
 
           <div className='flex align-middle justify-between'>
             <button className=' vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>
