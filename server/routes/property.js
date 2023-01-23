@@ -21,6 +21,7 @@ import {
   deleteProcess,
   getProcess,
   updateTransfer,
+  getUserProcess,
 } from "../controllers/property.js";
 
 const router = express.Router();
@@ -32,6 +33,7 @@ router.post("/saveproperty", saveProperty);
 router.post("/startprocess", saveProcess);
 
 router.get("/getprocess", getProcess);
+router.get("/getprocessby/:id", getUserProcess);
 
 router.put("/updatetransfer/:id", updateTransfer);
 

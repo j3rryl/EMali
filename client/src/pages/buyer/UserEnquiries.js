@@ -22,7 +22,7 @@ const UserEnquiries = () => {
                 "http://localhost:3001/api/enquiry/getenquiriesby",{
                     params:{
                         user_id:lastItem,
-                        property_id:property_id
+                        property_id:lastItem
                     }
                 }
             );
@@ -37,7 +37,7 @@ const UserEnquiries = () => {
     const currentPosts = enquiries.slice(firstPostIndex, lastPostIndex);
 
     return (
-        <div className='app'>
+        <div className='app w-1/2'>
             <Chats enquiries={currentPosts} />
             <Pagination
                 totalPosts={enquiries.length}

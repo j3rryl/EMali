@@ -13,11 +13,18 @@ import UserEnquiries from './UserEnquiries';
 const Property = () => {
    const navigate = useNavigate()
    
-   const makepayment=()=>{
+   const makepurchase=()=>{
+      navigate("/payment")
+   }
+   const proceedpurchase=()=>{
+      navigate("/payment")
+   }
+   const terminatepurchase=()=>{
       navigate("/payment")
    }
    const [property, setProperty] = useState([])
    const [saved, setSaved] = useState([])
+   const [process, setProcess]=useState()
    const [user, setUserData] = useState([])
    const [inquiry, setInquiry] = useState()
    const [feedback, setFeedback] = useState([])
@@ -35,6 +42,15 @@ const Property = () => {
          // console.log(response.data)
          setUserData(response.data);
      }
+     async function fetchProcess(){
+      const  response =  await axios.get(
+          `http://localhost:3001/api/property/getprocessby/${lastItem}`,{
+           
+          }
+      );
+      // console.log(response.data)
+      setProcess(response.data);
+  }
      async function fetchSaved(){
       const  response =  await axios.get(
           `http://localhost:3001/api/property/findsaved/${lastItem}`
@@ -64,6 +80,7 @@ const Property = () => {
         fetchUserData()
         fetchFeedback()
         fetchSaved()
+        fetchProcess()
     }, []);
     function makeEnquiry(inquiry){
       setInquiry(inquiry)
@@ -86,6 +103,9 @@ const Property = () => {
             user_id:user_id,
             property_id:property_id
           })
+          setTimeout(()=>{
+            window.location.reload()
+          },1300)
           toast.success("Enquiry Sent Successfuly.")
           } catch (err){
             toast.error("Enquiry Unsuccessful.")
@@ -207,7 +227,8 @@ const Property = () => {
       
       <div className='register-form-control-container w-full'>
         <br/><br/>
-        <UserEnquiries/>
+        {user_id?<UserEnquiries/>:null}
+        
         <textarea onChange={(e)=>setInquiry(e.target.value)} placeholder="Make Inquiry" className="mt-12 tarea w-full" rows="4" cols="50">
          </textarea>
         
@@ -222,8 +243,13 @@ const Property = () => {
       </div>
       
       <div className='flex justify-between'>
-         <button className='inline-btn'>Proceed To Purchase</button>
-         <button onClick={makepayment} className='inline-btn'>Terminate Process</button>
+         <button onClick={proceedpurchase} className='inline-btn'>Proceed To Purchase</button>
+         <button onClick={terminatepurchase} className='inline-btn'>Terminate Process</button>
+
+      </div>
+
+      <div className='flex justify-evenly'>
+         <button disabled={!process==""?false:true}  onClick={makepurchase} className={`${!process==""?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
 
       </div>
       <ToastContainer />

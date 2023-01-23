@@ -24,40 +24,8 @@ const Chats = ({enquiries}) => {
         abortCont.abort()
       }
     },[inquiry])
-    function beginSearch(){
-        try{
-            axios.post("http://localhost:3001/api/property/startprocess",{
-            user_id:lastItem,
-            property_id:property_id
-          }).then((response)=>{
-            if(response.data=="exists"){
-                  toast.warn("Search has already been initiated.")
-              } else if(response.data=="success"){
-                  toast.success("Search process has began.")
-              }
-          })
-          
-          } catch (err){
-            toast.error("Error.")
-          }
-    }
-    function endSearch(){
-        try{
-            axios.delete(`http://localhost:3001/api/property/deleteprocess/${lastItem}`,{
-                params:{
-                    property_id:property_id
-                }
-          }).then((response)=>{
-            if(response.data=="success"){
-                toast.success("Search process terminated.")
-            }
-
-          })
-          } catch (err){
-            toast.error("Error.")
-          }
-
-    }
+    
+    
     function onSubmit(e){
         e.preventDefault()
         try{
@@ -83,7 +51,7 @@ const Chats = ({enquiries}) => {
       }
       return (
         <>
-        <div className='chat_list'>
+        <div className='chat_lists'>
           {enquiries.map((property, index,getProperty) => {
             
               return (

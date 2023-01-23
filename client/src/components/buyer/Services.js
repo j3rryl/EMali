@@ -16,7 +16,7 @@ const Services = () => {
    <div className="box">
       <img src={icon1} alt=""/>
       <h3>buy property</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
+      <p>Find your place with an immersive photo experience and the most listings, including things you won't  anywhere else.</p>
    </div>
 
    
@@ -24,13 +24,13 @@ const Services = () => {
    <div className="box">
       <img src={icon3} alt=""/>
       <h3>sell property</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
+      <p>No matter what path you take to sell your home, we can help you navigate a successful sale. This is the place to be.</p>
    </div>
 
    <div className="box">
       <img src={icon4} alt=""/>
       <h3>lease property</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
+      <p>Discover a place that checks all of your boxes. Filter your rental search, and find exactly what you're looking for.</p>
    </div>
 
 </div>

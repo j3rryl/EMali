@@ -106,9 +106,9 @@ export const saveProcess = (req, res) => {
         }
       )
     })
-
-  
 };
+
+
 
 export const getPropertiesSaved = (req, res) => {
   db.query("SELECT * FROM property LEFT JOIN saved ON property.property_id = saved.property_id WHERE saved.user_id = ?",
@@ -136,6 +136,16 @@ export const getProcess = (req, res) => {
   (err,data)=>{
     if(err) res.json(err)
     return res.json(data)
+  })
+};
+
+export const getUserProcess = (req, res) => {
+const user_id=req.query.user_id
+const property_id=req.query.property_id
+  db.query("SELECT * FROM process WHERE property_id=?",[req.params.id],
+  (err,data)=>{
+    if(err) res.json(err)
+    return res.json(data[0])
   })
 };
 
