@@ -11,9 +11,25 @@ import feedbackRoutes from "./routes/feedback.js";
 
 import propertyRoutes from "./routes/property.js";
 import cookieParser from "cookie-parser";
-
+import dotenv from "dotenv"
+import striper from "stripe";
 
 const app = express()
+const env = dotenv.config({ path: "./.env" });
+
+const stripe = striper(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-08-01",
+});
+
+// app.use(express.static(process.env.STATIC_DIR));
+
+// app.get("/pay", (req, res) => {
+//   const path = resolve(process.env.STATIC_DIR + "/index.html");
+//   res.sendFile(path);
+// });
+
+
+
 
 app.use(express.json())
 app.use(cookieParser())
@@ -25,6 +41,33 @@ app.use("/api/enquiry", enquiryRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/property", propertyRoutes);
+
+app.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+});
+
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: "EUR",
+      amount: 1999,
+      automatic_payment_methods: { enabled: true },
+    });
+
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+});
 
 
 
