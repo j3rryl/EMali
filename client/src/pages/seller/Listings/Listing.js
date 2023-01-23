@@ -49,9 +49,9 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
             <button className='vbutton ' onClick={deleteProperty} >Delete</button>
           </div>
           <div className='flex align-middle justify-between'>
-            {inIndex?<button className='vbutton text-center' onClick={()=>payEvaluation(property_id)}>Pay Evaluation</button>:
+            {inIndex?<button className='vbutton text-center' onClick={()=>payEvaluation(property_id)}>Pay Valuation</button>:
             <button className='vbutton text-center' onClick={()=>openProperty(property_id)}>View Property</button>}
-            <h2 className={valuated=='Approved'?'!text-green-500':valuated=='Declined'?'!text-red-600':'!text-yellow-400'}>
+            <h2 className={valuated=='Approved'?'!text-green-500 !font-black':valuated=='Declined'?'!text-red-600 !font-black':'!text-yellow-400 !font-black'}>
             {valuated}</h2>
 
           </div>

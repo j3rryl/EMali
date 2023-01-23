@@ -40,25 +40,31 @@ const register =()=>{
 }
 function onSubmit(e){
   e.preventDefault()
-  try{
-    axios.post("http://localhost:3001/api/auth/register",{
-    first:first,
-    last:last,
-    email:email,
-    password:password,
-    role:role
-  }).then((response)=>{
-    if(response.data=="exists"){
-      toast.error("User with email already exists.")
-    } else {
-      toast.success("Registration Successful. Sign In To Continue.")
+  if(password.length>8){
+    try{
+      axios.post("http://localhost:3001/api/auth/register",{
+      first:first,
+      last:last,
+      email:email,
+      password:password,
+      role:role
+    }).then((response)=>{
+      if(response.data=="exists"){
+        toast.error("User with email already exists.")
+      } else {
+        toast.success("Registration Successful. Sign In To Continue.")
+        
+      }
+    })
       
+    } catch (err){
+      toast.error("Registration Unsuccessful.")
     }
-  })
-    
-  } catch (err){
-    toast.error("Registration Unsuccessful.")
+
+  } else {
+    toast.error("Password is too short.")
   }
+  
   
   
 }

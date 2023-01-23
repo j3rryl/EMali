@@ -14,6 +14,7 @@ import propertyRoutes from "./routes/property.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv"
 import striper from "stripe";
+import multer from 'multer'
 
 const app = express()
 const env = dotenv.config({ path: "./.env" });
@@ -22,11 +23,11 @@ const stripe = striper(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
 });
 
-app.use( Express.static(STATIC_DIR + '/'))
-app.get("/", (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + "/index.html");
-  res.sendFile(path);
-});
+// app.use( Express.static(STATIC_DIR + '/'))
+// app.get("/", (req, res) => {
+//   const path = resolve(process.env.STATIC_DIR + "/index.html");
+//   res.sendFile(path);
+// });
 
 
 
@@ -41,6 +42,30 @@ app.use("/api/enquiry", enquiryRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/property", propertyRoutes);
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../client/src/assets/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+// var multiple = upload.fields([{name: 'file1'},{name: 'file2'},{name: 'file3'}])
+
+
+// app.post("/api/upload", multiple, function (req, res) {
+//   const file = req.file;
+//   res.status(200).json(file.filename);
+// });
+app.post("/api/upload", upload.single("file"), function (req, res) {
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
 
 app.get("/config", (req, res) => {
   res.send({

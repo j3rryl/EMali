@@ -6,6 +6,9 @@ import '../../assets/css/style.css'
 
 const UpdateProperty = () => {
    const user_id=window.localStorage.getItem("seller")
+   const [file1, setFile1] = useState(null);
+   const [file2, setFile2] = useState(null);
+   const [file3, setFile3] = useState(null);
    const [property_name, setPropertyName]=useState('')
    const [property_price, setPrice]=useState()
    const [property_deposit, setDeposit]=useState()
@@ -43,58 +46,76 @@ const UpdateProperty = () => {
    const thePath = location.pathname
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
 
-const updateProperties = async()=>{
-   try{
-      axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
-         user_id: user_id,
-         property_name: property_name,
-         address:property_address,
-         price:property_price,
-         type:property_type,
-         offer:property_offer,
-         prop_status:property_status ,
-         furnished:property_furnished,
-         carpet_area:property_carpet,
-         age:property_age,
-         total_floors:property_totalfloors,
-         deposite:property_deposit,
-         bedroom:property_bedrooms ,
-         bathroom:property_bathrooms,
-         balcony:property_balconys,
-         lift:lift,
-         guard:guard,
-         play:play,
-         garden:garden,
-         water:water,
-         backup:backup,
-         park:park,
-         gym:gym,
-         mall:mall,
-         hospital:hospital,
-         school:school,
-         market:market,
-         description: property_description,
-         
-      
-    }).then((response)=>{
-      if(response.data=="success"){
-        toast.success("Property Updated Seccessfully.")
-        setTimeout(()=>{
-         window.location.assign("/seller/mylistings")
-        },1500)
-      } else {
-         toast.error("Property Update Unsuccessful.")
-
+   const upload = async (file) => {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await axios.post("http://localhost:3001/api/upload", formData);
+        return res.data;
+      } catch (err) {
+        console.log(err);
       }
-    })
-      
-    } catch (err){
-    }
+    };
+
+const updateProperties = async()=>{
+   
 }
 
-   function onSubmit(e){
+   async function onSubmit(e){
       e.preventDefault()
-      updateProperties()
+      const imgUrl1 = await upload(file1);
+      const imgUrl2 = await upload(file2);
+      const imgUrl3 = await upload(file3);
+      try{
+         axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
+            user_id: user_id,
+            property_name: property_name,
+            address:property_address,
+            price:property_price,
+            type:property_type,
+            offer:property_offer,
+            prop_status:property_status ,
+            furnished:property_furnished,
+            carpet_area:property_carpet,
+            age:property_age,
+            total_floors:property_totalfloors,
+            deposite:property_deposit,
+            bedroom:property_bedrooms ,
+            bathroom:property_bathrooms,
+            balcony:property_balconys,
+            lift:lift,
+            guard:guard,
+            play:play,
+            garden:garden,
+            water:water,
+            backup:backup,
+            park:park,
+            gym:gym,
+            mall:mall,
+            hospital:hospital,
+            school:school,
+            market:market,
+            image_01: file1 ? imgUrl1 : "",
+            image_02: file2 ? imgUrl2 : "",
+            image_03: file3 ? imgUrl3 : "",
+   
+            description: property_description,
+            
+         
+       }).then((response)=>{
+         if(response.data=="success"){
+           toast.success("Property Updated Successfully.")
+           setTimeout(()=>{
+            window.location.assign("/seller/mylistings")
+           },1500)
+         } else {
+            toast.error("Property Update Unsuccessful.")
+   
+         }
+       })
+         
+       } catch (err){
+       }
    }
 
    function fetchProperty(){
@@ -119,6 +140,10 @@ const updateProperties = async()=>{
         setTotalFloors(resp.total_floors)
         setAge(resp.age)
         setDescription(resp.description)
+
+        setFile1(resp.image_01)
+        setFile2(resp.image_02)
+        setFile3(resp.image_03)
 
       // setLift(resp.lift)
       // setGuard(resp.security_guard)
@@ -440,28 +465,31 @@ const updateProperties = async()=>{
              type="checkbox" name="market_area" value={market} />market area</p>
          </div>
       </div>
-      {/* <div className="box">
+      <div className="box">
          <p>image 01 <span>*</span></p>
-         <input type="file" name="image_01" className="input" accept="image/*" required/>
+         <input defaultValue={property.image_01} onChange={(e)=>setFile1(e.target.files[0])}
+          type="file" name="image_01" className="input" accept="image/*" required/>
       </div>
       <div className="flex"> 
          <div className="box">
             <p>image 02</p>
-            <input type="file" name="image_02" className="input" accept="image/*"/>
+            <input defaultValue={property.image_02} onChange={(e)=>setFile2(e.target.files[0])}
+             type="file" name="image_02" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 03</p>
-            <input type="file" name="image_03" className="input" accept="image/*"/>
+            <input defaultValue={property.image_03} onChange={(e)=>setFile3(e.target.files[0])}
+             type="file" name="image_03" className="input" accept="image/*"/>
          </div>
-         <div className="box">
+         {/* <div className="box">
             <p>image 04</p>
             <input type="file" name="image_04" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 05</p>
             <input type="file" name="image_05" className="input" accept="image/*"/>
-         </div>   
-      </div> */}
+         </div>    */}
+      </div>
       <input type="submit" value="Update Property" className="btn" name="post"/>
    </form>
    <ToastContainer/>

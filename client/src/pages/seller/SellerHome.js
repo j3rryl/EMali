@@ -24,6 +24,11 @@ const SellerHome = () => {
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
     const currentPosts = properties.slice(firstPostIndex, lastPostIndex);
+    if(properties==""){
+        return(
+            <h2 className="!m-auto text-2xl !text-center !mt-56">No Properties pending valuation payment.</h2>
+        )
+    }
 
     return (
         <div className='app'>

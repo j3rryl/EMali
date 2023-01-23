@@ -5,6 +5,10 @@ import '../../assets/css/style.css'
 
 const PostProperty = () => {
    const user_id=window.localStorage.getItem("seller")
+   const [file1, setFile1] = useState(null);
+   const [file2, setFile2] = useState(null);
+   const [file3, setFile3] = useState(null);
+
    const [property_name, setPropertyName]=useState('')
    const [property_price, setPrice]=useState('')
    const [property_deposit, setDeposit]=useState('')
@@ -57,8 +61,23 @@ const handleChange=(event)=>{
   
 }
 
-   function onSubmit(e){
+const upload = async (file) => {
+   try {
+     const formData = new FormData();
+     formData.append("file", file);
+     const res = await axios.post("http://localhost:3001/api/upload", formData);
+     return res.data;
+   } catch (err) {
+     console.log(err);
+   }
+ };
+ 
+
+   async function onSubmit(e){
       e.preventDefault()
+      const imgUrl1 = await upload(file1);
+      const imgUrl2 = await upload(file2);
+      const imgUrl3 = await upload(file3);
       try{
          axios.post("http://localhost:3001/api/property/addproperty",{
             user_id: user_id,
@@ -88,12 +107,15 @@ const handleChange=(event)=>{
             hospital:hospital,
             school:school,
             market:market,
+            image_01: file1 ? imgUrl1 : "",
+            image_02: file2 ? imgUrl2 : "",
+            image_03: file3 ? imgUrl3 : "",
             description: property_description,
             
          
        }).then((response)=>{
          if(response.data=="success"){
-           toast.success("Property Added Seccessfully. Proceed to Pay For Evaluation.")
+           toast.success("Property Added Successfully. Proceed to Pay For Valuation.")
            setTimeout(()=>{
             window.location.assign("/seller/mylistings")
            },1500)
@@ -125,7 +147,7 @@ const handleChange=(event)=>{
          <div className="box">
             <p>deposit amount <span>*</span></p>
             <input value={property_deposit} onChange={(e)=>setDeposit(e.target.value)}
-             type="number" name="deposit" required min="0" max="9999999999" maxLength="10" placeholder="enter deposite amount" className="input"/>
+             type="number" name="deposit" required min="0" max="9999999999" maxLength="10" placeholder="enter deposit amount" className="input"/>
          </div>
          <div className="box">
             <p>property address <span>*</span></p>
@@ -396,28 +418,31 @@ const handleChange=(event)=>{
              type="checkbox" name="market_area" value={market} />market area</p>
          </div>
       </div>
-      {/* <div className="box">
+      <div className="box">
          <p>image 01 <span>*</span></p>
-         <input type="file" name="image_01" className="input" accept="image/*" required/>
+         <input onChange={(e) => setFile1(e.target.files[0])}
+          type="file" name="file1" className="input" accept="image/*" required/>
       </div>
       <div className="flex"> 
          <div className="box">
             <p>image 02</p>
-            <input type="file" name="image_02" className="input" accept="image/*"/>
+            <input onChange={(e) => setFile2(e.target.files[0])}
+             type="file" name="file2" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 03</p>
-            <input type="file" name="image_03" className="input" accept="image/*"/>
+            <input onChange={(e) => setFile3(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
          </div>
-         <div className="box">
+         {/* <div className="box">
             <p>image 04</p>
             <input type="file" name="image_04" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 05</p>
             <input type="file" name="image_05" className="input" accept="image/*"/>
-         </div>   
-      </div> */}
+         </div>    */}
+      </div>
       <input type="submit" value="post property" className="btn" name="post"/>
    </form>
    <ToastContainer/>
