@@ -4,50 +4,42 @@ import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+const [user, setUsers]=useState([])
+  useEffect(() => {
+    async function fetchUsers(){
+      const  response =  await axios.get(
+          "http://localhost:3001/api/user/all"
+      );
+      console.log(response.data)
+      setUsers(response.data)
+  }
+  fetchUsers()
+}, []);
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
+    { field: "user_id", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Name",
+      field: "first_name",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "last_name",
+      headerName: "First Name",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
+    
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
       flex: 1,
     },
   ];
@@ -55,8 +47,8 @@ const Contacts = () => {
   return (
     <Box m="20px">
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="USERS"
+        subtitle="List of Users"
       />
       <Box
         m="40px 0 0 0"
@@ -91,8 +83,9 @@ const Contacts = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
+          rows={user}
           columns={columns}
+          getRowId={(user) =>  user.user_id}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>

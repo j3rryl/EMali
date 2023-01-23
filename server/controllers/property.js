@@ -10,6 +10,24 @@ export const getProperties = (req, res) => {
   });
 };
 
+export const getSumPropertySales = (req, res) => {
+
+  db.query("SELECT SUM(amount) AS total_sales FROM sales", [req.query.cat], (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+export const getSales = (req, res) => {
+
+  db.query("SELECT * FROM sales LEFT JOIN users ON sales.user_id=users.user_id", [req.query.cat], (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    return res.status(200).json(data);
+  });
+};
+
 export const getApprovedProperties = (req, res) => {
   const q = "SELECT * FROM property WHERE valuated = 'Approved' "
   db.query(q,(err,data)=>{

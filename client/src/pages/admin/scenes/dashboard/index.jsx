@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
+import HouseIcon from "@mui/icons-material/House";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
@@ -12,11 +12,59 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [property,setProperties]=useState([])
+  const [user,setUsers]=useState([])
+  const [sales,setSales]=useState([])
+  const [propertysales,setpropertysales]=useState()
 
+  const [enquiry, setEnquiry]=useState([])
+
+
+  useEffect(() => {
+    async function fetchData(){
+        const  response =  await axios.get(
+            "http://localhost:3001/api/property/all"
+        );
+        setProperties(response.data)
+    }
+    async function fetchUsers(){
+      const  response =  await axios.get(
+          "http://localhost:3001/api/user/all"
+      );
+      setUsers(response.data)
+  }
+  async function fetchSales(){
+    const  response =  await axios.get(
+        "http://localhost:3001/api/property/allsales"
+    );
+    setSales(response.data)
+}
+async function fetchEnquiries(){
+  const  response =  await axios.get(
+      "http://localhost:3001/api/enquiry/all"
+  );
+  setEnquiry(response.data)
+}
+async function fetchPropertSales(){
+  const  response =  await axios.get(
+      "http://localhost:3001/api/property/propertysales"
+  );
+  console.log(response.data)
+  // setpropertysales(response.data)
+}
+fetchPropertSales()
+fetchEnquiries()
+fetchSales()
+  fetchUsers()
+    fetchData()
+}, []);
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -55,12 +103,12 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
+            title={property.length}
+            subtitle="Properties"
             progress="0.75"
             increase="+14%"
             icon={
-              <EmailIcon
+              <HouseIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -74,7 +122,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
+            title={sales.length}
             subtitle="Sales Obtained"
             progress="0.50"
             increase="+21%"
@@ -93,7 +141,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="32,441"
+            title={user.length}
             subtitle="New Clients"
             progress="0.30"
             increase="+5%"
@@ -112,7 +160,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
+            title={enquiry.length}
             subtitle="Traffic Received"
             progress="0.80"
             increase="+43%"
@@ -143,6 +191,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
+              
                 Revenue Generated
               </Typography>
               <Typography
@@ -150,7 +199,7 @@ const Dashboard = () => {
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $59,342.32
+                {propertysales}
               </Typography>
             </Box>
             <Box>
@@ -183,9 +232,9 @@ const Dashboard = () => {
               Recent Transactions
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {sales.map((transaction, i) => (
             <Box
-              key={`${transaction.txId}-${i}`}
+              key={`${transaction.sale_id}-${i}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -201,16 +250,19 @@ const Dashboard = () => {
                   {transaction.txId}
                 </Typography>
                 <Typography color={colors.grey[100]}>
-                  {transaction.user}
+                  {transaction.first_name}
+                </Typography>
+                <Typography color={colors.grey[100]}>
+                  {transaction.last_name}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+              <Box color={colors.grey[100]}>{transaction.creation_time}</Box>
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                ${transaction.amount}
               </Box>
             </Box>
           ))}
@@ -238,9 +290,8 @@ const Dashboard = () => {
               color={colors.greenAccent[500]}
               sx={{ mt: "15px" }}
             >
-              $48,352 revenue generated
+               revenue generated
             </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
           </Box>
         </Box>
         <Box

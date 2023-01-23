@@ -25,3 +25,13 @@ body {
   --border: 0.1rem solid var(--light-color);
   --box-shodow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}

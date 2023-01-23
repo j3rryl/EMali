@@ -6,37 +6,45 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [user, setUsers]=useState([])
+  useEffect(() => {
+    async function fetchUsers(){
+      const  response =  await axios.get(
+          "http://localhost:3001/api/user/all"
+      );
+      console.log(response.data)
+      setUsers(response.data)
+  }
+  fetchUsers()
+}, []);
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "user_id", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Name",
+      field: "first_name",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "last_name",
+      headerName: "First Name",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
+    
     {
       field: "email",
       headerName: "Email",
       flex: 1,
     },
     {
-      field: "accessLevel",
+      field: "role",
       headerName: "Access Level",
       flex: 1,
       renderCell: ({ row: { access } }) => {
@@ -56,9 +64,9 @@ const Team = () => {
             }
             borderRadius="4px"
           >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
+            {access === "1" && <AdminPanelSettingsOutlinedIcon />}
+            {access === "4" && <SecurityOutlinedIcon />}
+            {access === "2" && <LockOpenOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
               {access}
             </Typography>
@@ -70,7 +78,7 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header title="Users" subtitle="Managing the Users" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -100,7 +108,8 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={user} columns={columns} 
+        getRowId={(user) =>  user.user_id}/>
       </Box>
     </Box>
   );

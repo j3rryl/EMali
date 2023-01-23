@@ -2,14 +2,31 @@ import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { mockBarData as data } from "../data/mockData";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  const[sales,setSales]=useState([])
+
+  useEffect(() => {
+    
+  async function fetchSales(){
+    const  response =  await axios.get(
+        "http://localhost:3001/api/property/allsales"
+    );
+    console.log(response.data)
+    setSales(response.data)
+}
+fetchSales()
+
+}, []);
 
   return (
     <ResponsiveBar
-      data={data}
+      data={sales}
       theme={{
         // added
         axis: {
@@ -39,7 +56,7 @@ const BarChart = ({ isDashboard = false }) => {
           },
         },
       }}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
+      keys={["house", "rent","flat"]}
       indexBy="country"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}

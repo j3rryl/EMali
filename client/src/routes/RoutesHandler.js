@@ -62,7 +62,9 @@ const RoutesHandler = () => {
   const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
     
   return (
-    <>
+    <div className={`${role=="1"?"app":""}`}>
+            {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:null}
+      <main className={`${role=="1"?"content":""}`}>
     {/* {(() => {
        if (role==2) {
           return (
@@ -92,9 +94,6 @@ const RoutesHandler = () => {
         }
       })()} */}
       {role=="1"?<Topbar setIsSidebar={setIsSidebar} />:null}
-      
-
-      {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:null}
       <Routes location={location} key={location.pathname}>
       <Route path='/' element={<Home />}/>
       <Route path='/home' element={<Home />}/>
@@ -144,7 +143,8 @@ const RoutesHandler = () => {
 
       <Route path={`/test`} element={<Messages />}/>
     </Routes>
-    </>
+    </main>
+    </div>
   )
 }
 

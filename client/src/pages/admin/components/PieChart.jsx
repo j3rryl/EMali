@@ -2,13 +2,31 @@ import { ResponsivePie } from "@nivo/pie";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 import { mockPieData as data } from "../data/mockData";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+
 
 const PieChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const[sales,setSales]=useState([])
+
+  useEffect(() => {
+    
+  async function fetchSales(){
+    const  response =  await axios.get(
+        "http://localhost:3001/api/property/allsales"
+    );
+    console.log(response.data)
+    setSales(response.data)
+}
+fetchSales()
+
+}, []);
   return (
     <ResponsivePie
-      data={data}
+      data={sales}
       theme={{
         axis: {
           domain: {
