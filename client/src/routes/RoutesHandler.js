@@ -91,10 +91,11 @@ const RoutesHandler = () => {
           )
         }
       })()} */}
-      <Topbar setIsSidebar={setIsSidebar} />
+      {role=="1"?<Topbar setIsSidebar={setIsSidebar} />:null}
+      
 
       {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:null}
-    <Routes location={location} key={location.pathname}>
+      <Routes location={location} key={location.pathname}>
       <Route path='/' element={<Home />}/>
       <Route path='/home' element={<Home />}/>
       <Route path='/listings' element={<Listings />}/>
