@@ -82,7 +82,7 @@ const Chats = ({enquiries}) => {
         
       }
       return (
-        <>
+        <div className='!block'>
         <h2 className=' text-center text-2xl mb-8'>Send Feedback</h2>
         <div className='chat_list'>
           {enquiries.map((property, index,getProperty) => {
@@ -110,18 +110,14 @@ const Chats = ({enquiries}) => {
             <div className=' !m-auto flex justify-evenly !mt-12 login-form-control-container'>
             <input value={inquiry}
               onChange={(e)=>sendInquiry(e.target.value)}
-             className='!w-96'
+             className='finput !w-96'
             placeholder="Send feedback"
             type="text" name='text'/>
             <input type="submit" value="Send" name='login-btn' className='login-btn'/>
             </div>
             </form>
-            <div className='flex align-middle justify-between'>
-            <button className='inline-btn vbutton '  onClick={beginSearch}>Begin Search</button>
-            <button className='inline-btn vbutton ' onClick={endSearch} >End Search</button>
-          </div>
 
-            </>
+            </div>
       )
 }
 

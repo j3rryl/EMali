@@ -20,7 +20,7 @@ const MessageCard = ({ image, e_message, first_name, last_name, property_id,name
     }
     return (
     
-      <div onClick={()=>openMessage(property_id)} className='card flex justify-evenly w-3/4 h-80'>
+      <div onClick={()=>openMessage(property_id)} className='card flex justify-evenly w-3/4 h-60'>
         <div className='card_image h-full'>
             <img src={require(`../../../assets/uploads/${image}`)} alt='' />
         </div>
@@ -34,7 +34,7 @@ const MessageCard = ({ image, e_message, first_name, last_name, property_id,name
             </div>
         
         <p className=' '>{e_message}</p>
-        <p className=' ml-32 mt-28 absolute'>{creation_time}</p>
+        <p className=' ml-32 mt-20 absolute'>{creation_time}</p>
         </div>
         
         </div>

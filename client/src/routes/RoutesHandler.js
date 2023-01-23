@@ -48,6 +48,8 @@ import Line from "../pages/admin/scenes/line";
 import Pie from "../pages/admin/scenes/pie";
 import Success from '../pages/buyer/Success'
 import Cancel from '../pages/buyer/Cancel'
+import SellerCancel from '../pages/seller/SellerCancel'
+import SellerSuccess from '../pages/seller/SellerSuccess'
 
 
 
@@ -114,6 +116,8 @@ const RoutesHandler = () => {
       <Route path='/authuser/login' element={<AuthLogin />}/>
       {/* <Route path='/cases' element={<Cases />}/>
       <Route path='/contact' element={<Contact />}/> */}
+      <Route path={`/seller/success/${lastItem}`} element={<SellerSuccess />}/>
+      <Route path={`/seller/cancel/${lastItem}`} element={<SellerCancel />}/>
       <Route path='/seller/home' element={<SellerHome />}/>
       <Route path='/seller/mylistings' element={<MyListings />}/>
       <Route path={`/seller/payment/${lastItem}`} element={<SellerPayment />}/>

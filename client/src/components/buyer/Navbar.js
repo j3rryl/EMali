@@ -10,7 +10,7 @@ const Navbar = () => {
     const location=useLocation()
     useEffect(() => {
       //Checks if location.pathname is not "/".
-	  location.pathname==="/login"||location.pathname==="/register"?setInIndex(true):setInIndex(false)
+	  location.pathname==="/login"||location.pathname==="/register"|| location.pathname==="/authuser/login"?setInIndex(true):setInIndex(false)
     }, [location.pathname, inIndex]);
   // const loggedIn = window.localStorage.getItem("isLoggedIn")
   const logout = ()=>{

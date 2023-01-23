@@ -44,13 +44,36 @@ export const newSale = (req, res) => {
 const user_id=req.body.user_id
 const property_id=req.body.property_id
   const q = "SELECT * FROM sales WHERE user_id = ? AND property_id=?";
-
   db.query(q, [user_id,property_id], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length) return res.json("exists");
     db.query(
       "INSERT INTO sales (property_id, user_id, amount, payment_type) VALUES (?,?,?,?)",
       [property_id,user_id,"2000000","Card"],
+      (err, result)=>{
+        if(err){
+          return res.status(500).json(err);
+        }
+        else {
+          return res.status(200).json("Sale has been added.");
+        }
+      }
+    )
+  });
+};
+
+
+export const newSaleSeller = (req, res) => {
+  //CHECK EXISTING USER
+const user_id=req.body.user_id
+const property_id=req.body.property_id
+  const q = "SELECT * FROM sales WHERE user_id = ? AND property_id=?";
+  db.query(q, [user_id,property_id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length) return res.json("exists");
+    db.query(
+      "INSERT INTO sales (property_id, user_id, amount, payment_type,pay_for) VALUES (?,?,?,?,?)",
+      [property_id,user_id,"2000000","Card","valuation"],
       (err, result)=>{
         if(err){
           return res.status(500).json(err);

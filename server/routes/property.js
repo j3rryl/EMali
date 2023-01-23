@@ -27,6 +27,7 @@ import {
   getUserProcessUp,
   newSale,
   getSalesUserProperty,
+  newSaleSeller,
 } from "../controllers/property.js";
 
 const router = express.Router();
@@ -51,6 +52,7 @@ router.put("/updatetransfer/:id", updateTransfer);
 
 router.post("/pendingpayment", pendingPayment);
 router.post("/newsale",newSale);
+router.post("/newsaleseller",newSaleSeller);
 router.get("/pendingapproval", pendingApproval);
 router.get("/pendingapprovalapproved", pendingApprovalOrApproved);
 router.get("/:id", getProperty);

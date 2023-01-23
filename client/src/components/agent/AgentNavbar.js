@@ -40,7 +40,7 @@ const AgentNavbar = () => {
                   <NavLink to='/authuser/agent/listings'>Listings</NavLink>
               </li>
               <li>
-                  <NavLink to='/authuser/agent/process'>Process</NavLink>
+                  <NavLink to='/authuser/agent/process'>Ticket</NavLink>
               </li>
           </ul>
       </nav>

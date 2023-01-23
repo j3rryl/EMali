@@ -33,8 +33,8 @@ const SellerPayment = () => {
   const checkoutOptions = {
     lineItems: [item],
     mode: "payment",
-    successUrl: `${window.location.origin}/success/${lastItem}`,
-    cancelUrl: `${window.location.origin}/cancel/${lastItem}`
+    successUrl: `${window.location.origin}/seller/success/${lastItem}`,
+    cancelUrl: `${window.location.origin}/seller/cancel/${lastItem}`
   };
 
   const redirectToCheckout = async () => {
@@ -72,12 +72,12 @@ const SellerPayment = () => {
         Buy property now via VISA,Mastercard etc.
       </p>
       <h1 className="checkout-price">$ {temp?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</h1>
-      <img
+      {/* <img
         className="checkout-product-image"
         // src={require(`../../assets/uploads/${property.image_01}`)}
-        src={`/uploads/${property.image_01}`}
+        // src={`/uploads/${property.image_01}`}
         alt="Product"
-      />
+      /> */}
       <button
         className="checkout-button"
         onClick={redirectToCheckout}

@@ -7,7 +7,7 @@ import '../../assets/css/receipt.css'
 import jsPDF from "jspdf"
 
 
-const Success = () => {
+const SellerSuccess = () => {
   const user_id=window.localStorage.getItem("buyer")
   const location = useLocation()
   const thePath = location.pathname
@@ -18,9 +18,17 @@ const [sales,setSales] = useState([])
     
     
     function insertSale(){
+        try{
+            axios.put(`http://localhost:3001/api/property/updateValuated/${lastItem}`,{
+            
+          })
+          toast.success("Payment Successful.")
+        
+          } catch (err){
+          }
       try{
         axios.post(
-          `http://localhost:3001/api/property/newsale`,{
+          `http://localhost:3001/api/property/newsaleseller`,{
             user_id:user_id,
             property_id:lastItem
           }
@@ -42,20 +50,20 @@ const [sales,setSales] = useState([])
 
   const generatepdf = ()=>{
     var doc = new jsPDF("p","pt","a4")
-    doc.html(document.querySelector("#content"),{
+    doc.html(document.querySelector("#content2"),{
       callback:function(pdf){
         pdf.save("receipt.pdf")
       }
     })
   }
     return (
-      <div className="my-5 page" size="A4" id="content">
+      <div className="my-5 page" size="A4" id="content2">
         <button className="inline-btn" onClick={generatepdf} >Download</button>
         <div className="p-5">
             <section className="top-content bb d-flex justify-content-between">
                 <div className="logo">
                 
-                    <img src={`/uploads/${sales.image_01}`} alt="" className="img-fluid"/>
+                    {/* <img src={require(`../../assets/uploads/${sales.image_01}`)} alt="" className="img-fluid"/> */}
                 </div>
                 <div className="top-left">
                     <div className="graphic-path">
@@ -111,7 +119,7 @@ const [sales,setSales] = useState([])
                         <tr>
                             <td>
                                 <div className="media">
-                                <img className="mr-3 img-fluid" src={`/uploads/${sales.image_01}`} alt=''/>
+                                {/* <img className="mr-3 img-fluid" src={`/uploads/${sales.image_01}`} alt=''/> */}
                                     <div className="media-body">
                                         <p className="mt-0 title">{sales.property_name}</p>
                                         <span
@@ -121,7 +129,7 @@ const [sales,setSales] = useState([])
                                     </div>
                                 </div>
                             </td>
-                            <td>{sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
+                            <td>$ {sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
                             <td>1</td>
                             <td>1</td>
                         </tr>
@@ -145,7 +153,7 @@ const [sales,setSales] = useState([])
                             <tfoot>
                                 <tr>
                                     <td>Total:</td>
-                                    <td>{sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
+                                    <td>$ {sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -177,5 +185,5 @@ const [sales,setSales] = useState([])
     );
   };
   
-  export default Success;
+  export default SellerSuccess;
   
