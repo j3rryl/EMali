@@ -52,7 +52,7 @@ import Pie from "../pages/admin/scenes/pie";
 
 
 const RoutesHandler = () => {
-  const [isSidebar, setIsSidebar] = useState(false);
+  const [isSidebar, setIsSidebar] = useState(true);
   const [role,setRole]  = useState(window.localStorage.getItem("role"))
   useEffect(()=>{
     setRole(role)
@@ -63,16 +63,8 @@ const RoutesHandler = () => {
     
   return (
     <>
-    {(() => {
-      if (role==1) {
-        setIsSidebar(true)
-        return (
-          <>
-          <Topbar/>
-          <Sidebar/>
-          </>
-        )
-      } else if (role==2) {
+    {/* {(() => {
+       if (role==2) {
           return (
             <Navbar/>
           )
@@ -98,7 +90,10 @@ const RoutesHandler = () => {
             <Navbar/>
           )
         }
-      })()}
+      })()} */}
+      <Topbar setIsSidebar={setIsSidebar} />
+
+      {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:null}
     <Routes location={location} key={location.pathname}>
       <Route path='/' element={<Home />}/>
       <Route path='/home' element={<Home />}/>
@@ -133,6 +128,8 @@ const RoutesHandler = () => {
       <Route path={`/authuser/agent/profile`} element={<AgentProfile />}/>
       <Route path={`/authuser/agent/userenquiries/${lastItem}`} element={<UserEnquiries />}/>
       {/* <Route path={`/authuser/agent/messages`} element={<Messages />}/> */}
+
+      <Route path="/authuser/" element={<AuthLogin />} />
 
 
       <Route path="/authuser/admin" element={<Dashboard />} />

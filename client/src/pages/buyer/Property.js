@@ -249,7 +249,10 @@ const Property = () => {
       </div>
 
       <div className='flex justify-evenly'>
-         <button disabled={!process==""?false:true}  onClick={makepurchase} className={`${!process==""?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
+      {user_id?
+      <button disabled={!process==""?false:true}  onClick={makepurchase} className={`${!process==""?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
+      :null}
+         
 
       </div>
       <ToastContainer />
