@@ -20,6 +20,9 @@ const getStripe = () => {
 };
 
 const Payment = () => {
+  const location = useLocation()
+  const thePath = location.pathname
+  const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
   const [stripeError, setStripeError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const item = {
@@ -30,8 +33,8 @@ const Payment = () => {
   const checkoutOptions = {
     lineItems: [item],
     mode: "payment",
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cancel`
+    successUrl: `${window.location.origin}/success/${lastItem}`,
+    cancelUrl: `${window.location.origin}/cancel/${lastItem}`
   };
 
   const redirectToCheckout = async () => {
@@ -47,10 +50,9 @@ const Payment = () => {
   };
 
   if (stripeError) alert(stripeError);
-  const location = useLocation()
-  const thePath = location.pathname
-  const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+
   const [property, setProperty] = useState([])
+  const [temp,setTemp]=useState()
   useEffect(()=>{
     async function fetchProperty(){
       const  response =  await axios.get(
@@ -58,6 +60,7 @@ const Payment = () => {
       );
       // console.log(response.data)
       setProperty(response.data);
+      setTemp(response.data.price)
   }
   fetchProperty()
   },[])
@@ -68,7 +71,7 @@ const Payment = () => {
       <p className="checkout-description">
         Buy property now via VISA,Mastercard etc.
       </p>
-      <h1 className="checkout-price">$ {property.price}</h1>
+      <h1 className="checkout-price">$ {temp?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</h1>
       <img
         className="checkout-product-image"
         src={`/uploads/${property.image_01}`}

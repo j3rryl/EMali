@@ -28,6 +28,41 @@ export const getSales = (req, res) => {
   });
 };
 
+export const getSalesUserProperty = (req, res) => {
+const user_id=req.query.user_id
+const property_id=req.query.propert_id
+  db.query("SELECT * FROM sales LEFT JOIN property ON sales.property_id=property.property_id LEFT JOIN users ON sales.user_id=users.user_id WHERE sales.property_id=? AND sales.user_id=?", 
+  [user_id,property_id], (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+export const newSale = (req, res) => {
+  //CHECK EXISTING USER
+const user_id=req.body.user_id
+const property_id=req.body.property_id
+  const q = "SELECT * FROM sales WHERE user_id = ? AND property_id=?";
+
+  db.query(q, [user_id,property_id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length) return res.json("exists");
+    db.query(
+      "INSERT INTO sales (property_id, user_id, amount, payment_type) VALUES (?,?,?,?)",
+      [property_id,user_id,"2000000","Card"],
+      (err, result)=>{
+        if(err){
+          return res.status(500).json(err);
+        }
+        else {
+          return res.status(200).json("Sale has been added.");
+        }
+      }
+    )
+  });
+};
+
 export const getApprovedProperties = (req, res) => {
   const q = "SELECT * FROM property WHERE valuated = 'Approved' "
   db.query(q,(err,data)=>{

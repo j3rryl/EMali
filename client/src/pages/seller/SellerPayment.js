@@ -1,150 +1,99 @@
-import axios from 'axios'
-import React from 'react'
-import { useLocation } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-import '../../assets/css/payment.css'
+import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import CardIcon from "../../assets/images/credit-card.svg";
+import ProductImage from "../../assets/images/product-image.jpg";
 
+import "../../assets/css/checkout.css";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+
+let stripePromise;
+
+const getStripe = () => {
+  
+  
+  if (!stripePromise) {
+    stripePromise = loadStripe("pk_test_51KTtekDmwis8SNF30YGyHTrvPnSHZHOGcG79ISmdmojtJk5xjcUFbJAlqrPEiAoM3w6Kacz6F0MgfE8Pk30pLLiS00Mi64gyLS");
+  }
+
+  return stripePromise;
+};
 
 const SellerPayment = () => {
-    //   document.querySelector('.card-number-input').oninput = () =>{
-//     document.querySelector('.card-number-box').innerText = document.querySelector('.card-number-input').value;
-// }
+  const location = useLocation()
+  const thePath = location.pathname
+  const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+  const [stripeError, setStripeError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const item = {
+    price: "price_1MTV9jDmwis8SNF3FK7wPdzA",
+    quantity: 1
+  };
 
-// document.querySelector('.card-holder-input').oninput = () =>{
-//     document.querySelector('.card-holder-name').innerText = document.querySelector('.card-holder-input').value;
-// }
+  const checkoutOptions = {
+    lineItems: [item],
+    mode: "payment",
+    successUrl: `${window.location.origin}/success/${lastItem}`,
+    cancelUrl: `${window.location.origin}/cancel/${lastItem}`
+  };
 
-// document.querySelector('.month-input').oninput = () =>{
-//     document.querySelector('.exp-month').innerText = document.querySelector('.month-input').value;
-// }
+  const redirectToCheckout = async () => {
+    setLoading(true);
+    console.log("redirectToCheckout");
 
-// document.querySelector('.year-input').oninput = () =>{
-//     document.querySelector('.exp-year').innerText = document.querySelector('.year-input').value;
-// }
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOptions);
+    console.log("Stripe checkout error", error);
 
-// document.querySelector('.cvv-input').onmouseenter = () =>{
-//     document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(-180deg)';
-//     document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(0deg)';
-// }
+    if (error) setStripeError(error.message);
+    setLoading(false);
+  };
 
-// document.querySelector('.cvv-input').onmouseleave = () =>{
-//     document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(0deg)';
-//     document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(180deg)';
-// }
+  if (stripeError) alert(stripeError);
 
-// document.querySelector('.cvv-input').oninput = () =>{
-//     document.querySelector('.cvv-box').innerText = document.querySelector('.cvv-input').value;
-// }
-
-const location = useLocation()
-const thePath = location.pathname
-const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
-
-function onSubmit(e){
-  e.preventDefault()
-  console.log(lastItem)
-  try{
-    axios.put(`http://localhost:3001/api/property/updateValuated/${lastItem}`,{
-    
-  })
-  toast.success("Payment Successful.")
-
-  } catch (err){
+  const [property, setProperty] = useState([])
+  const [temp,setTemp]=useState()
+  useEffect(()=>{
+    async function fetchProperty(){
+      const  response =  await axios.get(
+          `http://localhost:3001/api/property/${lastItem}`
+      );
+      // console.log(response.data)
+      setProperty(response.data);
+      setTemp(response.data.price)
   }
-}
+  fetchProperty()
+  },[])
+
   return (
-    <div className="!bg-none container ">
-
-    <div className="card-container">
-
-        <div className="front">
-            <div className="image">
-                <img src="image/chip.png" alt=""/>
-                <img src="image/visa.png" alt=""/>
-            </div>
-            <div className="card-number-box">################</div>
-            <div className="flexbox">
-                <div className="box">
-                    <span>card holder</span>
-                    <div className="card-holder-name">full name</div>
-                </div>
-                <div className="box">
-                    <span>expires</span>
-                    <div className="expiration">
-                        <span className="exp-month">mm</span>
-                        <span className="exp-year">yy</span>
-                    </div>
-                </div>
-            </div>
+    <div className="checkout">
+      <p className="checkout-title">E-Mali Property Purchase</p>
+      <p className="checkout-description">
+        Buy property now via VISA,Mastercard etc.
+      </p>
+      <h1 className="checkout-price">$ {temp?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</h1>
+      <img
+        className="checkout-product-image"
+        // src={require(`../../assets/uploads/${property.image_01}`)}
+        src={`/uploads/${property.image_01}`}
+        alt="Product"
+      />
+      <button
+        className="checkout-button"
+        onClick={redirectToCheckout}
+        disabled={isLoading}
+      >
+        <div className="grey-circle">
+          <div className="purple-circle">
+            <img className="icon" src={CardIcon} alt="credit-card-icon" />
+          </div>
         </div>
-
-        <div className="back">
-            <div className="stripe"></div>
-            <div className="box">
-                <span>cvv</span>
-                <div className="cvv-box"></div>
-                <img src="image/visa.png" alt=""/>
-            </div>
+        <div className="text-container">
+          <p className="text">{isLoading ? "Loading..." : "Buy"}</p>
         </div>
-
+      </button>
     </div>
+  );
+};
 
-    <form action="" onSubmit={onSubmit}>
-        <div className="inputBox">
-            <span>card number</span>
-            <input type="text" maxLength="16" className="card-number-input"/>
-        </div>
-        <div className="inputBox">
-            <span>card holder</span>
-            <input type="text" className="card-holder-input"/>
-        </div>
-        <div className="flexbox">
-            <div className="inputBox">
-                <span>expiration mm</span>
-                <select name="" id="" className="month-input">
-                    <option value="month" defaultValue disabled>month</option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-            <div className="inputBox">
-                <span>expiration yy</span>
-                <select name="" id="" className="year-input">
-                    <option value="year" defaultValue disabled>year</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                    <option value="2029">2029</option>
-                    <option value="2030">2030</option>
-                </select>
-            </div>
-            <div className="inputBox">
-                <span>cvv</span>
-                <input type="text" maxLength="4" className="cvv-input"/>
-            </div>
-        </div>
-        <input type="submit" value="submit" className="submit-btn"/>
-    </form>
-    <ToastContainer/>
-
-</div> 
-  )
-}
-
-export default SellerPayment
+export default SellerPayment;

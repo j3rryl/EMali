@@ -98,8 +98,8 @@ const RoutesHandler = () => {
       {role=="1"?<Topbar setIsSidebar={setIsSidebar} />:null}
       <Routes location={location} key={location.pathname}>
       <Route path='/' element={<Home />}/>
-      <Route path='/success' element={<Success />}/>
-      <Route path='/cancel' element={<Cancel />}/>
+      <Route path={`/success/${lastItem}`} element={<Success />}/>
+      <Route path={`/cancel/${lastItem}`} element={<Cancel />}/>
       <Route path='/home' element={<Home />}/>
       <Route path='/listings' element={<Listings />}/>
       <Route path='/listing' element={<Listing />}/>

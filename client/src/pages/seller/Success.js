@@ -88,7 +88,7 @@ const [sales,setSales] = useState([])
                     <div className="row extra-info pt-3">
                         <div className="col-7">
                             <p>Payment Method: Card<span>{sales.payment_type}</span></p>
-                            <p>Payment for: <span>{sales.property_name}</span></p>
+                            <p>Payment for: <span>Valuation</span></p>
                         </div>
                         <div className="col-5">
                             <p>Deliver Date: <span>{sales.creation_time}</span></p>
