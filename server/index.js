@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import enquiryRoutes from "./routes/enquiry.js";
+import path from "path";
 
 import feedbackRoutes from "./routes/feedback.js";
 
@@ -21,12 +22,11 @@ const stripe = striper(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
 });
 
-// app.use(express.static(process.env.STATIC_DIR));
-
-// app.get("/pay", (req, res) => {
-//   const path = resolve(process.env.STATIC_DIR + "/index.html");
-//   res.sendFile(path);
-// });
+app.use( Express.static(STATIC_DIR + '/'))
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "/index.html");
+  res.sendFile(path);
+});
 
 
 
@@ -44,7 +44,7 @@ app.use("/api/property", propertyRoutes);
 
 app.get("/config", (req, res) => {
   res.send({
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    publishableKey: `${process.env.PUBLISHABLE_KEY}`,
   });
 });
 
@@ -71,9 +71,9 @@ app.post("/create-payment-intent", async (req, res) => {
 
 
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+// app.get('/', function (req, res) {
+//   res.send('Hello World')
+// })
 
 app.listen(3001, ()=>{
   console.log("server running")
