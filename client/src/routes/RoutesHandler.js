@@ -46,6 +46,8 @@ import Bar from "../pages/admin/scenes/bar";
 import Form from "../pages/admin/scenes/form";
 import Line from "../pages/admin/scenes/line";
 import Pie from "../pages/admin/scenes/pie";
+import Success from '../pages/buyer/Success'
+import Cancel from '../pages/buyer/Cancel'
 
 
 
@@ -63,7 +65,7 @@ const RoutesHandler = () => {
     
   return (
     <div className={`${role=="1"?"app":""}`}>
-            {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:null}
+            {role=="1"?<Sidebar isSidebar={isSidebar} />:role=="2"?<Navbar/>:role=="3"?<SellerNavbar/>:role=="4"?<AgentNavbar/>:role=="5"?<ValuatorNavbar/>:<Navbar/>}
       <main className={`${role=="1"?"content":""}`}>
     {/* {(() => {
        if (role==2) {
@@ -96,12 +98,14 @@ const RoutesHandler = () => {
       {role=="1"?<Topbar setIsSidebar={setIsSidebar} />:null}
       <Routes location={location} key={location.pathname}>
       <Route path='/' element={<Home />}/>
+      <Route path='/success' element={<Success />}/>
+      <Route path='/cancel' element={<Cancel />}/>
       <Route path='/home' element={<Home />}/>
       <Route path='/listings' element={<Listings />}/>
       <Route path='/listing' element={<Listing />}/>
       <Route path='/properties' element={<Properties />}/>
       <Route path={`/property/${lastItem}`} element={<Property />}/>
-      <Route path='/payment' element={<Payment />}/>
+      <Route path={`/payment/${lastItem}`} element={<Payment />}/>
       <Route path='/receipt' element={<Receipt />}/>
       <Route path='/saved' element={<Saved />}/>
       <Route path='/register' element={<Registration />}/>

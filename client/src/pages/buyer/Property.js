@@ -14,7 +14,7 @@ const Property = () => {
    const navigate = useNavigate()
    
    const makepurchase=()=>{
-      navigate("/payment")
+      navigate(`/payment/${property.property_id}`)
    }
    const proceedpurchase=()=>{
       try{
@@ -41,7 +41,7 @@ const Property = () => {
    }
    const [property, setProperty] = useState([])
    const [saved, setSaved] = useState([])
-   const [process, setProcess]=useState()
+   const [process, setProcess]=useState([])
    const [user, setUserData] = useState([])
    const [inquiry, setInquiry] = useState()
    const [feedback, setFeedback] = useState([])
@@ -186,11 +186,11 @@ const Property = () => {
       <h3 className="name">{property.property_name}</h3>
       <p className="location"><FontAwesomeIcon icon={faMapMarkerAlt}/><span>{property.address}</span></p>
       <div className="info">
-         <p><FontAwesomeIcon icon={faTag}/><span>15 lac</span></p>
-         <p><FontAwesomeIcon icon={faUser}/><span>{property.first_name} (owner)</span></p>
-         <p><FontAwesomeIcon icon={faBuilding}/><span>{property.type}</span></p>
-         <p><FontAwesomeIcon icon={faHouse}/><span>{property.offer}</span></p>
-         <p><FontAwesomeIcon icon={faCalendar}/><span>{property.creation_time}</span></p>
+         <p><FontAwesomeIcon className='faicons' icon={faTag}/><span>15 lac</span></p>
+         <p><FontAwesomeIcon className='faicons' icon={faUser}/><span>{property.first_name} (owner)</span></p>
+         <p><FontAwesomeIcon className='faicons' icon={faBuilding}/><span>{property.type}</span></p>
+         <p><FontAwesomeIcon className='faicons' icon={faHouse}/><span>{property.offer}</span></p>
+         <p><FontAwesomeIcon className='faicons' icon={faCalendar}/><span>{property.creation_time}</span></p>
       </div>
       <h3 className="title">details</h3>
       <div className="flex">
@@ -212,31 +212,31 @@ const Property = () => {
       <h3 className="title">amenities</h3>
       <div className="flex">
          <div className="box">
-            <p>{property.lift=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.lift=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>lifts</span></p>
-            <p>{property.security_guard=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.security_guard=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>security guards</span></p>
-            <p>{property.play_ground=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.play_ground=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>play ground</span></p>
-            <p>{property.garden=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.garden=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>gardens</span></p>
-            <p>{property.water_supply=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.water_supply=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>water supply</span></p>
-            <p>{property.power_backup=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.power_backup=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>power backup</span></p>
          </div>
          <div className="box">
-            <p>{property.parking_area=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.parking_area=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>parking area</span></p>
-            <p>{property.gym=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.gym=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>gym</span></p>
-            <p>{property.shopping_mall=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.shopping_mall=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>shopping mall</span></p>
-            <p>{property.hospital=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.hospital=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>hospital</span></p>
-            <p>{property.school=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.school=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>schools</span></p>
-            <p>{property.market_area=="yes"?<FontAwesomeIcon icon={faCheck}/>:<FontAwesomeIcon icon={faTimes}/>}
+            <p>{property.market_area=="yes"?<FontAwesomeIcon className='faicons' icon={faCheck}/>:<FontAwesomeIcon className='faiconsr' icon={faTimes}/>}
                <span>market area</span></p>
          </div>
       </div>
@@ -267,15 +267,10 @@ const Property = () => {
       </div>
 
       <div className='flex justify-evenly'>
-      {/* {user_id?
+      {user_id?
       <button disabled={process.search=="Success"?false:true}  onClick={makepurchase} className={`${process.search=="Success"?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
       :null}
-          */}
-          {process.search==="Success"?
-          <button disabled={process.search?false:true}  onClick={makepurchase} className={`inline-btn`}>Purchase Property</button>:
-          null
-          }
-          
+                   
          
 
       </div>

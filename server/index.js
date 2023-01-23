@@ -47,6 +47,7 @@ app.use("/api/property", propertyRoutes);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../client/src/assets/uploads");
+    cb(null, "../client/public/uploads");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname);
