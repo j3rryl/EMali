@@ -24,6 +24,7 @@ import {
   getUserProcess,
   getSales,
   getSumPropertySales,
+  getUserProcessUp,
 } from "../controllers/property.js";
 
 const router = express.Router();
@@ -32,6 +33,7 @@ router.get("/all", getProperties);
 router.get("/approved", getApprovedProperties);
 router.post("/by", getPropertiesByUser);
 router.post("/saveproperty", saveProperty);
+
 router.post("/startprocess", saveProcess);
 
 router.get("/allsales", getSales);
@@ -39,6 +41,8 @@ router.get("/propertysales", getSumPropertySales);
 
 router.get("/getprocess", getProcess);
 router.get("/getprocessby/:id", getUserProcess);
+
+router.get("/getprocessbyup/:id", getUserProcessUp);
 
 router.put("/updatetransfer/:id", updateTransfer);
 

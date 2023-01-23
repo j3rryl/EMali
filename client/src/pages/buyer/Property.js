@@ -17,7 +17,24 @@ const Property = () => {
       navigate("/payment")
    }
    const proceedpurchase=()=>{
-      navigate("/payment")
+      try{
+         axios.post("http://localhost:3001/api/property/startprocess",{
+         property_id:lastItem,
+         user_id:user_id,
+         transfer:"no",
+         search:"Begin"
+       }).then((response)=>{
+         if(response.data=="exists"){
+           toast.warn("Search has already been inititiated.")
+         } else {
+           toast.success("Search process has began.")
+           
+         }
+       })
+         
+       } catch (err){
+         toast.error("Registration Unsuccessful.")
+       }
    }
    const terminatepurchase=()=>{
       navigate("/payment")
@@ -44,11 +61,13 @@ const Property = () => {
      }
      async function fetchProcess(){
       const  response =  await axios.get(
-          `http://localhost:3001/api/property/getprocessby/${lastItem}`,{
-           
+          `http://localhost:3001/api/property/getprocessbyup/${lastItem}`,{
+           params:{
+            user_id:user_id
+           }
           }
       );
-      // console.log(response.data)
+      console.log(response.data)
       setProcess(response.data);
   }
      async function fetchSaved(){
@@ -147,7 +166,6 @@ const Property = () => {
       }
 
    }
-
 
   return (
     <>
@@ -249,9 +267,15 @@ const Property = () => {
       </div>
 
       <div className='flex justify-evenly'>
-      {user_id?
-      <button disabled={!process==""?false:true}  onClick={makepurchase} className={`${!process==""?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
+      {/* {user_id?
+      <button disabled={process.search=="Success"?false:true}  onClick={makepurchase} className={`${process.search=="Success"?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
       :null}
+          */}
+          {process.search==="Success"?
+          <button disabled={process.search?false:true}  onClick={makepurchase} className={`inline-btn`}>Purchase Property</button>:
+          null
+          }
+          
          
 
       </div>

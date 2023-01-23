@@ -105,6 +105,8 @@ export const saveProperty = (req, res) => {
 export const saveProcess = (req, res) => {
   const user_id=req.body.user_id
   const property_id=req.body.property_id
+  const transfer=req.body.transfer
+  const search=req.body.search
 
     const q = "SELECT * FROM process WHERE user_id = ? AND property_id=?";
   
@@ -112,8 +114,8 @@ export const saveProcess = (req, res) => {
       if (err) return res.status(500).json(err);
       if (data.length) return res.json("exists");
       db.query(
-        "INSERT INTO process (property_id,user_id) VALUES (?,?)",
-        [property_id, user_id],
+        "INSERT INTO process (property_id,user_id,transfer,search) VALUES (?,?,?,?)",
+        [property_id, user_id,transfer,search],
         (err, result)=>{
           if(err){
             return res.status(500).json(err);
@@ -157,15 +159,22 @@ export const getProcess = (req, res) => {
   })
 };
 
-export const getUserProcess = (req, res) => {
+export const getUserProcessUp = (req, res) => {
 const user_id=req.query.user_id
-const property_id=req.query.property_id
-  db.query("SELECT * FROM process WHERE property_id=?",[req.params.id],
+  db.query("SELECT * FROM process WHERE property_id=? AND user_id=?",[req.params.id,user_id],
   (err,data)=>{
     if(err) res.json(err)
     return res.json(data[0])
   })
 };
+export const getUserProcess = (req, res) => {
+  const user_id=req.query.user_id
+    db.query("SELECT * FROM process WHERE property_id=? ",[req.params.id],
+    (err,data)=>{
+      if(err) res.json(err)
+      return res.json(data[0])
+    })
+  };
 
 export const updateValuated = (req, res) => {
   db.query("UPDATE property SET valuated='Pending Approval' WHERE property_id = ?",
