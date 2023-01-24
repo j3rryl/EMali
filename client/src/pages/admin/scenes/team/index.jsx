@@ -9,6 +9,18 @@ import Header from "../../components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import {
+  GridRowModes,
+  GridActionsCellItem,
+} from '@mui/x-data-grid';
+import * as React from 'react';
+
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -23,28 +35,100 @@ const Team = () => {
   }
   fetchUsers()
 }, []);
-function rowclick(user){
-  console.log(user)
-}
+// const [rows, setRows] = user;
+
+  // const handleRowEditStart = (
+  //   params: GridRowParams,
+  //   event: MuiEvent<React.SyntheticEvent>,
+  // ) => {
+  //   event.defaultMuiPrevented = true;
+  // };
+
+  // const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+  //   event.defaultMuiPrevented = true;
+  // };
+
+  const handleEditClick = (id) => () => {
+    console.log(id)
+  };
+
+  const handleSaveClick = (id) => () => {
+    console.log(id)
+  };
+
+  const handleDeleteClick = (id) => () => {
+    console.log(id)
+    // setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id) => () => {
+    console.log(id)
+  };
   const columns = [
     { field: "user_id", headerName: "ID", flex: 0.5 },
     {
       field: "first_name",
+      editable:true,
       headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
       field: "last_name",
-      headerName: "First Name",
+      headerName: "Last Name",
       flex: 1,
       cellClassName: "name-column--cell",
+      editable:true,
     },
     
     {
       field: "email",
       headerName: "Email",
       flex: 1,
+      editable:true,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = true;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
     },
     
   ];
@@ -81,8 +165,8 @@ function rowclick(user){
           },
         }}
       >
-        <DataGrid checkboxSelection rows={user} columns={columns} 
-        getRowId={(user) =>  user.user_id} onRowClick={rowclick((user) =>  user.user_id)}
+        <DataGrid editMode="row" checkboxSelection rows={user} columns={columns} 
+        getRowId={(user) =>  user.user_id} 
         />
       </Box>
     </Box>

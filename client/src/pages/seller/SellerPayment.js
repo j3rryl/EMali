@@ -71,7 +71,7 @@ const SellerPayment = () => {
       <p className="checkout-description">
         Pay for valuation.
       </p>
-      <h1 className="checkout-price">$ {temp?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</h1>
+      <h1 className="checkout-price">$ 150</h1>
       {/* <img
         className="checkout-product-image"
         // src={require(`../../assets/uploads/${property.image_01}`)}
