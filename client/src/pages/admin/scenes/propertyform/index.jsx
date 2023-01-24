@@ -4,10 +4,15 @@ import { toast, ToastContainer } from 'react-toastify'
 // import '../../assets/css/style.css'
 
 const Form = () => {
-   const user_id=window.localStorage.getItem("seller")
+   
+   const user_id=window.localStorage.getItem("admin")
    const [file1, setFile1] = useState(null);
    const [file2, setFile2] = useState(null);
    const [file3, setFile3] = useState(null);
+
+   const [file4, setFile4] = useState(null);
+   const [file5, setFile5] = useState(null);
+   const [file6, setFile6] = useState(null);
 
    const [property_name, setPropertyName]=useState('')
    const [property_price, setPrice]=useState('')
@@ -78,6 +83,10 @@ const upload = async (file) => {
       const imgUrl1 = await upload(file1);
       const imgUrl2 = await upload(file2);
       const imgUrl3 = await upload(file3);
+
+      const imgUrl4 = await upload(file4);
+      const imgUrl5 = await upload(file5);
+      const imgUrl6 = await upload(file6);
       try{
          axios.post("http://localhost:3001/api/property/addproperty",{
             user_id: user_id,
@@ -110,6 +119,9 @@ const upload = async (file) => {
             image_01: file1 ? imgUrl1 : "",
             image_02: file2 ? imgUrl2 : "",
             image_03: file3 ? imgUrl3 : "",
+            image_04: file1 ? imgUrl4 : "",
+            image_05: file2 ? imgUrl5 : "",
+            image_06: file3 ? imgUrl6 : "",
             description: property_description,
             
          
@@ -167,9 +179,10 @@ const upload = async (file) => {
             <p>property type <span>*</span></p>
             <select value={property_type} onChange={(e)=>setType(e.target.value)}
              name="type" required className="input">
-               <option value="flat">flat</option>
-               <option value="house" defaultValue>house</option>
-               <option value="shop">shop</option>
+               <option value="apartment">apartment</option>
+               <option value="maisonette" defaultValue>maisonette</option>
+               <option value="bungalow">bungalow</option>
+               <option value="condominium">condominium </option>
             </select>
          </div>
          <div className="box">
@@ -434,14 +447,21 @@ const upload = async (file) => {
             <input onChange={(e) => setFile3(e.target.files[0])}
              type="file" name="file3" className="input" accept="image/*"/>
          </div>
-         {/* <div className="box">
+         <div className="box">
             <p>image 04</p>
-            <input type="file" name="image_04" className="input" accept="image/*"/>
+            <input onChange={(e) => setFile4(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 05</p>
-            <input type="file" name="image_05" className="input" accept="image/*"/>
-         </div>    */}
+            <input onChange={(e) => setFile5(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
+         </div>
+         <div className="box">
+            <p>image 06</p>
+            <input onChange={(e) => setFile6(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
+         </div>  
       </div>
       <input type="submit" value="post property" className="btn" name="post"/>
    </form>

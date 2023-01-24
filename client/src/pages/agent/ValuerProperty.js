@@ -179,6 +179,10 @@ const AgentProperty = () => {
          <img src={`/uploads/${property.image_01}`} alt='' />
          <img src={`/uploads/${property.image_02}`} alt='' />
          <img src={`/uploads/${property.image_03}`} alt='' />
+         <img src={`/uploads/${property.image_04}`} alt='' />
+         <img src={`/uploads/${property.image_05}`} alt='' />
+         <img src={`/uploads/${property.image_06}`} alt='' />
+         
          </div>
          
       </div>

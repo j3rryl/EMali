@@ -311,7 +311,7 @@ export const addProperty = (req, res) => {
       req.body.description,
     ];
 
-    db.query("INSERT INTO property (user_id, property_name, address,price, type,offer,status,furnished,carpet_area,age,total_floors,deposite,bedroom,bathroom,balcony, lift, security_guard,play_ground,garden,water_supply,power_backup,parking_area,gym,shopping_mall,hospital,school,market_area,image_01,image_02,image_03,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+    db.query("INSERT INTO property (user_id, property_name, address,price, type,offer,status,furnished,carpet_area,age,total_floors,deposite,bedroom,bathroom,balcony, lift, security_guard,play_ground,garden,water_supply,power_backup,parking_area,gym,shopping_mall,hospital,school,market_area,image_01,image_02,image_03,image_04,image_05,image_06,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
     [
       req.body.user_id,
       req.body.property_name,
@@ -344,6 +344,9 @@ export const addProperty = (req, res) => {
       req.body.image_01,
       req.body.image_02,
       req.body.image_03,
+      req.body.image_04,
+      req.body.image_05,
+      req.body.image_06,
 
       req.body.description,
     ], (err, data) => {
@@ -411,7 +414,7 @@ export const deleteSaved = (req, res) => {
 export const updateProperty = (req, res) => {
   const property_id = req.params.id;
 
-  db.query("UPDATE property SET `user_id`=?, `property_name`=?, `address`=?,`price`=?, `type`=?,`offer`=?,`status`=?,`furnished`=?,`carpet_area`=?,`age`=?,`total_floors`=?,`deposite`=?,`bedroom`=?,`bathroom`=?,`balcony`=?, `lift`=?, `security_guard`=?,`play_ground`=?,`garden`=?,`water_supply`=?,`power_backup`=?,`parking_area`=?,`gym`=?,`shopping_mall`=?,`hospital`=?,`school`=?,`market_area`=?,`image_01`=?,`image_02`=?,`image_03`=?,`description`=? WHERE `property_id`=?", 
+  db.query("UPDATE property SET `user_id`=?, `property_name`=?, `address`=?,`price`=?, `type`=?,`offer`=?,`status`=?,`furnished`=?,`carpet_area`=?,`age`=?,`total_floors`=?,`deposite`=?,`bedroom`=?,`bathroom`=?,`balcony`=?, `lift`=?, `security_guard`=?,`play_ground`=?,`garden`=?,`water_supply`=?,`power_backup`=?,`parking_area`=?,`gym`=?,`shopping_mall`=?,`hospital`=?,`school`=?,`market_area`=?,`image_01`=?,`image_02`=?,`image_03`=?,`image_04`=?,`image_05`=?,`image_06`=?,`description`=? WHERE `property_id`=?", 
   [
     req.body.user_id,
     req.body.property_name,
@@ -443,6 +446,9 @@ export const updateProperty = (req, res) => {
     req.body.image_01,
     req.body.image_02,
     req.body.image_03,
+    req.body.image_04,
+    req.body.image_05,
+    req.body.image_06,
     req.body.description,
     property_id
   ], (err, data) => {

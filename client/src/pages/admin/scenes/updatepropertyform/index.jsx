@@ -4,10 +4,14 @@ import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 
 const UpdatePropertyForm = () => {
-   const user_id=window.localStorage.getItem("seller")
+   
+   const user_id=window.localStorage.getItem("admin")
    const [file1, setFile1] = useState(null);
    const [file2, setFile2] = useState(null);
    const [file3, setFile3] = useState(null);
+   const [file4, setFile4] = useState(null);
+   const [file5, setFile5] = useState(null);
+   const [file6, setFile6] = useState(null);
    const [property_name, setPropertyName]=useState('')
    const [property_price, setPrice]=useState()
    const [property_deposit, setDeposit]=useState()
@@ -65,6 +69,9 @@ const updateProperties = async()=>{
       const imgUrl1 = await upload(file1);
       const imgUrl2 = await upload(file2);
       const imgUrl3 = await upload(file3);
+      const imgUrl4 = await upload(file4);
+      const imgUrl5 = await upload(file5);
+      const imgUrl6 = await upload(file6);
       try{
          axios.put(`http://localhost:3001/api/property/updateproperty/${lastItem}`,{
             user_id: user_id,
@@ -97,6 +104,9 @@ const updateProperties = async()=>{
             image_01: file1 ? imgUrl1 : "",
             image_02: file2 ? imgUrl2 : "",
             image_03: file3 ? imgUrl3 : "",
+            image_04: file4 ? imgUrl4 : "",
+            image_05: file5 ? imgUrl5 : "",
+            image_06: file6 ? imgUrl6 : "",
    
             description: property_description,
             
@@ -105,7 +115,7 @@ const updateProperties = async()=>{
          if(response.data=="success"){
            toast.success("Property Updated Successfully.")
            setTimeout(()=>{
-            window.location.reload()
+            window.location.assign("/seller/mylistings")
            },1500)
          } else {
             toast.error("Property Update Unsuccessful.")
@@ -143,6 +153,9 @@ const updateProperties = async()=>{
         setFile1(resp.image_01)
         setFile2(resp.image_02)
         setFile3(resp.image_03)
+        setFile4(resp.image_04)
+        setFile5(resp.image_05)
+        setFile6(resp.image_06)
 
       // setLift(resp.lift)
       // setGuard(resp.security_guard)
@@ -481,14 +494,21 @@ const updateProperties = async()=>{
             <input defaultValue={property.image_03} onChange={(e)=>setFile3(e.target.files[0])}
              type="file" name="image_03" className="input" accept="image/*"/>
          </div>
-         {/* <div className="box">
+         <div className="box">
             <p>image 04</p>
-            <input type="file" name="image_04" className="input" accept="image/*"/>
+            <input defaultValue={property.image_04} onChange={(e) => setFile4(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
          </div>
          <div className="box">
             <p>image 05</p>
-            <input type="file" name="image_05" className="input" accept="image/*"/>
-         </div>    */}
+            <input defaultValue={property.image_05} onChange={(e) => setFile5(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
+         </div>
+         <div className="box">
+            <p>image 06</p>
+            <input defaultValue={property.image_06} onChange={(e) => setFile6(e.target.files[0])}
+             type="file" name="file3" className="input" accept="image/*"/>
+         </div>  
       </div>
       <input type="submit" value="Update Property" className="btn" name="post"/>
    </form>
