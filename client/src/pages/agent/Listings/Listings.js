@@ -6,6 +6,51 @@ import Listing from './Listing'
 
 
 const Listings = ({properties}) => {
+
+  function beginSearch(process_id){
+    try{
+      axios.put(`http://localhost:3001/api/property/updatesearch/${process_id}`,{
+        search:'Progress',
+    })
+    setTimeout(()=>{
+      window.location.reload()
+    },1800)
+    
+    toast.success("Search has began.")
+    } catch (err){
+      toast.error("Error.")
+    }
+  }
+
+  function searchComplete(process_id){
+    try{
+      axios.put(`http://localhost:3001/api/property/updatesearch/${process_id}`,{
+        search:'Success',
+    })
+    setTimeout(()=>{
+      window.location.reload()
+    },1800)
+    
+    toast.success("Search was successful.")
+    } catch (err){
+      toast.error("Error.")
+    }
+  }
+
+  function searchDeclined(process_id){
+    try{
+      axios.put(`http://localhost:3001/api/property/updatesearch/${process_id}`,{
+        search:'Declined',
+    })
+    setTimeout(()=>{
+      window.location.reload()
+    },1800)
+    
+    toast.success("Search was unsuccessful.")
+    } catch (err){
+      toast.error("Error.")
+    }
+  }
   
   function completeTransfer(process_id){
     try{
@@ -43,6 +88,7 @@ const Listings = ({properties}) => {
           return (
               <Listing
                   transfer={property.transfer}
+                  search={property.search}
                   key={index}
                   property_id={property.property_id}
                   image={property.image_01}
@@ -54,6 +100,10 @@ const Listings = ({properties}) => {
                   offer={property.offer}
                   propertystatus={property.status}
                   furnished={property.furnished}
+                  searchComplete={()=>searchComplete(property.process_id)}
+                  searchDeclined={()=>searchDeclined(property.process_id)}
+                  beginSearch={()=>beginSearch(property.process_id)}
+
                   completeTransfer={()=>completeTransfer(property.process_id)}
                   terminateTransfer={()=>terminateTransfer(property.process_id)}
 

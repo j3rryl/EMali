@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsd, faHouse, faTag, faTrowel, faCouch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from 'react-router-dom'
 
-const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, transfer,terminateTransfer,completeTransfer }) => {
+const Listing = ({ image, name, price, type, offer, propertystatus, furnished, address, property_id,valuated, transfer,terminateTransfer,completeTransfer,search,searchComplete,searchDeclined,beginSearch }) => {
   const [inIndex, setInIndex] = useState(false);
 
   const location=useLocation()
@@ -16,6 +16,11 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
     }, [location.pathname, inIndex]);
   const openProperty=(property_id)=>{
     window.location.assign(`/property/${property_id}`)
+  }
+  if(transfer==""){
+    return(
+      <h2 className=' text-2xl text-center'>No Tickets have been pushed yet.</h2>
+    )
   }
   return (
   
@@ -36,11 +41,26 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
           <h2><FontAwesomeIcon className='faicons' icon={faCouch} />{furnished}</h2>
           </div>
           <div className='flex justify-between'>
-          {transfer?transfer=="no"?<button onClick={completeTransfer} className=' vbutton'>Complete Transfer</button>
-          :<button onClick={terminateTransfer} className=' vbutton '>Terminate Transfer</button>
+          {search=="Begin"&&transfer=="no"?<button onClick={beginSearch} className=' vbutton'>Begin Search</button>
           :null}
-          <h2 className={transfer=='yes'?'!text-green-500':transfer=='no'?'!text-red-600':'!text-yellow-400'}>
-            {transfer}</h2>
+          <h2 className={search=='Success'?'!text-green-500 !font-black':search=='Terminate'?'!text-red-600 !font-black':'!text-yellow-400 !font-black'}>
+            {search}</h2>
+          </div>
+
+          <div className='flex justify-between'>
+          {search=="Progress"&&transfer=="no"?
+          <>
+          <button onClick={searchComplete} className=' vbutton'>Search Complete</button>
+          <button onClick={searchDeclined} className=' vbutton '>Search Declined</button>
+          </>
+          :null}
+
+        {search=="Success"&&transfer=="no"?
+          <>
+          <button onClick={completeTransfer} className=' vbutton'>Transfer Complete</button>
+          <button onClick={terminateTransfer} className=' vbutton '>Transfer Declined</button>
+          </>
+          :null}
           </div>
 
           <div className='flex align-middle justify-between'>

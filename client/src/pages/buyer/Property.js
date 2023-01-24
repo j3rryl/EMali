@@ -268,7 +268,7 @@ const Property = () => {
 
       <div className='flex justify-evenly'>
       {user_id?
-      <button disabled={process.search=="Success"?false:true}  onClick={makepurchase} className={`${process.search=="Success"?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
+      <button disabled={process.transfer=="yes"?false:true}  onClick={makepurchase} className={`${process.search=="Success"?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
       :null}
                    
          

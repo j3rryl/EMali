@@ -2,10 +2,27 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockLineData as data } from "../data/mockData";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
+
   const colors = tokens(theme.palette.mode);
+  const[sales,setSales]=useState([])
+
+  useEffect(() => {
+    
+  async function fetchSales(){
+    const  response =  await axios.get(
+        "http://localhost:3001/api/property/allsales"
+    );
+    console.log(response.data)
+    setSales(response.data)
+}
+fetchSales()
+
+}, []);
 
   return (
     <ResponsiveLine
@@ -62,7 +79,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
+        legend: isDashboard ? undefined : "Popularity", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}

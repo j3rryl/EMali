@@ -4,12 +4,55 @@ import * as yup from "yup";
 // import useMediaQuery from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [first,setFirst]=useState('')
+  const [role,setRole]=useState()
+  const [last,setLast]=useState('')
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
+  function loginUser(email,password){
+    setEmail(email)
+    setPassword(password)
+    setLast(last)
+    setFirst(first)
+    setRole(role)
+}
+useEffect(()=>{
+  const abortCont=new AbortController();
+  loginUser(email,password,{signal:abortCont.signal})
+  return()=>{
+    // console.log('Login page aborted.')
+    abortCont.abort()
+  }
+},[email,password,first,last,role])
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const sendData = () => {
+
+    try{
+      axios.post("http://localhost:3001/api/auth/register",{
+      first:first,
+      last:last,
+      email:email,
+      password:"password",
+      role:role
+    }).then((response)=>{
+      if(response.data=="exists"){
+        toast.error("User with email already exists.")
+      } else {
+        toast.success("Registration Successful.")
+        
+      }
+    })
+      
+    } catch (err){
+      toast.error("Registration Unsuccessful.")
+    }
+    
   };
 
   return (
@@ -17,16 +60,14 @@ const Form = () => {
       <Header title="CREATE USER" subtitle="Create a New User Profile" />
 
       <Formik
-        onSubmit={handleFormSubmit}
+        // onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
           errors,
           touched,
           handleBlur,
-          handleChange,
           handleSubmit,
         }) => (
           <form onSubmit={handleSubmit}>
@@ -44,11 +85,11 @@ const Form = () => {
                 type="text"
                 label="First Name"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
+                onChange={(e)=>setFirst(e.target.value)}
+                value={first}
                 name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                error={!!touched.first && !!errors.first}
+                helperText={touched.first && errors.first}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -57,11 +98,11 @@ const Form = () => {
                 type="text"
                 label="Last Name"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
+                onChange={(e)=>setLast(e.target.value)}
+                value={last}
                 name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                error={!!touched.last && !!errors.last}
+                helperText={touched.last && errors.last}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -70,57 +111,39 @@ const Form = () => {
                 type="text"
                 label="Email"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                onChange={(e)=>setEmail(e.target.value)}
+                value={email}
                 name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                // error={!!touched.email && !!errors.email}
+                // helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+              <div className='login-form-control-container'>
+        <label htmlFor='role'>Role</label>
+        <br/><br />
+        <input type="radio" name="role" value="1"
+        onChange={(e)=>setRole(e.target.value)}
+        />Admin
+        <input type="radio" name="role" value="2"
+        onChange={(e)=>setRole(e.target.value)}
+        /> Buyer
+        <input type="radio" name="role" value="3"
+        onChange={(e)=>setRole(e.target.value)}
+        />Seller
+        <input type="radio" name="role" value="4"
+        onChange={(e)=>setRole(e.target.value)}
+        />Valuer
+        <input type="radio" name="role" value="5"
+        onChange={(e)=>setRole(e.target.value)}
+        />Agent
+        </div>
+              
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+              <Button onClick={sendData} color="secondary" variant="contained">
                 Create New User
               </Button>
+              <ToastContainer/>
             </Box>
           </form>
         )}
@@ -135,21 +158,13 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  emailName: yup.string().email("invalid email").required("required"),
 });
 const initialValues = {
   firstName: "",
   lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
+  emailName: "",
+
 };
 
 export default Form;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -16,10 +16,12 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import { useEffect } from "react";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
   return (
     <MenuItem
       active={selected === title}
@@ -38,11 +40,18 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const user_id = window.localStorage.getItem("admin")
+  const [inIndex, setInIndex] = useState(false);
+  
+      const location=useLocation()
+  useEffect(() => {
+    location.pathname==="/login"?setInIndex(true):setInIndex(false)
+  }, [location.pathname, inIndex]);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <Box
+    <Box 
       sx={{
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
@@ -134,21 +143,29 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Manage Users"
-              to="/authuser/admin/team"
+              to="/authuser/admin/users"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Manage Properties"
-              to="/authuser/admin/team"
+              to="/authuser/admin/properties"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
-              to="/authuser/admin/contacts"
+              title="Users Information"
+              to="/authuser/admin/usercontacts"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+<Item
+              title="Properties Information"
+              to="/authuser/admin/propertycontacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -171,6 +188,14 @@ const Sidebar = () => {
             <Item
               title="Profile Form"
               to="/authuser/admin/form"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+<Item
+              title="Property Form"
+              to="/authuser/admin/propertyform"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

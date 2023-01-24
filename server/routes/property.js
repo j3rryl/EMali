@@ -28,6 +28,8 @@ import {
   newSale,
   getSalesUserProperty,
   newSaleSeller,
+  updateSearch,
+  getSalesUserPropertyAll,
 } from "../controllers/property.js";
 
 const router = express.Router();
@@ -42,6 +44,7 @@ router.post("/startprocess", saveProcess);
 router.get("/allsales", getSales);
 router.get("/propertysales", getSumPropertySales);
 router.get("/propertysalesuser", getSalesUserProperty);
+router.get("/propertysalesuserall", getSalesUserPropertyAll);
 
 router.get("/getprocess", getProcess);
 router.get("/getprocessby/:id", getUserProcess);
@@ -49,6 +52,7 @@ router.get("/getprocessby/:id", getUserProcess);
 router.get("/getprocessbyup/:id", getUserProcessUp);
 
 router.put("/updatetransfer/:id", updateTransfer);
+router.put("/updatesearch/:id", updateSearch);
 
 router.post("/pendingpayment", pendingPayment);
 router.post("/newsale",newSale);

@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -43,37 +43,7 @@ const Team = () => {
       headerName: "Email",
       flex: 1,
     },
-    {
-      field: "role",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {access === "1" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "4" && <SecurityOutlinedIcon />}
-            {access === "2" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-        );
-      },
-    },
+    
   ];
 
   return (
@@ -109,7 +79,8 @@ const Team = () => {
         }}
       >
         <DataGrid checkboxSelection rows={user} columns={columns} 
-        getRowId={(user) =>  user.user_id}/>
+        getRowId={(user) =>  user.user_id}
+        />
       </Box>
     </Box>
   );

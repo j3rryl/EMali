@@ -39,6 +39,17 @@ const property_id=req.query.propert_id
   });
 };
 
+export const getSalesUserPropertyAll = (req, res) => {
+  const user_id=req.query.user_id
+  const property_id=req.query.propert_id
+    db.query("SELECT * FROM sales LEFT JOIN property ON sales.property_id=property.property_id LEFT JOIN users ON sales.user_id=users.user_id", 
+    [user_id,property_id], (err, data) => {
+      if (err) return res.status(500).send(err);
+  
+      return res.status(200).json(data);
+    });
+  };
+
 export const newSale = (req, res) => {
   //CHECK EXISTING USER
 const user_id=req.body.user_id
@@ -247,6 +258,16 @@ export const updateTransfer = (req, res) => {
   const process_id=req.params.id
   db.query("UPDATE process SET transfer=? WHERE process_id = ?",
   [transfer,process_id],(err,data)=>{
+    if(err) res.json(err)
+    return res.json(data)
+  })
+};
+
+export const updateSearch = (req, res) => {
+  const search = req.body.search
+  const process_id=req.params.id
+  db.query("UPDATE process SET search=? WHERE process_id = ?",
+  [search,process_id],(err,data)=>{
     if(err) res.json(err)
     return res.json(data)
   })

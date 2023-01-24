@@ -36,14 +36,18 @@ import MessageCard from '../pages/agent/Message/MessageCard'
 import Messages from '../pages/agent/Messages'
 
 import Contact from '../pages/admin/scenes/contacts'
+import Properc from '../pages/admin/scenes/property'
+
 
 import Topbar from "../pages/admin/scenes/global/Topbar";
 import Sidebar from "../pages/admin/scenes/global/Sidebar";
 import Dashboard from "../pages/admin/scenes/dashboard";
 import Team from "../pages/admin/scenes/team";
+import Properts from "../pages/admin/scenes/properties"
 import Invoices from "../pages/admin/scenes/invoices";
 import Bar from "../pages/admin/scenes/bar";
 import Form from "../pages/admin/scenes/form";
+import PropertyForm from "../pages/admin/scenes/propertyform";
 import Line from "../pages/admin/scenes/line";
 import Pie from "../pages/admin/scenes/pie";
 import Success from '../pages/buyer/Success'
@@ -141,10 +145,14 @@ const RoutesHandler = () => {
 
 
       <Route path="/authuser/admin" element={<Dashboard />} />
-      <Route path="/authuser/admin/team" element={<Team />} />
-      <Route path="/authuser/admin/contacts" element={<Contact />} />
+      <Route path="/authuser/admin/users" element={<Team />} />
+      <Route path="/authuser/admin/properties" element={<Properts />} />
+      <Route path="/authuser/admin/usercontacts" element={<Contact />} />
+      <Route path="/authuser/admin/propertycontacts" element={<Properc />} />
+
       <Route path="/authuser/admin/invoices" element={<Invoices />} />
       <Route path="/authuser/admin/form" element={<Form />} />
+      <Route path="/authuser/admin/propertyform" element={<PropertyForm />} />
       <Route path="/authuser/admin/bar" element={<Bar />} />
       <Route path="/authuser/admin/pie" element={<Pie />} />
       <Route path="/authuser/admin/line" element={<Line />} />

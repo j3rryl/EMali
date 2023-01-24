@@ -26,7 +26,7 @@ fetchSales()
 }, []);
   return (
     <ResponsivePie
-      data={sales}
+      data={data}
       theme={{
         axis: {
           domain: {
