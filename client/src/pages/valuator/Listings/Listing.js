@@ -15,7 +15,7 @@ const Listing = ({ image, name, price, type, offer, propertystatus, furnished, a
 	  location.pathname==="/seller/home"?setInIndex(true):setInIndex(false)
     }, [location.pathname, inIndex]);
   const openProperty=(property_id)=>{
-    window.location.assign(`/property/${property_id}`)
+    window.location.assign(`/authuser/valuer/property/${property_id}`)
   }
   return (
   

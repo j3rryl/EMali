@@ -54,6 +54,10 @@ import Success from '../pages/buyer/Success'
 import Cancel from '../pages/buyer/Cancel'
 import SellerCancel from '../pages/seller/SellerCancel'
 import SellerSuccess from '../pages/seller/SellerSuccess'
+import SellerProperty from '../pages/seller/SellerProperty'
+import ValuerProperty from '../pages/valuator/ValuerProperty'
+import AgentProperty from '../pages/agent/ValuerProperty'
+import AdminProfile from '../pages/admin/scenes/updateform'
 
 
 
@@ -125,16 +129,21 @@ const RoutesHandler = () => {
       <Route path='/seller/home' element={<SellerHome />}/>
       <Route path='/seller/mylistings' element={<MyListings />}/>
       <Route path={`/seller/payment/${lastItem}`} element={<SellerPayment />}/>
+      <Route path={`/seller/property/${lastItem}`} element={<SellerProperty />}/>
+
       <Route path='/seller/postproperty' element={<PostProperty />}/>
       <Route path='/seller/profile' element={<SellerProfile />}/>
+      
       <Route path={`/seller/updateproperty/${lastItem}`} element={<UpdateProperty />}/>
 
       <Route path={`/authuser/valuer`} element={<ValuatorHome />}/>
+      <Route path={`/authuser/valuer/property/${lastItem}`} element={<ValuerProperty />}/>
       <Route path={`/authuser/valuer/valuerlistings`} element={<ValuatorListings />}/>
       <Route path={`/authuser/valuer/valuerhome`} element={<ValuatorHome />}/>
       <Route path={`/authuser/valuer/valuerprofile`} element={<ValuatorProfile />}/>
 
       <Route path={`/authuser/agent`} element={<Messages />}/>
+      <Route path={`/authuser/agent/property/${lastItem}`} element={<AgentProperty />}/>
       <Route path={`/authuser/agent/listings`} element={<AgentListings />}/>
       <Route path={`/authuser/agent/process`} element={<Process />}/>
       <Route path={`/authuser/agent/profile`} element={<AgentProfile />}/>
@@ -151,6 +160,7 @@ const RoutesHandler = () => {
       <Route path="/authuser/admin/propertycontacts" element={<Properc />} />
 
       <Route path="/authuser/admin/invoices" element={<Invoices />} />
+      <Route path="/authuser/admin/updateform" element={<AdminProfile />} />
       <Route path="/authuser/admin/form" element={<Form />} />
       <Route path="/authuser/admin/propertyform" element={<PropertyForm />} />
       <Route path="/authuser/admin/bar" element={<Bar />} />

@@ -124,18 +124,12 @@ useEffect(()=>{
         <input type="radio" name="role" value="1"
         onChange={(e)=>setRole(e.target.value)}
         />Admin
-        <input type="radio" name="role" value="2"
-        onChange={(e)=>setRole(e.target.value)}
-        /> Buyer
-        <input type="radio" name="role" value="3"
-        onChange={(e)=>setRole(e.target.value)}
-        />Seller
         <input type="radio" name="role" value="4"
         onChange={(e)=>setRole(e.target.value)}
-        />Valuer
+        />Agent
         <input type="radio" name="role" value="5"
         onChange={(e)=>setRole(e.target.value)}
-        />Agent
+        />Valuer
         </div>
               
             </Box>

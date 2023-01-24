@@ -62,7 +62,7 @@ function onSubmit(e){
     }
 
   } else {
-    toast.error("Password is too short.")
+    toast.error("Password is too short. Password must be longer than 8 characters.")
   }
   
   

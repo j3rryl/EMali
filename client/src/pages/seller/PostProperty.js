@@ -167,9 +167,10 @@ const upload = async (file) => {
             <p>property type <span>*</span></p>
             <select value={property_type} onChange={(e)=>setType(e.target.value)}
              name="type" required className="input">
-               <option value="flat">flat</option>
-               <option value="house" defaultValue>house</option>
-               <option value="shop">shop</option>
+               <option value="apartment">apartment</option>
+               <option value="maisonette" defaultValue>maisonette</option>
+               <option value="bungalow">bungalow</option>
+               <option value="condominium">condominium </option>
             </select>
          </div>
          <div className="box">

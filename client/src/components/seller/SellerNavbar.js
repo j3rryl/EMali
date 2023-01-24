@@ -17,7 +17,7 @@ const SellerNavbar = () => {
     window.localStorage.removeItem("seller")
     window.localStorage.removeItem("role")
     window.localStorage.removeItem("sellerLoggedIn")
-    window.location.replace("/home")
+    window.location.replace("/")
   }
   useEffect(()=>{
     setLoggedIn(loggedIn)

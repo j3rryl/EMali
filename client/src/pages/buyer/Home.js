@@ -1,5 +1,6 @@
 import '../../assets/css/home.css'
 import Services from '../../components/buyer/Services'
+import Properties from './Properties'
 const Home = () => {
    
   return (
@@ -7,7 +8,7 @@ const Home = () => {
 <div className='mt-12 container h-screen w-screen'>
 
 </div>
-<Services/>
+<Properties />
 {/* <div className="home ">
      <section class="center">
         <form action="search.php" method="post">

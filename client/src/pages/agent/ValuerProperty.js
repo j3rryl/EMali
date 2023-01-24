@@ -5,12 +5,11 @@ import axios from 'axios'
 import { ToastContainer,toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCalendar, faHouse, faTag, faUser, faCheck, faTimes, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import UserEnquiries from './UserEnquiries';
 
 
 
 
-const Property = () => {
+const AgentProperty = () => {
    const navigate = useNavigate()
    
    const makepurchase=()=>{
@@ -37,7 +36,7 @@ const Property = () => {
        }
    }
    const terminatepurchase=()=>{
-      toast.success("Thank you for passing by.")
+      navigate("/payment")
    }
    const [property, setProperty] = useState([])
    const [saved, setSaved] = useState([])
@@ -243,37 +242,6 @@ const Property = () => {
       <h3 className="title">description</h3>
       <p className="description">{property.description}</p>
       
-      <div className='register-form-control-container w-full'>
-        <br/><br/>
-        {user_id?<UserEnquiries/>:null}
-        
-        <textarea onChange={(e)=>setInquiry(e.target.value)} placeholder="Make Inquiry" className="mt-12 tarea w-full" rows="4" cols="50">
-         </textarea>
-        
-        </div>
-        
-      <div className='flex justify-between'>
-         <button onClick={()=>sendInquiry(property.property_id)} className='inline-btn'>Send Inquiry</button>
-         <button onClick={()=>saveProperty(property.property_id)} className='inline-btn'>
-            {saved=='nothing'?<p>Save Property</p>:<p>Remove Saved</p>}
-         </button>
-
-      </div>
-      
-      <div className='flex justify-between'>
-         <button onClick={proceedpurchase} className='inline-btn'>Proceed To Purchase</button>
-         <button onClick={terminatepurchase} className='inline-btn'>Terminate Process</button>
-
-      </div>
-
-      <div className='flex justify-evenly'>
-      {user_id?
-      <button disabled={process.transfer=="yes"?false:true}  onClick={makepurchase} className={`${process.search=="Success"?'!visible':'!bg-gray-700 !disabled'} inline-btn`}>Purchase Property</button>
-      :null}
-                   
-         
-
-      </div>
       <ToastContainer />
    </div>
 
@@ -284,4 +252,4 @@ const Property = () => {
   )
 }
 
-export default Property
+export default AgentProperty

@@ -9,6 +9,7 @@ const UserEnquiries = () => {
     
     const location = useLocation()
    const thePath = location.pathname
+   const user_id=window.localStorage.getItem("buyer")
    const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
    const property_id  = window.localStorage.getItem("propertyID")
    console.log(property_id)
@@ -21,7 +22,7 @@ const UserEnquiries = () => {
             const  response =  await axios.get(
                 "http://localhost:3001/api/enquiry/getenquiriesby",{
                     params:{
-                        user_id:lastItem,
+                        user_id:user_id,
                         property_id:lastItem
                     }
                 }

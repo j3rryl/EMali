@@ -67,9 +67,9 @@ const SellerPayment = () => {
 
   return (
     <div className="checkout">
-      <p className="checkout-title">E-Mali Property Purchase</p>
+      <p className="checkout-title">E-Mali Property Valuation</p>
       <p className="checkout-description">
-        Buy property now via VISA,Mastercard etc.
+        Pay for valuation.
       </p>
       <h1 className="checkout-price">$ {temp?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</h1>
       {/* <img
@@ -89,7 +89,7 @@ const SellerPayment = () => {
           </div>
         </div>
         <div className="text-container">
-          <p className="text">{isLoading ? "Loading..." : "Buy"}</p>
+          <p className="text">{isLoading ? "Loading..." : "Pay"}</p>
         </div>
       </button>
     </div>
