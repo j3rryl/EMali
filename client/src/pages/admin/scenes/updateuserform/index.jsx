@@ -1,17 +1,22 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 
-const ValuatorProfile = () => {
+const UsersProfile = () => {
     const [user, setUser] = useState([])
     const [first,setFirst]=useState('')
     const [last,setLast]=useState('')
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [cpassword,setCPassword]=useState('')
-    const user_id = window.localStorage.getItem("valuer")
+    const user_id = window.localStorage.getItem("admin")
+    const location = useLocation()
+   const thePath = location.pathname
+   const lastItem = thePath.substring(thePath.lastIndexOf('/') + 1)
+
     function fetchUser(){
-        fetch( `http://localhost:3001/api/user/getuser/${user_id}`).then((result)=>{
+        fetch( `http://localhost:3001/api/user/getuser/${lastItem}`).then((result)=>{
            result.json().then((resp)=>{
             console.log(resp)
            setUser(resp);
@@ -33,7 +38,7 @@ const ValuatorProfile = () => {
             toast.error("Password must have more than 8 characters.")
          } else{
             try{
-                axios.put(`http://localhost:3001/api/user/updatedetails/${user_id}`,{
+                axios.put(`http://localhost:3001/api/user/updatedetails/${lastItem}`,{
                 first:first,
                 last:last,
                 email:email,
@@ -41,7 +46,7 @@ const ValuatorProfile = () => {
               }).then((response)=>{
                 if(response.data=="success"){
                     setTimeout(()=>{
-                        window.location.assign("/authuser/valuer")
+                        window.location.reload()
                     },1700)
                   toast.success("Updated Successfully.")
                 } else {
@@ -83,4 +88,4 @@ const ValuatorProfile = () => {
   )
 }
 
-export default ValuatorProfile
+export default UsersProfile

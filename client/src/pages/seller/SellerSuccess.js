@@ -57,9 +57,9 @@ const [sales,setSales] = useState([])
     })
   }
     return (
-      <div className="my-5 page" size="A4" id="content2">
+      <div className="my-5 page" size="A4" >
         <button className="inline-btn" onClick={generatepdf} >Download</button>
-        <div className="p-5">
+        <div className="p-5" size="A4" id="content2">
             <section className="top-content bb d-flex justify-content-between">
                 <div className="logo">
                 
@@ -99,7 +99,7 @@ const [sales,setSales] = useState([])
                             <p>Payment for: <span>Valuation</span></p>
                         </div>
                         <div className="col-5">
-                            <p>Deliver Date: <span>{sales.creation_time}</span></p>
+                            <p>Delivery Date: <span>{sales.creation_time}</span></p>
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@ const [sales,setSales] = useState([])
                                     </div>
                                 </div>
                             </td>
-                            <td>$ {sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
+                            <td>$ 150</td>
                             <td>1</td>
                             <td>1</td>
                         </tr>
@@ -145,15 +145,14 @@ const [sales,setSales] = useState([])
                         <p>You may request to cancel your purchase for a full refund, up to 72 hours before the date and
                             time of the event. Cancellations between 25-72 hours before the event may transferred to a
                             different date/time of the same className. Cancellation requests made within 24 hours of the
-                            className date/time may not receive a refund nor a transfer. When you register for a className, you
-                            agree to these terms.</p>
+                            purchase may not receive a refund nor a transfer. </p>
                     </div>
                     <div className="col-4">
                         <table className="table border-0 table-hover">
                             <tfoot>
                                 <tr>
                                     <td>Total:</td>
-                                    <td>$ {sales.price?.toLocaleString(navigator.language, { minimumFractionDigits: 0 })||''}</td>
+                                    <td>$ 150</td>
                                 </tr>
                             </tfoot>
                         </table>

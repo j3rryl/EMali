@@ -61,13 +61,20 @@ export const addUser = (req, res) => {
 export const deleteUser= (req, res) => {
 
     const userId = req.params.id;
-    const q = "DELETE FROM users WHERE `user_id` = ?";
 
-    db.query(q, [userId], (err, data) => {
-      if (err) return res.status(403).json("You can delete only your user!");
+    const q = " DELETE FROM users WHERE user_id=?";
 
-      return res.json("User has been deleted!");
+    db.query("SET foreign_key_checks = 0", (err, data) => {
+      if (err) return res.status(403).json(err);
+
+      // return res.json("success");
+      db.query(q, [userId], (err, data) => {
+        if (err) return res.status(403).json(err);
+  
+        return res.json("success");
+      });
     });
+    
   
 };
 

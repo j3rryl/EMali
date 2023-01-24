@@ -46,7 +46,7 @@ const Navbar = () => {
     <nav className="navbar-links">
       <ul className="list-links">
         <li>
-          <NavLink to='about'>About</NavLink>
+          <NavLink to='profile'>Profile</NavLink>
         </li>
         <li>
           {loggedIn?<NavLink><button onClick={logout}>

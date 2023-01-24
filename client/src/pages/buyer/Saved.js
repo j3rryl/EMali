@@ -31,7 +31,7 @@ const Saved = () => {
   const currentPosts = properties.slice(firstPostIndex, lastPostIndex);
   if(loggedIn && properties.length==0){
     return(
-      <h2 className="text-center">No Properties Saved</h2>
+      <h2 className="!m-auto text-2xl !text-center !mt-56">No Properties Saved</h2>
     )
   }
   
@@ -47,7 +47,7 @@ const Saved = () => {
                 currentPage={currentPage}
             />
     </div>
-  ):(<div>Please Log In to View / Save Items</div>)}
+  ):(<h2 className="!m-auto text-2xl !text-center !mt-56">Please Log In to View / Save Items</h2>)}
     </>
   )
 }

@@ -58,6 +58,9 @@ import SellerProperty from '../pages/seller/SellerProperty'
 import ValuerProperty from '../pages/valuator/ValuerProperty'
 import AgentProperty from '../pages/agent/ValuerProperty'
 import AdminProfile from '../pages/admin/scenes/updateform'
+import UsersProfile from '../pages/admin/scenes/updateuserform'
+import BuyerProfile from '../pages/buyer/BuyerProfile'
+import UpdatePropertyForm from '../pages/admin/scenes/updatepropertyform'
 
 
 
@@ -118,6 +121,7 @@ const RoutesHandler = () => {
       <Route path={`/payment/${lastItem}`} element={<Payment />}/>
       <Route path='/receipt' element={<Receipt />}/>
       <Route path='/saved' element={<Saved />}/>
+      <Route path='/profile' element={<BuyerProfile />}/>
       <Route path='/register' element={<Registration />}/>
       <Route path='/login' element={<Login />}/>
 
@@ -158,9 +162,13 @@ const RoutesHandler = () => {
       <Route path="/authuser/admin/properties" element={<Properts />} />
       <Route path="/authuser/admin/usercontacts" element={<Contact />} />
       <Route path="/authuser/admin/propertycontacts" element={<Properc />} />
+      <Route path={`/authuser/admin/updatepropertyform/${lastItem}`} element={<UpdatePropertyForm />}/>
 
       <Route path="/authuser/admin/invoices" element={<Invoices />} />
       <Route path="/authuser/admin/updateform" element={<AdminProfile />} />
+
+      <Route path={`/authuser/admin/updateuserform/${lastItem}`} element={<UsersProfile />}/>
+
       <Route path="/authuser/admin/form" element={<Form />} />
       <Route path="/authuser/admin/propertyform" element={<PropertyForm />} />
       <Route path="/authuser/admin/bar" element={<Bar />} />

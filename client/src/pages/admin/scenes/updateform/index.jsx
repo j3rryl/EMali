@@ -29,6 +29,9 @@ const AdminProfile = () => {
      function onSubmit(e){
         e.preventDefault()
         if(password==cpassword){
+         if(password.length<8){
+            toast.error("Password must have more than 8 characters.")
+         } else{
             try{
                 axios.put(`http://localhost:3001/api/user/updatedetails/${user_id}`,{
                 first:first,
@@ -38,7 +41,7 @@ const AdminProfile = () => {
               }).then((response)=>{
                 if(response.data=="success"){
                     setTimeout(()=>{
-                        window.location.assign("/authuser/agent")
+                        window.location.reload()
                     },1700)
                   toast.success("Updated Successfully.")
                 } else {
@@ -50,6 +53,7 @@ const AdminProfile = () => {
               } catch (err){
                 toast.error("Update Unsuccessful.")
               }
+            }
 
         } else {
             toast.error("Passwords do not match.")

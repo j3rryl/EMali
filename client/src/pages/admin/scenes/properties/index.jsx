@@ -9,6 +9,20 @@ import Header from "../../components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import {
+  GridRowModes,
+  GridRowModesModel,
+  GridActionsCellItem,
+} from '@mui/x-data-grid';
+import * as React from 'react';
+import { toast, ToastContainer } from "react-toastify";
+
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -23,6 +37,41 @@ const Team = () => {
   }
   fetchUsers()
 }, []);
+
+const handleEditClick = (id) => () => {
+};
+
+
+const processRowUpdate = (newRow) => {
+  const updatedRow = { ...newRow, isNew: false };
+  console.log(updatedRow);
+  //handle send data to api
+  return updatedRow;
+};
+
+const handleSaveClick = (id) => () => {
+  window.location.assign(`/authuser/admin/updatepropertyform/${id}`)
+
+};
+
+const handleDeleteClick = (id) => () => {
+  console.log(id)
+  try{
+    axios.delete(`http://localhost:3001/api/property/deleteproperty/${id}`,{
+  })
+  setTimeout(()=>{
+    window.location.reload()
+  },1800)
+  
+  toast.success("Property Deleted.")
+  } catch (err){
+    toast.error("Error.")
+  }
+};
+
+const handleCancelClick = (id) => () => {
+  console.log(id)
+};
   const columns = [
     { field: "property_id", headerName: "ID", flex: 0.5 },
     {
@@ -98,6 +147,49 @@ const Team = () => {
       headerName: "Description",
       flex: 1,
     },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = true;
+  
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleDeleteClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+  
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
     
   ];
 
@@ -136,6 +228,7 @@ const Team = () => {
         <DataGrid checkboxSelection rows={user} columns={columns} 
         getRowId={(user) =>  user.property_id}/>
       </Box>
+      <ToastContainer/>
     </Box>
   );
 };

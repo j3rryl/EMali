@@ -30,6 +30,9 @@ const BuyerProfile = () => {
      function onSubmit(e){
         e.preventDefault()
         if(password==cpassword){
+         if(password.length<8){
+            toast.error("Password must have more than 8 characters.")
+         } else{
             try{
                 axios.put(`http://localhost:3001/api/user/updatedetails/${user_id}`,{
                 first:first,
@@ -51,12 +54,20 @@ const BuyerProfile = () => {
               } catch (err){
                 toast.error("Update Unsuccessful.")
               }
+            }
 
         } else {
             toast.error("Passwords do not match.")
         }
         
 
+     }
+     const [loggedIn,setLoggedIn]  = useState(window.localStorage.getItem("buyerLoggedIn"))
+
+     if(!loggedIn){
+      return(
+         <h2 className="!m-auto text-2xl !text-center !mt-56">Please Log In to access your profile.</h2>
+      )
      }
 
   return (

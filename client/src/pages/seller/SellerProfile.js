@@ -30,6 +30,9 @@ const SellerProfile = () => {
    function onSubmit(e){
       e.preventDefault()
       if(password==cpassword){
+        if(password.length<8){
+          toast.error("Password must have more than 8 characters.")
+       } else{
           try{
               axios.put(`http://localhost:3001/api/user/updatedetails/${user_id}`,{
               first:first,
@@ -51,6 +54,7 @@ const SellerProfile = () => {
             } catch (err){
               toast.error("Update Unsuccessful.")
             }
+          }
 
       } else {
           toast.error("Passwords do not match.")

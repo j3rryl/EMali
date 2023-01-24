@@ -17,11 +17,14 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import {
   GridRowModes,
+  GridRowModesModel,
   GridActionsCellItem,
 } from '@mui/x-data-grid';
 import * as React from 'react';
+import { toast, ToastContainer } from "react-toastify";
 
 const Team = () => {
+  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [user, setUsers]=useState([])
@@ -49,16 +52,33 @@ const Team = () => {
   // };
 
   const handleEditClick = (id) => () => {
-    console.log(id)
+  };
+
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    console.log(updatedRow);
+    //handle send data to api
+    return updatedRow;
   };
 
   const handleSaveClick = (id) => () => {
-    console.log(id)
+    window.location.assign(`/authuser/admin/updateuserform/${id}`)
+
   };
 
   const handleDeleteClick = (id) => () => {
-    console.log(id)
-    // setRows(rows.filter((row) => row.id !== id));
+    try{
+      axios.delete(`http://localhost:3001/api/user/delete/${id}`,{
+    })
+    setTimeout(()=>{
+      window.location.reload()
+    },1800)
+    
+    toast.success("User Deleted.")
+    } catch (err){
+      toast.error("Error.")
+    }
   };
 
   const handleCancelClick = (id) => () => {
@@ -104,10 +124,10 @@ const Team = () => {
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
-              icon={<CancelIcon />}
+              icon={<DeleteIcon />}
               label="Cancel"
               className="textPrimary"
-              onClick={handleCancelClick(id)}
+              onClick={handleDeleteClick(id)}
               color="inherit"
             />,
           ];
@@ -166,9 +186,10 @@ const Team = () => {
         }}
       >
         <DataGrid editMode="row" checkboxSelection rows={user} columns={columns} 
-        getRowId={(user) =>  user.user_id} 
+        getRowId={(user) =>  user.user_id} processRowUpdate={processRowUpdate}
         />
       </Box>
+      <ToastContainer/>
     </Box>
   );
 };

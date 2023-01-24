@@ -49,9 +49,9 @@ const [sales,setSales] = useState([])
     })
   }
     return (
-      <div className="my-5 page" size="A4" id="content">
+      <div className="my-5 page" >
         <button className="inline-btn" onClick={generatepdf} >Download</button>
-        <div className="p-5">
+        <div className="p-5" size="A4" id="content">
             <section className="top-content bb d-flex justify-content-between">
                 <div className="logo">
                 
