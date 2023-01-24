@@ -26,7 +26,7 @@ fetchSales()
 
   return (
     <ResponsiveBar
-      data={sales}
+      data={data}
       theme={{
         // added
         axis: {
