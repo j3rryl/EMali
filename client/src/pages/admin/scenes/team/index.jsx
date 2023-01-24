@@ -23,6 +23,9 @@ const Team = () => {
   }
   fetchUsers()
 }, []);
+function rowclick(user){
+  console.log(user)
+}
   const columns = [
     { field: "user_id", headerName: "ID", flex: 0.5 },
     {
@@ -79,7 +82,7 @@ const Team = () => {
         }}
       >
         <DataGrid checkboxSelection rows={user} columns={columns} 
-        getRowId={(user) =>  user.user_id}
+        getRowId={(user) =>  user.user_id} onRowClick={rowclick((user) =>  user.user_id)}
         />
       </Box>
     </Box>

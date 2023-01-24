@@ -15,6 +15,7 @@ import ProgressCircle from "../../components/ProgressCircle";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import jsPDF from "jspdf";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -25,7 +26,23 @@ const Dashboard = () => {
   const [propertysales,setpropertysales]=useState()
 
   const [enquiry, setEnquiry]=useState([])
+  const generatepdf = ()=>{
+    var doc = new jsPDF("p","pt","a4")
+    doc.html(document.querySelector("#reports"),{
+      callback:function(pdf){
+        pdf.save("report.pdf")
+      }
+    })
+  }
 
+  const generatepdf2 = ()=>{
+    var doc = new jsPDF("p","pt","a4")
+    doc.html(document.querySelector("#reports2"),{
+      callback:function(pdf){
+        pdf.save("report2.pdf")
+      }
+    })
+  }
 
   useEffect(() => {
     async function fetchData(){
@@ -66,13 +83,14 @@ fetchSales()
     fetchData()
 }, []);
   return (
+    <div id="reports">
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
         <Box>
-          <Button
+          <Button onClick={generatepdf}
             sx={{
               backgroundColor: colors.blueAccent[700],
               color: colors.grey[100],
@@ -83,12 +101,13 @@ fetchSales()
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
-          </Button>
+          </Button >
         </Box>
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box
+      
+      <Box 
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
@@ -178,6 +197,7 @@ fetchSales()
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
+          <div id="reports2">
           <Box
             mt="25px"
             p="0 30px"
@@ -203,13 +223,14 @@ fetchSales()
               </Typography>
             </Box>
             <Box>
-              <IconButton>
+              <IconButton onClick={generatepdf2}>
                 <DownloadOutlinedIcon
                   sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
                 />
               </IconButton>
             </Box>
           </Box>
+          </div>
           <Box height="250px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
           </Box>
@@ -321,6 +342,7 @@ fetchSales()
         </Box>
       </Box>
     </Box>
+    </div>
   );
 };
 
